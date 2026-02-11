@@ -1,0 +1,151 @@
+/* CSS Document */
+.form-container .form-select {
+    padding-top: 0.375rem !important;
+  }
+  .eyeIcon {
+    position: absolute;
+    right: 35px;
+    top: 33px;
+  }
+  
+  
+  
+  /* .phoneNumbergroup .countryCode{
+    padding: 6px !important;
+  } */
+  .mobile-img-icon {
+    cursor: pointer;
+    /* margin-top: 12px; */
+    margin: 32px 0 10px;
+    text-align: center;
+  }
+  
+  .forms-container {
+    display: flex; 
+  }
+  
+  .form1, .form2 {
+    flex: 1; 
+    padding: 10px; 
+  }
+  /* .btn-sm{
+    width: 30% !important;
+  } */
+  .d-flex{
+    align-items: center;
+    column-gap: 5px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+  .codewithMobile label{
+    position: relative;
+    left: -23%;
+  }
+  .form-invisible label{
+    white-space: nowrap;
+    visibility: hidden;
+  }
+  .colorPicker .form-control{
+    padding: 0.5rem !important;
+  }
+  .form-line-Item textarea{
+    resize: none;
+  }
+  input[autocomplete="off"]::-webkit-contacts-auto-fill-button,
+  input[autocomplete="off"]::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  display: none !important;
+  pointer-events: none;
+  height: 0;
+  width: 0;
+  margin: 0;
+  }
+  .form-container .form-control.w-colorPicker{
+    background-image: url(/assets/images/color-picker.svg);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    padding-left: 70px !important;
+    height: 50px !important;
+    width: 250px;
+    border: 0;
+  }
+  
+  .clearButton{
+    width: 150px;
+  }
+  
+  .NoImageDiv
+  {
+    height: 90px;
+  }
+  .departmentBlock{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .form-line-Item .form-switch{
+    align-items: start;
+  }
+  .departmentBlock .radioItem,
+  .form-switch .radioItem{
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    border-radius: 0.375rem;
+    margin-right: 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .htmlDiv{
+    background-color: #eee;
+  }
+  .input-password {
+    padding-right: 2rem;
+  }
+  .radioBtnTooltips{
+    display: flex;
+    gap:4px;
+  }
+  .phoneNumbergroup.d-flex{
+    display: flex;
+  }
+
+  /* desktop css */
+  /* mobile css */
+  @media (max-width: 1600px) {
+    .form-line-Item .form-control {
+      border-color: #b7b7b7; 
+    }
+  }
+  @media (max-width: 999px) {
+    .card-sub-title{
+      margin-bottom: 10px !important;
+    }
+    .phoneNumbergroup {
+      /* margin-top: 20px; */
+    }
+    .form-line-Item:nth-child(2){
+      margin-top: 0;
+    }
+    /* .mobile-img-icon{
+      margin-top: 14px;
+    } */
+    .phoneNumbergroup .form-line-Item,
+    .form-invisible,.codewithMobile{
+      margin-top: 0;
+    }
+    .multiMobileMain{
+      margin-bottom: 15px;
+    }
+  }
+  .notesinfo{
+    display: flex;
+  }
+  .notesinfo p{
+    font-size: 12px;
+    color: #9a9a9a;
+  }
