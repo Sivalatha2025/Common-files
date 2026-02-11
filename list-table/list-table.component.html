@@ -1,0 +1,33 @@
+
+<ng-container *ngIf="templateCode && isDisplayListChild && permissionsLoaded" >
+
+
+    <app-dynamic-list-child  *ngIf="modulePermisionObj && templateCode!='HRMSCANASMT-10489' " #dynamicListChild (openPopupEvent)="openAddOrEditPage($event)" [templateCode]="templateCode"
+      [moduleCode]="moduleCode" [templateName]="templateName" [templeteCodeJson]="templeteCodeJson"
+      [moduleUrl]="moduleUrl" [modulePermisionObj]="modulePermisionObj" [placeholder]="placeholder"
+      [title]="title" [moduleId]="moduleId" ></app-dynamic-list-child>
+      <app-candidate-assessment-list-table *ngIf="modulePermisionObj && templateCode =='HRMSCANASMT-10489'" #dynamicListChild (openPopupEvent)="openAddOrEditPage($event)" [templateCode]="templateCode"
+      [moduleCode]="moduleCode" [templateName]="templateName" [templeteCodeJson]="templeteCodeJson"
+      [moduleUrl]="moduleUrl" [modulePermisionObj]="modulePermisionObj" [placeholder]="placeholder"
+      [title]="title" [moduleId]="moduleId" ></app-candidate-assessment-list-table>
+  
+    <!-- modal popup starts -->
+
+    <ng-template #addPagepopup let-modal *ngIf="moduleCode">
+      <div class="modal-header border-0">
+        <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Close" (click)="close($event)">
+          <img src="assets/images/close-icon.svg" class="w-100" alt="" />
+        </button>
+      </div>
+      <div class="modal-body pt-0 modal-form-container">
+        <app-dynamic-form-child *ngIf="openPop" (closeEvent)="close($event)"  [isViewPopup]="isViewPopup"
+          (saveEvent)="close($event)"  [moduleCode]="moduleCode" [moduleUrl]="moduleUrl" [moduleName]="title"
+          [templeteCodeJson]="templeteCodeJson" [templateName]="templateName" [recordId]="popupRecordId"
+          [templateCode]="templateCode"></app-dynamic-form-child>
+      </div>
+    </ng-template>
+  </ng-container>
+  <!-- modal popup ends -->
+
+
+  <div class="loader-06" *ngIf="!permissionsLoaded"></div>

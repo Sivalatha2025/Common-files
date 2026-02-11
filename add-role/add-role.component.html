@@ -1,0 +1,284 @@
+<div *ngIf="isPermissionsLoaded" class="container-fluid p-0">
+    <!-- add user start -->
+    <div class="addProductCard mb-3">
+        <div class="card product-card rounded-0">
+            <div class="d-flex justify-content-start align-items-center"><i class="backBtnERP"><img src="assets/images/back-icon-erp2024.svg" alt="Back" title="Back" (click)="backroute()"></i>
+            <h4 class="font-medium">{{'Role Information'| customTranslate:changedetect:root}}</h4>
+            </div>
+        </div>
+    </div>
+<div class="addProductCard mb-3">
+    <div class="card" *ngIf="modulePermissionObj && modulePermissionObj['Create/Update']" >
+        <!-- <h5 class="card-sub-title font-medium">Role Information</h5> -->
+        <div class="form-container mb-4" appErrorInputFocus>
+            <form novalidate autocomplete="off" [formGroup]="addRoleForm" (keyup.enter)="saveRole()" >
+                <div class="row gx-lg-5">
+                    <div class="col-12 form-line-Item mb-3">
+                        <div class=" form-check form-switch">
+                            <label class="form-check-label"
+                                for="isPublish">{{'Active' | customTranslate : changedetect : root}}</label>
+                            <input class="form-check-input" formControlName="isPublish"
+                                type="checkbox" role="switch" id="isPublish"
+                                checked="">
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4 form-line-Item ">
+                        <label for="roleName"
+                            class="form-label fs-6 font-medium">{{'Role Name' |customTranslate:changedetect:root}}*</label>
+                            <div class="inputWithTooltip">
+                        <input type="text" class="form-control" maxlength="32" autocomplete="off"
+                            matInput formControlName="roleName" placeholder="{{'Enter Role Name' |customTranslate:changedetect:root}}" id="roleName">
+                                <span class="cursor-pointer d-flex" container="body" *ngIf="isEnableToolTips"  [triggers]="isMobileToolTip?'click:blur':'hover click'" ngbTooltip="{{addroleRoleNameToolTip | customTranslate:changedetect:root}}"><img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                            </div>
+                        <ng-container
+                            *ngIf="(submitted && formValidations['roleName'].errors) || (formValidations['roleName'].errors && formValidations['roleName'].touched && formValidations['roleName'].dirty )">
+                            <span class="alert alert-danger"  id="roleNameErr"
+                                *ngIf="formValidations['roleName'].errors['required']">{{roleNameIsRequired | customTranslate:changedetect:root}}</span>
+                            <span class="alert alert-danger"  id="roleNameErr"
+                                *ngIf="formValidations['roleName'].errors['pattern'] && !formValidations['roleName'].errors['required']">{{invalidRoleName | customTranslate:changedetect:root}}</span>
+                        </ng-container>
+                    </div>
+                    <div class="col-12 col-lg-4 form-line-Item ">
+                        <label for="roleCode"
+                            class="form-label fs-6 font-medium">{{'Role Code' | customTranslate:changedetect:root}}*</label>
+                            <div class="inputWithTooltip">
+                        <input type="text" class="form-control" maxlength="32" autocomplete="off"
+                            matInput formControlName="roleCode" placeholder="{{'Enter Role Code'| customTranslate:changedetect:root}}" id="roleCode">
+                                <span class="cursor-pointer d-flex" container="body" *ngIf="isEnableToolTips"  [triggers]="isMobileToolTip?'click:blur':'hover click'" ngbTooltip="{{addroleRoleCodeToolTip | customTranslate:changedetect:root}}"><img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                            </div>
+                        <ng-container
+                            *ngIf="(submitted && formValidations['roleCode'].errors) || (formValidations['roleCode'].errors && formValidations['roleCode'].touched && formValidations['roleCode'].dirty )">
+                            <span class="alert alert-danger"  id="roleCodeErr"
+                                *ngIf="formValidations['roleCode'].errors['required']">{{roleCodeIsRequired | customTranslate:changedetect:root}}</span>
+                            <span class="alert alert-danger"  id="roleCodeErr"
+                                *ngIf="formValidations['roleCode'].errors['pattern'] && !formValidations['roleCode'].errors['required']">{{invalidRoleCode | customTranslate:changedetect:root}}</span>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="form-line-Item ">
+                        <label for="roleDesc" class="form-label fs-6 font-medium">{{'Role Description'| customTranslate:changedetect:root}}</label>
+                        <div class="inputWithTooltip">
+                    <textarea formControlName="roleDesc" name="" maxlength="512" (keyup)="getcommentcounts($event)" class="form-control role-desc" autocomplete="off" id="roleDesc"
+                        placeholder="{{'Enter Description'| customTranslate:changedetect:root}}" cols="30" rows="20"></textarea>
+                        <span class="cursor-pointer d-flex" container="body" *ngIf="isEnableToolTips"  [triggers]="isMobileToolTip?'click:blur':'hover click'" ngbTooltip="{{addroleRoleDescriptionToolTip | customTranslate:changedetect:root}}"><img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                    </div>
+                        <div class="notesinfo font-medium">
+                            <p class="commentinfo flex-grow-1  m-0">({{'We are not allowing'| customTranslate:changedetect:root}} {{ commentsAllow
+                            }})</p>
+                            <p class="commentinfoallowing m-0"> ({{'Character count'| customTranslate:changedetect:root}}
+                                {{billingcommentscount}}.)</p>
+                        </div>
+                        <ng-container
+                            *ngIf="(submitted && formValidations['roleDesc'].errors) || (formValidations['roleDesc'].errors && formValidations['roleDesc'].touched && formValidations['roleDesc'].dirty )">
+                            <span class="alert alert-danger"  id="roleDescErr"
+                                *ngIf="formValidations['roleDesc'].errors['pattern']">{{invalidDesc | customTranslate:changedetect:root}}</span>
+                        </ng-container>
+                </div>
+                <!-- parent and child checkbox -->
+                <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading">
+                        <button class="accordion-button collapsed selectAll-header" [ngClass]="{'accordion-buttonRemove':true}" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapse" aria-expanded="false"
+                           aria-controls="collapse">
+                           <div class="w-100 d-flex justify-content-between pe-2">
+                            <div>
+                            <input type="checkbox" id="searchCheck" [checked]="isAllSelect"
+                                value="" (change)="selectAllModule($event)" />
+                                <label class="ms-2 lh-1 text-nowrap" for="searchCheck">{{'Select All' |customTranslate:changedetect:root}}</label>
+                            </div>
+                                <span class="d-flex cursor-pointer" container="body" *ngIf="isEnableToolTips"  [triggers]="isMobileToolTip?'click:blur':'hover click'" ngbTooltip="{{addroleSelectAllToolTip |customTranslate:changedetect:root}}"><img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                            </div>
+                        </button>
+                    </h2>
+                  </div>
+                </div>
+                <section class="tabs-container" id="tabs-container" *ngIf="rootModuleArr && rootModuleArr.length !=0">
+                    <span class="change-btn prev" (click)="scrollTab(-1)"><img src="/assets/images/arrow-left.svg" alt=""></span>
+            
+                    <ul class="tabs" id="tabScroll">
+            
+                        <ng-container *ngFor="let tab of rootModuleArr; let i=index">
+                            <li class="tab" [ngClass]="{'active':currentTabId == tab?.ModuleId}" (click)="changeTab(tab)"  >
+                                <input type="checkbox" id="rootCheck-{{i}}" (change)="selectRootModule($event,tab)"
+                                value="" [checked]="selectedObj[tab.ModuleId] && selectedObj[tab.ModuleId].size>0" />
+                            {{tab.ModuleName | customTranslate : changedetect : root}}</li>
+                        </ng-container>
+                    </ul>
+                    <span class="change-btn next" (click)="scrollTab(1)"><img src="/assets/images/arrow-right.svg" alt=""></span>
+                </section>
+                <!-- <div class="row mb-3 gx-0" >
+                    <div class="col-6 col-lg-3 form-check me-5" *ngFor="let modules of parentModules; let i= index;">
+                        <div class="row position-relative flex-column">
+                            <div class="col-12 form-check">
+                                <input type="checkbox" [checked]="selectedObj[modules.Id]" value="{{modules.Id}}" (change)="selectAllParentModule($event,modules.Id)" class="form-check-input" id="flexCheckChecked-{{i}}">
+                                <label class="form-check-label fs-6 lh-1" for="flexCheckChecked-{{i}}"> {{modules.Name}}</label>
+                            </div>
+                            <div class="ps-3">
+                                <div *ngFor="let item of childModuleObj[modules.Id]; let j = index">
+                                    <div class="col-12 form-check" >
+                                        <input type="checkbox" [checked]="selectedObj[item.Id]" value="{{item.Id}}" class="form-check-input" (change)="selectChildModule($event,modules.Id,item)" id="flexCheckChecked-{{i}}-{{j}}">
+                                        <label class="form-check-label fs-6 lh-1" for="flexCheckChecked-{{i}}-{{j}}">{{item.Name}}</label>
+                                    </div>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                </div> -->
+                    <!-- <div class="row mb-3 gx-0">
+                        <div class="col-lg-3 toast toast-box me-2 mt-2" role="alert" aria-live="assertive" data-bs-autohide="false"
+                            aria-atomic="true" *ngFor="let modules of parentModules; let i= index;">
+                            <div class="toast-header p-3">
+                                <input type="checkbox" id="searchCheck-{{i}}" [checked]="selectedObj[modules.Id]" value="{{modules.Id}}"
+                                    (change)="selectAllParentModule($event,modules.Id)" />
+                                <label class="ms-2 lh-1 text-nowrap" for="searchCheck-{{i}}">{{modules.Name}}</label>
+                            </div>
+                            <ng-container *ngIf="childModuleObj[modules.Id]">
+                                <div class="toast-body mt-1">
+                                    <div class="col-6 col-lg-3 d-flex align-items-center mb-3"
+                                        *ngFor="let item of childModuleObj[modules.Id]; let j = index">
+                                        <input type="checkbox" id="searchCheck-{{i}}-{{j}}" [checked]="selectedObj[item.Id]"
+                                            value="{{item.Id}}" (change)="selectChildModule($event,modules.Id,item)" />
+                                        <label class="ms-2 lh-1 text-nowrap" for="searchCheck-{{i}}-{{j}}">{{item.Name}}</label>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div> -->
+                    <div class="px-0">
+                        <div >
+                        <div class="accordion mt-3 addRoleAccordian" id="accordionExample">
+                            <div class="accordion-item" *ngFor="let modules of parentModules; let i= index;">
+                                <h2 class="accordion-header"  [attr.id]="'heading-' + i">
+                                    <button class="accordion-button flex-wrap" [ngClass]="{'collapsed': handleAccordianArrow(modules.ModuleId,i),'accordion-buttonRemove':!childModuleObj[modules.ModuleId],'accordianParent':!childModuleObj[modules.ModuleId],'NoaccordianParent':!!childModuleObj[modules.ModuleId]}" type="button"
+                                        [ngStyle]="{'cursor':childModuleObj[modules.Id]?'pointer':'context-menu','box-shadow':!childModuleObj[modules.Id]?'none':''}"
+                                        data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse-' + i" [attr.aria-expanded]="getFirstParentWithChildren() === i ? 'true' : 'false'"
+                                        [attr.aria-controls]="'collapse-' + i">
+                                        <div class=" me-2 accordianListName d-flex" [ngClass]="childModuleObj[modules.ModuleId]?'col-12':'col-6 col-lg-2'" >
+                                            <input type="checkbox" id="searchCheck-{{i}}" [checked]="selectedObj[modules.ModuleId] && selectedObj[modules.ModuleId].size >0"
+                                                value="{{modules.ModuleId}}" (change)="selectAllParentModule($event,modules)" />
+                                            <label class="ms-2 lh-1 font-medium" for="searchCheck-{{i}}">{{modules.ModuleName |customTranslate:changedetect:root}}</label>
+                                        </div>
+                                        <div class="col mobile-col">
+                                            <ng-container *ngIf="!childModuleObj[modules.ModuleId]">
+
+                                                <div class="me-lg-3 me-2 accordianListInnerName"  *ngFor="let permission of permissionObj[modules.ModuleId]; let l = index" (click)="togglePermission($event, modules.ModuleId, modules, permission,'parent')" >
+                                                    <input type="checkbox" id="searchCheck-{{i}}-{{l}}" [checked]="selectedObj[modules.ModuleId] && selectedObj[modules.ModuleId].has(permission.PermissionName)"  />
+                                                    <label class="ms-2 lh-1" for="">{{permission.PermissionName |customTranslate:changedetect:root}}</label>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div class="accordion-body px-2 pb-lg-0"
+                                    *ngIf="!childModuleObj[modules.ModuleId] && subTabItem && subTabItem[modules.ModuleId] && subTabItem[modules.ModuleId].length >0">
+                                    <div class="toast-body">
+                                        <div class="col-12 col-lg-12 d-flex align-items-start flex-wrap addRoleChecked"
+                                            *ngFor="let tabItem of subTabItem[modules.ModuleId]; let n = index">
+                                            <div class="col-12 col-lg-12 d-flex align-items-start flex-wrap">
+                                                <div class="col-12 col-lg-2 me-lg-2 d-flex accordianItemList accordianParent"
+                                                    (click)="selectSubTabModule($event,tabItem)">
+                                                    <input type="checkbox" id="searchCheck-{{i}}-subtab-{{n}}"
+                                                        [checked]="selectedObj[tabItem.ModuleId] && selectedObj[tabItem.ModuleId].size >0" value="{{tabItem.ModuleId}}"
+                                                        #checkbox1 />
+                                                    <label class="ms-2 lh-1 font-medium" for="">{{tabItem.ModuleName |customTranslate:changedetect:root}}</label>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="col-lg me-3 accordianItemList"
+                                                        (click)="togglePermission($event, modules.ModuleId, tabItem, permission,'subtab')"
+                                                        *ngFor="let permission of permissionObj[tabItem.ModuleId]; let k = index">
+                                                        <input type="checkbox" #checkbox id="searchCheck-{{i}}-subtab-{{n}}-{{k}}"
+                                                            [checked]="selectedObj[tabItem.ModuleId] && selectedObj[tabItem.ModuleId].has(permission.PermissionName)" />
+                                                        <label class="ms-2 lh-1" for="">{{permission.PermissionName |customTranslate:changedetect:root
+                                                            }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div [id]="'collapse-' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading-' + i"
+                                [attr.data-bs-parent]="'#accordionExample'" [ngClass]="{'show': getFirstParentWithChildren() === i}" *ngIf="childModuleObj[modules.ModuleId]">
+                                    <div class="accordion-body px-2 pb-lg-0">
+                                        <div class="toast-body">
+                                            <div class="col-12 col-lg-12 d-flex align-items-start flex-wrap addRoleChecked"
+                                                *ngFor="let item of childModuleObj[modules.ModuleId]; let j = index">
+                                                <div class="col-12 col-lg-12 d-flex align-items-start flex-wrap">
+                                                    <div class="col-12 col-lg-2 me-lg-2 d-flex accordianItemList accordianParent"
+                                                        (click)="selectChildModule($event,modules,item)">
+                                                        <input type="checkbox" id="searchCheck-{{i}}-{{j}}"
+                                                            [checked]="selectedObj[item.ModuleId] && selectedObj[item.ModuleId].size >0" value="{{item.ModuleId}}"
+                                                            #checkbox1 />
+                                                        <label class="ms-2 lh-1 font-medium" for="">{{item.ModuleName |customTranslate:changedetect:root}}</label>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="col-lg me-3 accordianItemList"
+                                                            (click)="togglePermission($event, modules.ModuleId, item, permission)"
+                                                            *ngFor="let permission of permissionObj[item.ModuleId]; let k = index">
+                                                            <input type="checkbox" #checkbox id="searchCheck-{{i}}-{{j}}-{{k}}"
+                                                                [checked]="selectedObj[item.ModuleId] && selectedObj[item.ModuleId].has(permission.PermissionName)" />
+                                                            <label class="ms-2 lh-1" for="">{{permission.PermissionName |customTranslate:changedetect:root
+                                                                }}</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <ng-container *ngIf="subTabItem && subTabItem[item.ModuleId] && subTabItem[item.ModuleId].length >0">
+                                            
+                                                    <div class="col-12 col-lg-12 d-flex align-items-start flex-wrap px-2" *ngFor="let tabItem of subTabItem[item.ModuleId]; let n = index">
+                                                    <div class="col-12 col-lg-2 me-lg-1 d-flex accordianItemList accordianParent"
+                                                        (click)="selectChildModule($event,modules,tabItem)">
+                                                        <input type="checkbox" id="searchCheck-{{i}}-{{j}}"
+                                                            [checked]="selectedObj[tabItem.ModuleId] && selectedObj[tabItem.ModuleId].size >0" value="{{item.ModuleId}}"
+                                                            #checkbox1 />
+                                                        <label class="ms-2 lh-1 font-medium" for="">{{tabItem.ModuleName |customTranslate:changedetect:root}}</label>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="col-lg me-3 accordianItemList"
+                                                            (click)="togglePermission($event, modules.ModuleId, tabItem, permission)"
+                                                            *ngFor="let permission of permissionObj[tabItem.ModuleId]; let k = index">
+                                                            <input type="checkbox" #checkbox id="searchCheck-{{i}}-{{j}}-{{k}}"
+                                                                [checked]="selectedObj[tabItem.ModuleId] && selectedObj[tabItem.ModuleId].has(permission.PermissionName)" />
+                                                            <label class="ms-2 lh-1" for="">{{permission.PermissionName |customTranslate:changedetect:root
+                                                                }}</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-container
+                                *ngIf="selectModule" >
+                                <span class="alert alert-danger"  id="selectModuleErr"
+                                    >{{'Please select at least one module.' | customTranslate : changedetect : root}}</span>
+                            </ng-container>
+                    </div>
+                    </div>
+            </form>
+        </div>
+        <div class="col-lg-5 d-flex ms-lg-auto gap-2 my-3">
+            <button class="btn btn-outline-dark fs-6 font-regular action-btn btn-sm field-height-sm" id="cancelId"
+                data-bs-dismiss="modal" [disabled]="isSaveLoading" (click)="cancel()">
+                {{'Cancel' |customTranslate:changedetect:root}}
+            </button>
+            <button class="btn btn-primary action-btn fs-6 font-regular btn-sm field-height-sm" id="SaveId"
+                [ngClass]="{loading : isSaveLoading}" (click)="saveRole()">
+                {{button |customTranslate:changedetect:root}}
+            </button>
+        </div>
+    </div>
+    <div class="d-flex flex-column text-center mt-3" *ngIf="!(modulePermissionObj?.['Create/Update']) && !isPageLoad && isBrowser">
+        <img src="/assets/images/authorization-failed.svg" class="notAuthorized" alt="">
+        <h3 class="my-5 text-center-title">
+            {{'YOU ARE NOT AUTHORIZED USER FOR THIS PAGE'|customTranslate:changedetect:root}}
+        </h3>
+    </div>
+</div>
+</div>
+
+<div *ngIf="!isPermissionsLoaded" class="loader-06"></div>
+

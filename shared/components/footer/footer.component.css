@@ -1,0 +1,8 @@
+.footer{
+    min-height: 20px;
+    background-color: var(--master-footer-bg);
+    position: fixed;
+    box-shadow: 0px 1px 5px #00000030, 0px -1px 5px #00000030;
+    bottom: 0;
+    z-index: 99;
+}

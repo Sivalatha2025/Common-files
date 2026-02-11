@@ -1,0 +1,23 @@
+.example-label-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 10px 0;
+    max-width: 284px;
+  }
+  
+  .example-result-card .example-value-label {
+    font-weight: 600;
+  }
+
+
+.imgDiv{
+  max-width: 500px;
+
+}
+.image-Popup{
+    width: 60vw  !important;
+    max-width: inherit !important;
+}
+.modal-header .btn-primary, .btn.btn-secondary{
+  font-size: 13px !important;
+}

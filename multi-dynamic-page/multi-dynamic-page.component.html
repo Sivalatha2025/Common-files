@@ -1,0 +1,65 @@
+<!-- <div class="addProductCard mb-4" >
+    <div class="card product-card">
+      <h4>{{ title }}</h4> -->
+      <!-- <div class="btn-group-withicon btn-group-onlyiconmbl d-flex gap-2">
+        <a
+          href="javascript:void(0);"
+          (click)="closeModule()"
+          class="btn btn-secondary btn-rounded-circle fs-lg-6 fs-0 font-medium"
+        >
+          <i><img src="assets/images/plus-circle.svg" alt="" /></i>
+          Close
+        </a>
+
+      </div> -->
+    <!-- </div>
+</div> -->
+
+<app-dynamic-form-child *ngIf=" isEmployeeAddUrl && isDisplayAddChild" (closeEvent)="close(false)"
+
+[templateCode]="templateCode"
+(saveEvent)="close(true)"
+[moduleCode]="moduleCode"
+[isTabsCase]="true"
+[isDisplayTitle]="false"
+[moduleUrl]="moduleUrl"
+[moduleName]="title"
+[templateName]="templateName" [templeteCodeJson]="templeteCodeJson"></app-dynamic-form-child>
+
+<app-custom-dynamic-form-child *ngIf="!isEmployeeAddUrl && templateCode !='CU-30989' && templateCode !='HRMSEMP-30926'" (closeEvent)="close(false)"
+[templateCode]="templateCode"
+(saveEvent)="close(true)"
+[moduleCode]="moduleCode"
+[isTabsCase]="true"
+[isDisplayTitle]="false"
+[moduleUrl]="moduleUrl"
+[moduleName]="title"
+[isDisplayAddChild]="isDisplayAddChild"
+[templateName]="templateName" [templeteCodeJson]="templeteCodeJson"
+#customDynamicForm
+></app-custom-dynamic-form-child>
+
+<app-custom-dynamic-password-child *ngIf="!isEmployeeAddUrl && templateCode=='CU-30989'" (closeEvent)="close(false)"
+[templateCode]="templateCode"
+(saveEvent)="close(true)"
+[moduleCode]="moduleCode"
+[isTabsCase]="true"
+[isDisplayTitle]="false"
+[moduleUrl]="moduleUrl"
+[moduleName]="title"
+[isDisplayAddChild]="isDisplayAddChild"
+[templateName]="templateName" [templeteCodeJson]="templeteCodeJson"
+#customDynamicForm
+></app-custom-dynamic-password-child>
+
+
+  <app-employee-settings *ngIf="!isEmployeeAddUrl && templateCode !='CU-30989' && templateCode =='HRMSEMP-30926'"
+    (closeEvent)="close(false)" [templateCode]="templateCode" (saveEvent)="close(true)" [moduleCode]="moduleCode"
+    [isTabsCase]="true" [isDisplayTitle]="false" [moduleUrl]="moduleUrl" [moduleName]="title"
+    [isDisplayAddChild]="isDisplayAddChild" [templateName]="templateName" [templeteCodeJson]="templeteCodeJson"
+    #customDynamicForm></app-employee-settings>
+
+<app-dynamic-list-child #dynamicListChild [isSearchandTitleDisplay]="false" [isOnlySearchShow]="this.templateCode == 'HRMSClient-10403'" [modulePermisionObj]="modulePermissionObj" (openPopupEvent)="openAddOrEditPage($event)"
+      [templateCode]="templateCode"
+      [moduleCode]="moduleCode"  [templateName]="templateName"[templeteCodeJson]="templeteCodeJson" [moduleUrl]="moduleUrl" [placeholder]="placeholder"
+  [title]="title"></app-dynamic-list-child>

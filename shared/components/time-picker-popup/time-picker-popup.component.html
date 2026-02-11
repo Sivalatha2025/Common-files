@@ -1,0 +1,40 @@
+<div class="time-picker-popup">
+    <div class="time-selectors">
+      <ng-select
+      id="hour"
+        [items]="hoursArray"
+        [selectOnTab]="true" 
+        [clearable]="false"
+        [(ngModel)]="hour"
+        class="time-input-field"
+        placeholder="Hour"
+      ></ng-select>
+  
+      <ng-select
+      id="minute"
+        [items]="sixtyElementsArray"
+        [clearable]="false"
+        [selectOnTab]="true" 
+        [(ngModel)]="minute"
+        class="time-input-field"
+        placeholder="Minute"
+      ></ng-select>
+  
+      <ng-select
+        *ngIf="true"
+        id="period"
+        [items]="meridians"
+        [clearable]="false"
+        [(ngModel)]="period"
+        [selectOnTab]="true" 
+        class="time-input-field"
+        placeholder="AM/PM"
+      ></ng-select>
+    </div>
+  
+    <div class="time-picker-actions">
+      <button (click)="closePopup()">Cancel</button>
+      <button (click)="applyTime()">OK</button>
+    </div>
+  </div>
+  

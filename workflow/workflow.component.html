@@ -1,0 +1,218 @@
+<div *ngIf="!isPermissionsLoaded" class="loader-06"></div>
+<div *ngIf="isPermissionsLoaded">
+<div class="addProductCard mb-1">
+  <div class="card product-card rounded-0">
+    <ng-container *ngIf="moduleUrlEnum.MODEOFACTIVITY != this.moduleUrl?.toLowerCase() +'/list'">
+      <div class="d-flex justify-content-start align-items-center">
+        <i class="backBtnERP"><img src="assets/images/back-icon-erp2024.svg" alt="Back" title="Back" appBackbutton
+            [IsDynamic]="true" [url]="moduleUrl"></i>
+        <h4 class="font-medium"> Workflow
+          <span *ngIf="workFlowName" class="emp-name">{{' - '+ workFlowName}}</span>
+        </h4>
+      </div>
+      <div class="btn-group-withicon d-flex gap-2"
+        *ngIf="databagRDLCService.rdlcTabs && databagRDLCService.rdlcTabs.length !=0 && modulePermissionObj && modulePermissionObj['Create/Update']">
+        <button (click)="close()" id="cancel" class="btn btn-outline-dark fs-lg-6 font-medium d-flex">
+          <i><img src="assets/images/cancel-close.svg" alt=""></i>
+          <span class="hideInMob">
+            {{'Close'| customTranslate : changedetect : root}}
+          </span>
+        </button>
+      </div>
+    </ng-container>
+  </div>
+  <!-- Work Flow -->
+  <div class="container-fluid p-0">
+    <form [formGroup]="workflow" name="workflow">
+      <div class="addProductCard card shadow-none rdlc-page-section">
+        <div class="moc-details-area">
+          <div class="details-body project-info">
+            <div class="row">
+              <!-- RDLC Module -->
+              <ng-container *ngIf="formFieldObject['RDLCModuleId'] && !formFieldObject['RDLCModuleId'].IsHideFieldInUI">
+                <div class="col-lg-3">
+                  <div class="moc-details-select form-floating">
+                    <div class="animated-bg-placeholder-grey" *ngIf="onPageLoadLoader"></div>
+                    <p class="mb-0 w-100 project-info-label">
+                      {{ formFieldObject['RDLCModuleId'].Label | customTranslate : changedetect : root }}
+                    </p>
+                    <ng-select [items]="mastersObject['RDLCModuleId']"
+                      placeholder="Select {{ formFieldObject['RDLCModuleId'].Label | customTranslate : changedetect : root }}"
+                      bindLabel="Name" bindValue="Id" class="taskSelect common-elements-height"
+                      [formControlName]="formFieldObject['RDLCModuleId'].FormField"
+                      (change)="onRDLCModuleChange($event?.Name, $event?.Id)">
+                    </ng-select>
+                    <div class="alert alert-danger"
+                      *ngIf="workflow.get('Module')?.touched && workflow.get('Module')?.invalid">
+                      Please select module.
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <!-- Workflow Type -->
+              <ng-container *ngIf="formFieldObject['WorkflowTypeId'] && !formFieldObject['WorkflowTypeId'].IsHideFieldInUI">
+                <div class="col-lg-3">
+                  <div class="moc-details-select form-floating">
+                    <div class="animated-bg-placeholder-grey" *ngIf="onPageLoadLoader"></div>
+                    <p class="mb-0 w-100 project-info-label">
+                      {{ formFieldObject['WorkflowTypeId'].Label | customTranslate : changedetect : root }}
+                      <span *ngIf="formFieldObject['WorkflowTypeId'].Required">*</span>
+                    </p>
+                    <ng-select [items]="mastersObject['WorkflowTypeId']"
+                      placeholder="Select {{ formFieldObject['WorkflowTypeId'].Label | customTranslate : changedetect : root }}"
+                      bindLabel="Name" bindValue="Id" class="taskSelect common-elements-height"
+                      [formControlName]="formFieldObject['WorkflowTypeId'].FormField"
+                      >
+                    </ng-select>
+                    <div class="alert alert-danger"
+                      *ngIf="workflow.get('WorkflowType')?.touched && workflow.get('WorkflowType')?.invalid">
+                      Please select workflow type.
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <!-- RDLC Project -->
+              <ng-container
+                *ngIf="formFieldObject['RDLCProjectId'] && !formFieldObject['RDLCProjectId'].IsHideFieldInUI">
+                <div class="col-lg-3">
+                  <div class="moc-details-select form-floating">
+                    <div class="animated-bg-placeholder-grey" *ngIf="onPageLoadLoader"></div>
+                    <p class="mb-0 w-100 project-info-label">
+                      {{ formFieldObject['RDLCProjectId'].Label | customTranslate : changedetect : root }}<span
+                        *ngIf="formFieldObject['RDLCProjectId'].Required">*</span>
+                    </p>
+                    <ng-select [items]="mastersObject['RDLCProjectId']"
+                      placeholder="Select {{ formFieldObject['RDLCProjectId'].Label | customTranslate : changedetect : root }}"
+                      bindLabel="Name" bindValue="Id" class="taskSelect common-elements-height"
+                      [formControlName]="formFieldObject['RDLCProjectId'].FormField">
+                    </ng-select>
+                    <div class="alert alert-danger"
+                      *ngIf="workflow.get('Project')?.touched && workflow.get('Project')?.invalid">
+                      Please select project.
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <!-- workflow Name -->
+              <div *ngIf="!(isHighlightedTab(currentTabName) && isModifyWorkFlow)" class="col-lg-3 position-relative">
+                <div class="animated-bg-placeholder-grey" *ngIf="onPageLoadLoader"></div>
+                <p class="mb-0 w-100 project-info-label workflow-input-labels">
+                  {{ formFieldObject['WorkflowName'].Label | customTranslate : changedetect : root }}<span
+                    *ngIf="formFieldObject['WorkflowName'].Required">*</span>
+                </p>
+                <input type="text" class="form-control shadow-none common-elements-height"
+                  formControlName="WorkflowName" [placeholder]="formFieldObject['WorkflowName'].Placeholder" />
+                <div class="alert alert-danger"
+                  *ngIf="workflow.get('WorkflowName')?.touched && workflow.get('WorkflowName')?.invalid">
+                  Please enter workflow name.
+                </div>
+              </div>
+              <ng-container *ngIf="(isHighlightedTab(currentTabName) && isModifyWorkFlow)">
+                <ng-container
+                  *ngIf="formFieldObject['WorkflowName'] && !formFieldObject['WorkflowName'].IsHideFieldInUI">
+                  <div class="col-lg-3">
+                    <div class="moc-details-select form-floating">
+                      <div class="animated-bg-placeholder-grey" *ngIf="onPageLoadLoader"></div>
+                      <p class="mb-0 w-100 project-info-label">
+                        {{ formFieldObject['WorkflowName'].Label | customTranslate : changedetect : root }}
+                      </p>
+                      <ng-select [items]="mastersObject['RDLCWorkFlowID']"
+                        placeholder="Select {{ formFieldObject['WorkflowName'].Label | customTranslate : changedetect : root }}"
+                        bindLabel="Name" bindValue="Id" class="taskSelect common-elements-height"
+                        [formControlName]="formFieldObject['WorkflowName'].FormField"
+                        (change)="onWorkflowNameChange($event)">
+                      </ng-select>
+                      <div class="alert alert-danger"
+                        *ngIf="workflow.get('WorkflowName')?.touched && workflow.get('WorkflowName')?.invalid">
+                        Please select workflow.
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <!-- Effective Date -->
+              <div class="col-lg-3">
+                <div class="input-group position-relative">
+                  <div class="animated-bg-placeholder-grey" *ngIf="onPageLoadLoader"></div>
+                  <p class="mb-0 w-100 project-info-label workflow-input-labels">
+                    {{ formFieldObject['EffectiveDate'].Label }}
+                    <span *ngIf="formFieldObject['EffectiveDate'].Required">*</span>
+                  </p>
+                  <input appBsDateFormat [format]="'dd/MM/yyyy'" [fieldName]="'EffectiveDate'"
+                    (dateChange)="changeDate($event)" type="text" formControlName="EffectiveDate" [isPastDate]="true"
+                    #dp="bsDatepicker"
+                    class="form-control field-height-sm border-end-0 rounded-start common-elements-height no-caret"
+                    id="EffectiveDate" autocomplete="off" [(ngModel)]="effectiveDate" placeholder="DD/MM/YYYY" readonly>
+                  <button [disabled]="isDisableCalendarIcon"
+                    class="btn btn-outline-dark border-start-0 action-btn search" (click)="dp.toggle()"
+                    type="button"><img src="assets/images/calendar-new-2.svg" alt="calendar-new"></button>
+                </div>
+                <div class="alert alert-danger"
+                  *ngIf="workflow.get('EffectiveDate')?.touched && workflow.get('EffectiveDate')?.invalid">
+                  Please select effective date.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- Tabs Starts Here  -->
+  <section class="tabs-container sticky-top m-3"
+    *ngIf="databagRDLCService.rdlcTabs && databagRDLCService.rdlcTabs.length != 0 && isRDLCModuleSelected"
+    style="background-color: #DCF1F8 !important;">
+    <ng-container>
+      <div class="moc-document-block cursor-pointer" style="background-color: #DCF1F8 !important;">
+        <ul class="p-0 m-0">
+          <li class="doc-item common-elements-height" *ngFor="let tab of databagRDLCService.rdlcTabs; let i = index"
+            [ngClass]="{
+                        'moc-forward': currentTabName === tab.RDLCTypeName,
+                        'moc-evaluation': !isHighlightedTab(tab.RDLCTypeName),
+                        'workflow-completed': isHighlightedTab(tab.RDLCTypeName)
+                      }" (click)="changeTab(tab, i)">
+            <div class="animated-bg-placeholder-grey" *ngIf="false"></div>
+            <span class="doc-item-link">
+              <ng-container *ngIf="currentTabIndex <= i">
+                <img
+                  [src]="(isHighlightedTab(tab.RDLCTypeName) && currentTabName !== tab.RDLCTypeName) ? tab.Icon : tab.ActiveIcon"
+                  alt="">
+              </ng-container>
+              <ng-container *ngIf="currentTabIndex > i">
+                <img [src]="(!isHighlightedTab(tab.RDLCTypeName)) ? tab.ActiveIcon : tab.Icon" alt="">
+              </ng-container>
+              <div class="item-name">{{tab.RDLCTypeName}}</div>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+  </section>
+  <!-- Submit Button -->
+  <div class="p-3 d-flex justify-content-end align-items-center w-100 gap-2 position-relative"
+    *ngIf="modulePermissionObj['Create/Update']">
+    <!-- Loader removed as requested -->
+    <!-- <div class="animated-bg-placeholder-grey" *ngIf="onPageLoadLoader"></div> -->
+    <button type="submit" *ngIf="shouldInitializeWidgetOnce" [disabled]="workflow.invalid"
+      class="action-btn-save-close action-btn common-elements-height" (click)="onSubmit()">
+      {{ (isHighlightedTab(currentTabName) && isModifyWorkFlow)? 'Load Workflow' : 'Generate Workflow' }}
+    </button>
+    <button *ngIf="isWidgetLoaded" type="submit" [ngClass]="{'loading':isLoadingSaveWorkflow}"
+      class="action-btn-save-close action-btn common-elements-height" (click)="saveWorkflow()">
+      {{ (isHighlightedTab(currentTabName) && isModifyWorkFlow)? 'Update Workflow' : 'Save Workflow' }}
+    </button>
+  </div>
+</div>
+
+<!-- React Widget Starts Here -->
+<div class="container pb-4" [hidden]="!isDisplayReactWidget">
+  <button class="fullscreen-button" (click)="toggleFullscreen()">
+    <img *ngIf="!isFullscreen" src="/assets/images/modal-expand-icon.svg" alt="">
+    <img *ngIf="isFullscreen" src="/assets/images/modal-collapse-icon.svg" alt="">
+    {{ isFullscreen ? 'Collapse' : 'Expand' }}
+  </button>
+  <div id="react-widget-container">
+    <react-widget id="react-widget"></react-widget>
+  </div>
+</div>
+</div>

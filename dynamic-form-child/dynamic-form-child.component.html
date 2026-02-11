@@ -1,0 +1,1132 @@
+<div class="addProductCard pb-0">
+  <div class="card rounded-0">
+    <h5 class="card-sub-title font-medium pb-lg-3" id="DynamicAddTitle"
+    *ngIf="isDisplayTitle && schemaData.TemplateName?.toLowerCase() != 'general'">
+  {{
+    isModify
+      ? ((isView || isViewPopup)
+          ? ("View " + moduleName | customTranslate : changedetect : root)
+          : ("Modify " + moduleName | customTranslate : changedetect : root))
+      : ("Add " + moduleName | customTranslate : changedetect : root)
+  }}
+</h5>
+    <div class="form-container pb-lg-0" appErrorInputFocus>
+      <form [formGroup]="addForm" (keyup.enter)="Submit()" novalidate autocomplete="disabled" aria-autocomplete="none"
+        class="select-store-cash">
+        <div class="row gx-lg-5">
+          <ng-container *ngFor="let field of formFields">
+            <!--start type text-->
+            <div class="col-12 col-lg-4 form-line-Item position-relative commonDate"
+            *ngIf="field?.Type?.toLowerCase() == 'daterangetime'">
+       
+           <label class="form-label fs-6 font-medium">
+               {{ field.Label | customTranslate : changedetect : root }}
+               <span *ngIf="field.Required">*</span>
+           </label>
+       
+           <div class="inputWithTooltip">
+               <div class="input-group">
+                    <input
+                    type="text"
+                    class="form-control field-height-sm border-end-0 rounded-start selectDate no-caret"
+                    appDateRangeCalanderPicker
+                    #datePickerDir="appDateRangeCalanderPicker"
+                    placeholder="{{ field.PlaceHolder }}"
+                    (dateChange)="getCalenderValue(field, $event)"
+                    [value]="getDateRangeDisplay(field.FormField)"
+                    [selectedFinancialYear]="addForm.get(field.FormField)?.value"
+                    [minYear]="minYear"
+                    [isShowInitialDate]="false"
+                    [customRanges]="ranges"
+                    [isTime]="true"
+                    [dateInputFormat]= "field.DateFormat"
+                    [ControlTypeConfigurationId] = "field?.DSControlTypeConfigurationId"
+                    [useCombinedFormat]="true"
+                    />
+       
+                   <button class="btn btn-outline-dark border-start-0 inputBtnborder search"
+                       type="button" (click)="datePickerDir.toggle()">
+                       <img src="assets/images/calendar-new-2.svg">
+                   </button>
+               </div>
+       
+               <span class="cursor-pointer d-flex" container="body"
+                     *ngIf="field.LabelTooltip"
+                     ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}">
+                   <img class="info_icon_size" src="assets/images/info-outline.svg"/>
+               </span>
+           </div>
+       
+           <!-- VALIDATION -->
+           <ng-container
+               *ngIf="(isSubmitted && addForm.get(field.FormField)?.invalid)
+                   || (addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty && addForm.get(field.FormField)?.invalid)">
+               <div class="alert alert-danger">
+                   <span>{{ getErrorMessage(field.FormField) }}</span>
+               </div>
+           </ng-container>
+       
+       </div>
+
+                    
+              <div class="col-12 col-lg-4 form-line-Item position-relative commonDate"
+              *ngIf="field?.Type?.toLowerCase() == 'daterange'">
+         
+             <label class="form-label fs-6 font-medium">
+                 {{ field.Label | customTranslate : changedetect : root }}
+                 <span *ngIf="field.Required">*</span>
+             </label>
+         
+             <div class="inputWithTooltip">
+                 <div class="input-group">
+                     <input
+                         type="text"
+                         class="form-control field-height-sm border-end-0 rounded-start selectDate no-caret"
+                         appDateRangeCalanderPicker
+                         #datePickerDir="appDateRangeCalanderPicker"
+         
+                         placeholder="{{ field.PlaceHolder }}"
+                         [value]="getDateRangeDisplay(field.FormField)"
+                         (input)="addForm.get(field.FormField)?.setValue($any($event.target).value)"
+         
+                         [selectedFinancialYear]="addForm.get(field.FormField)?.value"
+                         [minYear]="minYear"
+                         [isShowInitialDate]="false"
+                         [customRanges]="ranges"
+                         [dateInputFormat]="field.DateFormat"
+                         [ControlTypeConfigurationId] = "field?.DSControlTypeConfigurationId"
+                         [useCombinedFormat]="true"
+                         (dateChange)="onDateRangeChanged(field, $event)"
+                     />
+         
+                     <button class="btn btn-outline-dark border-start-0 inputBtnborder search"
+                         type="button" (click)="datePickerDir.toggle()">
+                         <img src="assets/images/calendar-new-2.svg">
+                     </button>
+                 </div>
+         
+                 <span class="cursor-pointer d-flex" container="body"
+                       *ngIf="field.LabelTooltip"
+                       ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}">
+                     <img class="info_icon_size" src="assets/images/info-outline.svg"/>
+                 </span>
+             </div>
+         
+             <!-- VALIDATION -->
+             <ng-container
+                 *ngIf="(isSubmitted && addForm.get(field.FormField)?.invalid)
+                     || (addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty && addForm.get(field.FormField)?.invalid)">
+                 <div class="alert alert-danger">
+                     <span>{{ getErrorMessage(field.FormField) }}</span>
+                 </div>
+             </ng-container>
+         
+         </div>
+         
+
+
+
+
+            <ng-container
+              *ngIf="(!field.ArrayListName || field.Type=='multicheckbox' || field.Type=='searchandmultiselect' || field.Type=='searchandsingleselect') && field.Type != 'phonenumber' && !field.IsHideFieldInUI">
+             <ng-container  *ngIf="
+                        field.Type && inputTextArr.includes(field.Type.toLowerCase())">
+             <div class="col-12 col-lg-4 form-line-Item"   *sectionDisplay="{parentControl:field.ShowByParentField ? this.addForm.get(field.ShowByParentField)?.value : true, fielddata:field.ShowByParentField ? formFieldObject[field.ShowByParentField] : undefined, form:this.addForm, allFields:formFieldObject, templateCode:templateCode}"
+                      >
+                <!-- <div class="d-flex justify-content-between"> -->
+                  <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium">{{ field.Label |
+                    customTranslate : changedetect : root}}<span *ngIf="field.Required">*</span></label>
+                   <div class="inputWithTooltip">
+                <!-- </div> -->
+                <input type="text" autocomplete="disabled" aria-autocomplete="none"
+                  [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false " class="form-control"
+                  [id]="field.Type + field.FormField" [formControlName]="field.FormField"
+                  [placeholder]="field.PlaceHolder  | customTranslate : changedetect : root"
+                  maxlength="{{ field.MaxLength }}" />
+                  <span class="cursor-pointer d-flex" container="body" *ngIf="field.LabelTooltip"
+                  [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                  ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20"><img
+                  class="info_icon_size"  src="assets/images/info-outline.svg" alt=""></span>
+                </div>
+                <ng-container
+                  *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                      getErrorMessage(field.FormField) | customTranslate : changedetect : root}}</span></div>
+                </ng-container>
+              </div>
+            </ng-container>
+              <!--start type number-->
+              <div class="col-12 col-lg-4 form-line-Item " *ngIf="
+                        field.Type && inputNumberArr.includes(field.Type.toLowerCase())
+                      ">
+                <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium">{{ field.Label |
+                  customTranslate : changedetect : root}}<span *ngIf="field.Required">*</span></label>
+                <div class="inputWithTooltip">
+                  <input type="number" [id]="field.Type + field.FormField" autocomplete="disabled"
+                    aria-autocomplete="none"
+                    [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                    class="form-control" numbersOnly [formControlName]="field.FormField"
+                    [placeholder]="field.PlaceHolder  | customTranslate : changedetect : root"
+                    oninput="maxLengthCheck(this)" onkeydown="fnckeydown(event)" maxlength="{{ field.MaxLength }}"
+                    max="{{ field.MaxRange }}" min="{{ field.MinRange }}" />
+                  <span class="cursor-pointer d-flex" container="body" *ngIf="field.LabelTooltip"
+                    [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                    ngbTooltip="{{field.LabelTooltip  | customTranslate : changedetect : root}}" [openDelay]="20"><img
+                      class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                </div>
+                <ng-container
+                  *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                      getErrorMessage(field.FormField) | customTranslate : changedetect : root}}</span></div>
+                </ng-container>
+              </div>
+
+
+
+      
+              
+
+
+              <div class="col-12 col-lg-4 form-line-Item " *ngIf="field?.Type?.toLowerCase()  == 'number+decimals'">
+                <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium">{{ field.Label |
+                  customTranslate : changedetect : root }}<span *ngIf="field.Required">*</span></label>
+                <div class="inputWithTooltip">
+                  <input type="number" [id]="field.Type + field.FormField" autocomplete="disabled"
+                    aria-autocomplete="none"
+                    [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                    class="form-control" numbersOnly singleZeroOnly [formControlName]="field.FormField"
+                    [placeholder]="field.PlaceHolder  | customTranslate : changedetect : root"
+                    oninput="maxLengthCheck(this)" onkeydown="fnckeydownFloat(event)" maxlength="{{ field.MaxLength }}"
+                    max="{{ field.MaxRange }}" min="{{ field.MinRange }}" />
+                  <span class="cursor-pointer d-flex" container="body" *ngIf="field.LabelTooltip"
+                    [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                    ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20"><img
+                      class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                </div>
+                <ng-container
+                  *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                      getErrorMessage(field.FormField) | customTranslate : changedetect : root}}</span></div>
+                </ng-container>
+              </div>
+
+              <!--start type color-->
+              <div class="col-12 col-lg-4 form-line-Item colorPicker " *ngIf="field?.Type?.toLowerCase() == 'color'">
+                <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium">{{ field.Label |
+                  customTranslate : changedetect : root}}<span *ngIf="field.Required">*</span></label>
+                <div class="d-flex align-items-center position-relative">
+                  <!-- <img (click)="colorInput.click()" src="/assets/images/color-picker.svg" class="me-3" alt=""> -->
+                  <div class="inputWithTooltip">
+                    <input [type]="field.Type" #colorInput autocomplete="disabled" aria-autocomplete="none"
+                      [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                      [id]="field.Type + field.FormField" class="form-control px-2 w-colorPicker"
+                      [formControlName]="field.FormField"
+                      [placeholder]="field.PlaceHolder | customTranslate : changedetect : root" />
+                    <span class="ms-3">{{addForm.get(field.FormField)?.value || 'Select Color Code'}}</span>
+                    <span class="cursor-pointer d-flex" container="body" *ngIf="field.LabelTooltip"
+                      [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                      ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20"><img
+                        class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                  </div>
+                </div>
+                <ng-container
+                  *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                      getErrorMessage(field.FormField) | customTranslate : changedetect : root}}</span></div>
+                </ng-container>
+              </div>
+
+              <!--start type password-->
+              <div class="col-12 col-lg-4 form-line-Item  position-relative"
+                *ngIf="field?.Type?.toLowerCase() == 'password'">
+                <div class="eyeIcon">
+                  <i alt="show" class="far fa-eye eye-show" (click)="onClick('password')" [class.hide]="!show"></i>
+                  <i alt="hide" class="far fa-eye-slash eye-hide" (click)="onClick('password')" [class.hide]="show"></i>
+                </div>
+                  <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium">{{ field.Label |
+                    customTranslate : changedetect : root}}<span *ngIf="field.Required && !isModify">*</span></label>
+                  <div class="inputWithTooltip">
+                <input [type]="show ? 'text' : 'password'" class="form-control input-password"
+                  [attr.autocomplete]="show ? 'off' : 'new-password'" [formControlName]="field.FormField"
+                  [placeholder]="field.PlaceHolder | customTranslate : changedetect : root"
+                  [id]="field.Type + field.FormField" maxlength="{{ field.MaxLength }}"
+                  [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false " />
+                  <span class="cursor-pointer d-flex" container="body" *ngIf="field.LabelTooltip"
+                  [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                  ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20"><img
+                    class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                  </div>
+                <div class="pswd-icon">
+                  <i class="pswd_icon"></i>
+                </div>
+                <ng-container
+                  *ngIf="  (isSubmitted && addForm.get(field.FormField)?.errors) || addForm.get(field.FormField)?.errors &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"
+                    *ngIf="!addForm.get(field.FormField)?.errors?.['required']"><span>{{
+                      getErrorMessage(field.FormField) | customTranslate : changedetect : root}}</span></div>
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"
+                    *ngIf="addForm.get(field.FormField)?.errors?.['required']"><span>{{
+                      capitalizeFirstLetter(field.Label) + ' is required' | customTranslate : changedetect :
+                      root}}</span></div>
+                </ng-container>
+              </div>
+
+              <!--start type textarea-->
+              <div class="col-12 col-lg-12 form-line-Item " *ngIf="field?.Type?.toLowerCase() == 'textarea'">
+                <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium">{{ field.Label |
+                  customTranslate : changedetect : root}}<span *ngIf="field.Required">*</span></label>
+                <div class="inputWithTooltip">
+                  <textarea [id]="field.Type + field.FormField" oninput="setHeight(this)" autocomplete="disabled" aria-autocomplete="none"
+                    [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                    [formControlName]="field.FormField" (keyup.enter)="$event.stopPropagation()" class="textareaControl"
+                    [placeholder]="field.PlaceHolder| customTranslate : changedetect : root"
+                    (keyup)="getcommentcounts($event, field)" maxlength="{{ field.MaxLength }}"></textarea>
+                  <span class="cursor-pointer d-flex" container="body" *ngIf="field.LabelTooltip"
+                    [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                    ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20"><img
+                      class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                </div>
+                <div class="notesinfo justify-content-between">
+                  <div class="d-flex flex-column align-items-start">
+                    <p *ngIf="field.allowedComments != undefined && field.allowedComments != null && field.allowedComments !=''"
+                      class="commentinfo flex-grow-1  m-0 font-medium">{{'(We are not allowing '+ field.allowedComments
+                      +')' | customTranslate : changedetect : root}}</p>
+                    <ng-container
+                      *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                      <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                          getErrorMessage(field.FormField)| customTranslate : changedetect : root}}</span></div>
+                    </ng-container>
+                  </div>
+
+                  <p *ngIf="field.allowedComments == undefined || field.allowedComments == null || field.allowedComments ==''"
+                    class="commentinfo flex-grow-1  m-0 font-medium"></p>
+                  <p *ngIf="field.MaxLength" class="commentinfoallowing m-0 font-medium">{{ '(' +('Character count '| customTranslate :
+                    changedetect : root) +' ' +field.MaxLengthEntered + '.)' }}</p>
+                </div>
+              </div>
+
+              <!--start type htmleditor-->
+              <div class="col-12 col-lg-12 form-line-Item" *ngIf="field?.Type?.toLowerCase() == 'htmleditor'">
+                <div class="d-flex justify-content-between">
+                  <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium mb-0">{{
+                    field.Label | customTranslate : changedetect : root
+                    }}<span *ngIf="field.Required">*</span></label>
+
+                  <span class="cursor-pointer d-flex ms-1 mb-2" container="body" *ngIf="field.LabelTooltip"
+                    [triggers]="isMobileToolTip?'click:blur':'hover  click'"
+                    ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20"><img
+                      src="assets/images/info-outline.svg" alt=""></span>
+
+                </div>
+                <angular-editor [formControlName]="field.FormField" (keyup)="eventPrevent($event)"
+                  placeholder="{{'Enter text here...'| customTranslate : changedetect : root}}"
+                  [config]="(this.details?.IsLocked || (field.IsNonEditable && isModify)) ? disableEditor : editorConfig"></angular-editor>
+
+                <ng-container
+                  *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                      getErrorMessage(field.FormField)| customTranslate : changedetect : root}}</span></div>
+                </ng-container>
+              </div>
+              <!--start type dropdown-->
+              <ng-container *ngIf="field?.Type?.toLowerCase() == 'dropdown'">
+                <div class="col-12 col-lg-4 form-line-Item"
+                  *sectionDisplay="{parentControl:field.ShowByParentField ? this.addForm.get(field.ShowByParentField)?.value : true, fielddata:field.ShowByParentField ? formFieldObject[field.ShowByParentField] : undefined, form:this.addForm, allFields:formFieldObject}">
+                  <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium">{{ field.Label |
+                    customTranslate : changedetect : root}}<span *ngIf="field.Required">*</span></label>
+                  <div class="inputWithTooltip">
+                    <ng-select
+                      [readonly]="this.details?.IsLocked || (field.IsNonEditable && isModify)"
+                       [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                      [inputAttrs]="{maxlength : '64', 'data-uid':field.Type + field.FormField}"
+                      [placeholder]="'Select '+ field.Label | customTranslate : changedetect : root" bindLabel="Name"
+                      bindValue="Id" class="leadSelect" [formControlName]="field.FormField" [selectOnTab]="true"
+                      (change)="onDropDownChange(field)" (keyup.enter)="preventSaving($event)">
+                      <ng-container  *ngFor="let item of mastersObject[field.FormField]" >
+                        <ng-option *ngIf="Id != item.Id"  [value]="item.Id">{{item.Name}}</ng-option>
+                    </ng-container>
+                    </ng-select>
+                    <span class="cursor-pointer d-flex" container="body" *ngIf="field.LabelTooltip"
+                      [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                      ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20"><img
+                        class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                  </div>
+                  <ng-container
+                    *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                    <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                        getErrorMessage(field.FormField) | customTranslate : changedetect : root}}</span></div>
+                  </ng-container>
+                </div>
+              </ng-container>
+
+              <!--start type toggle-->
+              <div class="col-12 form-line-Item d-flex align-items-center" *ngIf="field.Type == 'toggle'">
+                <div class="form-check form-switch">
+                  <label class="form-check-label" for="{{ field.Type + field.FormField }}">{{ field.Label|
+                    customTranslate : changedetect : root }}<span *ngIf="field.Required">*</span></label>
+                  <div class="d-flex">
+                    <input class="form-check-input" [id]="field.Type + field.FormField"
+                      [formControlName]="field.FormField"
+                      [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false " type="checkbox"
+                      role="switch" [checked]="field.FormField === 'true'" />
+                    <span class="cursor-pointer sideTooltip d-flex align-items-center" container="body" *ngIf="field.LabelTooltip"
+                      [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                      ngbTooltip="{{field.LabelTooltip| customTranslate : changedetect : root}}" [openDelay]="20"><img
+                        class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                  </div>
+                </div>
+                <ng-container
+                  *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                      getErrorMessage(field.FormField)| customTranslate : changedetect : root}}</span></div>
+                </ng-container>
+              </div>
+
+              <!--start type radiobuttonlist-->
+              <div class="col-12 form-line-Item " *ngIf="field.Type == 'radiobuttonlist'">
+                <div class="form-check form-switch w-100 flex-column">
+                  <div class="radioBtnTooltips">
+                    <label class="form-check-label mb-2 w-100 font-medium">{{ field.Label| customTranslate :
+                      changedetect : root }}<span *ngIf="field.Required">*</span></label>
+                    <span class="cursor-pointer d-flex mb-2" container="body" *ngIf="field.LabelTooltip"
+                      [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                      ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20">
+                      <img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                  </div>
+
+                  <div class="departmentBlock">
+                    <div class="d-flex align-items-center radioItem mb-2" [ngClass]="{'pe-none' :(this.details?.IsLocked || (field.IsNonEditable && isModify)) ? true : false }"
+                      *ngFor="let item of mastersObject[field.FormField]"
+                      (click)="updateRadioButtonValue(field.FormField,item?.Id)"> 
+                      <input type="radio" [formControlName]="field.FormField" [attr.name]="field.FormField"
+                        [id]="item?.Name" [value]="item?.Id"
+                       [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false " />
+                      <label class="lh-1 ps-1">{{ item?.Name || '' | customTranslate : changedetect : root}}</label>
+                    </div>
+                  </div>
+                </div>
+                <ng-container
+                  *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                      getErrorMessage(field.FormField)| customTranslate : changedetect : root}}</span></div>
+                </ng-container>
+              </div>
+
+              <!--start type radio-->
+
+              <div class="col-12 col-lg-4 form-line-Item" *ngIf="field.Type == 'radio'">
+                <div class="radioBtnTooltips">
+                  <label class="form-label fs-6 font-medium" for="{{ field.FormField }}">{{ field.Label |
+                    customTranslate : changedetect : root}}<span *ngIf="field.Required">*</span></label>
+                  <span class="cursor-pointer d-flex mb-2" container="body" *ngIf="field.LabelTooltip"
+                    [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                    ngbTooltip="{{field.LabelTooltip| customTranslate : changedetect : root}}" [openDelay]="20"><img
+                      class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                </div>
+                <div class="form-check form-switch d-flex ps-0">
+                  <div class="radioItem" (click)="updateRadioButtonValue(field.FormField,true)">
+                    <input [id]="field.FormField + '1'" [formControlName]="field.FormField" type="radio" [value]="true"
+                      [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                      [name]="field.FormField" class="me-2" /><label class="lh-1">{{'Yes' | customTranslate :
+                      changedetect : root}}</label>
+                  </div>
+                  <div class="radioItem" (click)="updateRadioButtonValue(field.FormField,false)">
+                    <input [id]="field.FormField + '2'" [formControlName]="field.FormField" type="radio" [value]="false"
+                      [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                      [name]="field.FormField" class="me-2" />
+                    <label class="lh-1">{{'No' | customTranslate : changedetect : root}}</label>
+                  </div>
+                </div>
+                <ng-container
+                  *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                      getErrorMessage(field.FormField)| customTranslate : changedetect : root}}</span></div>
+                </ng-container>
+              </div>
+
+              <!--start type checkbox-->
+              <div class="col-12 col-lg-4 d-flex align-items-center form-line-Item"
+                *ngIf="field?.Type?.toLowerCase() == 'checkbox'">
+                <div class="form-check form-switch form-checkbox-tick">
+                  <label class="form-check-label me-3" for="{{ field.Type + field.FormField }}">{{ field.Label |
+                    customTranslate : changedetect : root}}<span *ngIf="field.Required">*</span></label>
+                  <div class="inputWithTooltip">
+                    <input [id]="field.Type + field.FormField" [formControlName]="field.FormField" type="checkbox"
+                      [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                      [checked]="field.FormField === 'true'" />
+                    <span class="cursor-pointer d-flex formcheckspan" container="body" *ngIf="field.LabelTooltip"
+                      [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                      ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20">
+                      <img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                  </div>
+                  <ng-container
+                    *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                    <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                        getErrorMessage(field.FormField)| customTranslate : changedetect : root}}</span></div>
+                  </ng-container>
+                </div>
+              </div>
+
+              <!--start type datetime-->
+
+              <div class="col-12 col-lg-4 form-line-Item position-relative commonDate"
+                *ngIf="field?.Type?.toLowerCase() == 'datetime'">
+
+                <label for="{{ field.FormField }}" class="form-label fs-6 font-medium">{{ field.Label | customTranslate
+                  : changedetect : root}}<span *ngIf="field.Required">*</span></label>
+                <div class="inputWithTooltip">
+                  <div class="input-group">
+                    <app-editable-datetime-input
+                      [id]="field.FormField"
+                      [formControlName]="field.FormField"
+                      [format]="field.DateFormat"
+                      [fieldName]="field.FormField"
+                      [ControlTypeConfigurationId]="field?.DSControlTypeConfigurationId"
+                      [placeholder]="field.PlaceHolder | customTranslate : changedetect : root"
+                      [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false"
+                    ></app-editable-datetime-input>
+                  </div>
+                  <span class="cursor-pointer d-flex" container="body" *ngIf="field.LabelTooltip"
+                    [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                    ngbTooltip="{{field.LabelTooltip| customTranslate : changedetect : root}}" [openDelay]="20"><img
+                      class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                </div>
+                <ng-container
+                  *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                      getErrorMessage(field.FormField)| customTranslate : changedetect : root}}</span></div>
+                </ng-container>
+
+              </div>
+
+              <!--start type date-->
+
+              <div class="col-12 col-lg-4 form-line-Item position-relative commonDate"
+                *ngIf="field?.Type?.toLowerCase() == 'date'">
+
+
+                <label for="{{ field.FormField }}" class="form-label fs-6 font-medium">{{ field.Label| customTranslate :
+                  changedetect : root }}<span *ngIf="field.Required">*</span></label>
+                <div class="inputWithTooltip">
+
+                  <div class="input-group">
+                    <app-editable-date-input
+                      [id]="field.FormField"
+                      [formControlName]="field.FormField"
+                      [placeholder]="(field.PlaceHolder | customTranslate : changedetect : root) || 'DD/MM/YYYY'"
+                      [format]="field.DateFormat || 'dd/MM/yyyy'"
+                      [fieldName]="field.FormField"
+                      [ControlTypeConfigurationId]="field?.DSControlTypeConfigurationId"
+                      [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false"
+                    ></app-editable-date-input>
+                  </div>
+                  <span class="cursor-pointer d-flex" container="body" *ngIf="field.LabelTooltip"
+                    [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                    ngbTooltip="{{field.LabelTooltip| customTranslate : changedetect : root}}" [openDelay]="20">
+                    <img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                </div>
+                <ng-container
+                  *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                      getErrorMessage(field.FormField)| customTranslate : changedetect : root}}</span></div>
+                </ng-container>
+
+              </div>
+
+
+              <!-- <div class="col-12">
+                <div class="row gx-lg-5"> -->
+
+                  <div class="col-12 col-lg-4 form-line-Item"  *ngIf="(field && field.Type == 'file') || field.Type == 'image'">
+                    <label for="formFile" class="form-label">{{ field.Label | customTranslate : changedetect :
+                      root}}<span *ngIf="field.Required && !isModify">*</span></label>
+                    <div class="inputWithTooltip">
+                      <span class="cursor-pointer d-flex" container="body"
+                        *ngIf="field.LabelTooltip| customTranslate : changedetect : root"
+                        [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                        ngbTooltip="{{field.LabelTooltip| customTranslate : changedetect : root}}" [openDelay]="20">
+                        <img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                    </div>
+                    <div class="input-group imageCombine">
+                      <div class="position-relative w-100">
+                      <input class="form-control custom-border-radius w-100" #fileInput type="file"
+                        [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                        (change)="onFileSelected($event, field)" [id]="field?.Type+field.FormField">
+                      <!-- <button class="btn btn-outline-secondary" type="button" id="button-addon2">Upload File</button>   -->
+                      <span *ngIf="fileInput.value" id="clearfile" class="clear-file"  (click)="clearFile(fileInput,field)" title="Clear"><span aria-hidden="true" class="ng-clear">×</span></span>
+                    </div>
+                      <div class="imageUploadcontainer">
+                        <div class="d-flex gap-3 imageOverflow" *ngIf="fileDetails[field.FormField]">
+                          <div class="position-relative" *ngIf="field.Type?.toLowerCase() == 'image'">
+                            <span class="position-absolute closeIcon me-1" (click)="deleteFileorImage(field)">
+                          <img src="assets/images/close-icon-white.svg" alt="">
+                        </span>
+                            <img ImageType="{{dummyImg}}" appImageReplace src="{{fileDetails[field.FormField]}}"
+                              height="90" alt="" />
+                          </div>
+                          <div class="position-relative" *ngIf="field.Type?.toLowerCase() == 'file'">
+                            <span class="position-absolute closeIcon me-1" (click)="deleteFileorImage(field)">
+                          <img src="assets/images/close-icon-white.svg" alt="">
+                        </span>
+                            <a href="{{fileDetails[field.FormField]}}" target="_blank">
+
+                              <img ImageType="{{dummyImg}}" title="{{fileDetails[field.FormField]}}" appImageReplace
+                                src="/assets/images/document-icon.svg" height="90" alt="" />
+                            </a>
+                          </div>
+                        </div>
+                        <div class="d-flex  justify-content-center" *ngIf="!fileDetails[field.FormField]">
+                          <!-- <h4 class="text-small" *ngIf="field.Type?.toLowerCase() == 'image'">No Image Uploaded</h4>
+                      <h4 class="text-small" *ngIf="field.Type?.toLowerCase() == 'file'">No File Uploaded</h4> -->
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <span class="file-name" *ngIf="field.FormField && selectedFile[field.FormField]">{{
+                                      selectedFile[field.FormField]?.name }}</span> -->
+                    <div class="alert alert-danger" [id]="field.FormField+'Error'"
+                      *ngIf="field.FormField && fileInvalid[field.FormField]">
+                      <span>{{ fileInvalid[field.FormField] | customTranslate : changedetect : root}}</span>
+                    </div>
+                  </div>
+
+                  <!-- <div class="col-12 col-lg-4 form-line-Item" *ngIf="fileDetails[field.FormField]">
+
+                  </div> -->
+
+                <!-- </div>
+              </div> -->
+
+              <div class="col-12 col-lg-4 form-line-Item" *ngIf="field.Type == 'multicheckbox' ">
+                  <div class="d-flex justify-content-between">
+                    <label for="{{ field.FormField }}" class="form-label fs-6 font-medium">{{ field.Label|
+                      customTranslate : changedetect : root }}<span *ngIf="field.Required">*</span></label>
+                      <span class="cursor-pointer d-flex" container="body" *ngIf="field.LabelTooltip"
+                      [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                      ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20"><img
+                        class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                  </div>
+                    <ng-multiselect-dropdown [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                    [settings]="dropdownSettings" id="{{ field.FormField }}"
+                   placeholder="{{field.PlaceHolder| customTranslate : changedetect : root}}"
+                    [formControlName]="field.FormField" [data]="mastersObject[field.FormField]" 
+                     (onSelect)="onMultiCheckDropDownChange(field,'')"
+                    (onSelectAll)="onMultiCheckDropDownChange(field,'selectAll')"
+                    (onDeSelect)="onMultiCheckDropDownChange(field,'')"
+                    (onDeSelectAll)="onMultiCheckDropDownChange(field,'deSelectAll')"
+                    >
+                  </ng-multiselect-dropdown>
+                  <ng-container
+                    *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                    <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                        getErrorMessage(field.FormField)| customTranslate : changedetect : root}}</span></div>
+                  </ng-container>
+              </div>
+              <div class="col-12 form-line-Item" *ngIf="field.Type == 'searchandmultiselect'">
+
+                <app-searchcontrol [field]="field"
+                  (selectedItemsEvent)="onsearchItemsSelection($event,field.FormField )"
+                  [selectedValues]="selectedSearchData[field.FormField]"></app-searchcontrol>
+                <ng-container
+                  *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                      getErrorMessage(field.FormField)}}</span></div>
+                </ng-container>
+              </div>
+
+              <div class="col-12 form-line-Item" *ngIf="field.Type == 'searchandsingleselect'">
+
+                <app-searchcontrol [field]="field" [isSingleSelect]="true"
+                  (singleSelectedEvent)="onsearchItemsSelection($event,field.FormField ,true)"
+                  [singleSelectedItem]="addForm.get(field.FormField)?.value"></app-searchcontrol>
+                <ng-container
+                  *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                      getErrorMessage(field.FormField) | customTranslate : changedetect : root}}</span></div>
+                </ng-container>
+              </div>
+
+              <!--dynamic error messages-->
+              <!-- <div class=" col-12 col-lg-4  form-line-Item pb-4">
+
+            </div> -->
+              <div class="col-12 form-line-Item " *ngIf="field.Type == 'htmldiv' && details[field.FormField]">
+                <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium ">{{ field.Label|
+                  customTranslate : changedetect : root
+                  }}</label>
+                <div class="inputWithTooltip">
+                  <span class="cursor-pointer d-flex" container="body" *ngIf="field.LabelTooltip"
+                    [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                    ngbTooltip="{{field.LabelTooltip| customTranslate : changedetect : root}}" [openDelay]="20"><img
+                      class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                </div>
+                <div class="htmlDiv email-log-inner-table d-flex justify-content-center py-2">
+                  <div class="bg_white py-2" [innerHTML]="details[field.FormField] | safeHtml">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-4 form-line-Item " *ngIf="field?.Type?.toLowerCase() == 'searchdropdown'">
+
+                  <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium">{{ field.Label|
+                    customTranslate : changedetect : root
+                    }}<span *ngIf="field.Required">*</span></label>
+
+                  <div class="inputWithTooltip">
+                <ng-select
+                  [readonly]="(this.details?.IsLocked || (field.IsNonEditable && isModify)) ? true : false "
+                  [inputAttrs]="{maxlength : '64', 'data-uid':field.Type + field.FormField}"
+                  [placeholder]="'Select '+ field.Label | customTranslate : changedetect : root" bindLabel="Name"
+                  bindValue="Id" class="leadSelect" [selectOnTab]="true" [formControlName]="field.FormField"
+                  (change)="onDropDownChange(field)" (keyup.enter)="preventSaving($event)">
+                  <ng-container  *ngFor="let item of mastersObject[field.FormField]" >
+                    <ng-option *ngIf="Id != item.Id"  [value]="item.Id">{{item.Name}}</ng-option>
+                </ng-container>
+                </ng-select>
+                <span class="cursor-pointer d-flex" container="body" *ngIf="field.LabelTooltip"
+                    [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                    ngbTooltip="{{field.LabelTooltip| customTranslate : changedetect : root}}" [openDelay]="20"><img
+                      class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                </div>
+
+
+                <!-- </div> -->
+                <ng-container
+                  *ngIf="  (isSubmitted && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{
+                      getErrorMessage(field.FormField)| customTranslate : changedetect : root}}</span></div>
+                </ng-container>
+              </div>
+
+
+            </ng-container>
+
+            <ng-container *ngIf="field.Type == 'phonenumber' && !field.IsHideFieldInUI" [formGroupName]="field.FormField">
+              <div class="col-12 col-lg-4 flex-column phoneNumbergroup">
+                <div class="d-flex justify-content-between">
+                  <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium">{{ field.Label|
+                    customTranslate : changedetect : root }}<span *ngIf="field.Required">*</span></label>
+                  <span class="cursor-pointer d-flex mb-2" container="body"
+                    [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                    ngbTooltip="{{field.LabelTooltip| customTranslate : changedetect : root}}" [openDelay]="20"><img
+                      class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                </div>
+                <div class="d-flex justify-content-between align-items-start w-100">
+                  <div class="col-2 form-line-Item">
+                    <!-- <label class="form-label">Country Code<span *ngIf="field.Required">*</span></label> -->
+                    <input type="text" value="+91" [disabled]="true" oninput="maxLengthCheck(this)" numbersOnly
+                      onkeydown="fnckeydown(event)" autocomplete="disabled" aria-autocomplete="none"
+                      class="form-control countryCode" [id]="field.FormField + 'countryCode'"
+                      placeholder="{{'Country Code' | customTranslate : changedetect : root}}" />
+                  </div>
+                  <div class="col-3 form-line-Item">
+                    <!-- <label class="form-label fs-6 font-medium">State Code<span *ngIf="field.Required">*</span></label> -->
+                    <input type="tel" autocomplete="disabled" formControlName="code" aria-autocomplete="none"
+                      class="form-control" [id]="field.FormField + 'stateCode'" oninput="maxLengthCheck(this)"
+                      numbersOnly onkeydown="fnckeydown(event)"
+                      [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                      placeholder="{{'State Code' | customTranslate : changedetect : root}}" maxlength="4"
+                      minlength="2" />
+                    <ng-container
+                      *ngIf="((addForm.get(field.FormField)?.get('code')?.invalid || (!addForm.get(field.FormField)?.get('code')?.value && addForm.get(field.FormField)?.get('number')?.value)) && isSubmitted)|| (addForm.get(field.FormField)?.get('code')?.invalid  && addForm.get(field.FormField)?.get('code')?.touched && addForm.get(field.FormField)?.get('code')?.dirty)">
+                      <div class="alert alert-danger" [id]="field.FormField+'Error'"
+                        *ngIf="!addForm.get(field.FormField)?.get('code')?.errors?.['required'] && addForm.get(field.FormField)?.get('code')?.value">
+                        <span>{{'Invalid state code'| customTranslate : changedetect : root}}</span></div>
+
+
+                      <div class="alert alert-danger" [id]="field.FormField+'Error'"
+                        *ngIf="!addForm.get(field.FormField)?.get('code')?.value"><span>{{'Required state code'|
+                          customTranslate : changedetect : root}}</span></div>
+                    </ng-container>
+                  </div>
+                  <div class="col form-line-Item">
+
+                    <input type="number" oninput="maxLengthCheck(this)" numbersOnly
+                      [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                      onkeydown="fnckeydown(event)" autocomplete="disabled" aria-autocomplete="none"
+                      class="form-control" [id]="field.Type + field.FormField" formControlName="number"
+                      [placeholder]="field.PlaceHolder | customTranslate : changedetect : root" maxlength="8"
+                      minlength="5" />
+
+                    <ng-container
+                      *ngIf="((addForm.get(field.FormField)?.get('number')?.invalid || (!addForm.get(field.FormField)?.get('number')?.value && addForm.get(field.FormField)?.get('code')?.value))&& isSubmitted) || (addForm.get(field.FormField)?.get('number')?.invalid && addForm.get(field.FormField)?.get('number')?.dirty && addForm.get(field.FormField)?.get('number')?.touched)">
+                      <div class="alert alert-danger" [id]="field.FormField+'Error'"
+                        *ngIf="!addForm.get(field.FormField)?.get('number')?.errors?.['required'] && addForm.get(field.FormField)?.get('number')?.value">
+                        <span>{{'Invalid phone number' | customTranslate : changedetect : root}}</span></div>
+
+
+                      <div class="alert alert-danger" [id]="field.FormField+'Error'"
+                        *ngIf=" !addForm.get(field.FormField)?.get('number')?.value"><span>{{'Required phone number'|
+                          customTranslate : changedetect : root}}</span></div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
+            <ng-container
+              *ngIf="field.ArrayListName && field.Type!='file'  &&  field.Type!='multicheckbox' && field.Type!='searchandmultiselect' && field.Type!='searchandsingleselect' && !this.arrayHideFieldObject[field.ArrayListName]">
+              <!-- contact details heading added only for HRMS - Employee - Address tab -->
+              <label class="font-medium mb-2"
+                *ngIf="field.ArrayListName && field.ArrayListName?.toLowerCase() == 'relationshipcontactdetails'">{{'Contact Details' | customTranslate : changedetect : root}}</label>
+              <!-- contact details heading added only for HRMS - Employee - Address tab -->
+              <div class="col-12" [formArrayName]="field.ArrayListName"
+                *ngIf="(addForm.get(field.ArrayListName) | controlsPipe) as controlsArray">
+                <ng-container *ngFor="let control of controlsArray;let i = index; last as isLast" [formGroupName]="i">
+                  <ng-container *ngIf="control.get('Status')?.value == ''">
+                    <div class="d-flex flex-wrap align-items-start multiMobileMain mob_multiMobileMain">
+                      <div class="col-2 form-line-Item form-invisible"
+                      [ngClass]="{'col-lg-1': field.Type && field.Type.toLowerCase() == 'multimobile'}"
+                        *ngIf="field.Type && field.Type.toLowerCase() == 'multimobile' " >
+                        <label for="{{'mobilecode'+i}}" class="form-label fs-8">{{'Country Code' | customTranslate :
+                          changedetect : root}}<span *ngIf="field.Required">*</span></label> <input
+                          id="mobilecode+{{i}}" placeholder="{{'Code' | customTranslate : changedetect : root}}"
+                          value="+91" class="form-control" [disabled]="true" />
+                      </div>
+
+                      <ng-container *ngFor="let field of arrayControlls[field.ArrayListName]">
+                        <div class="col-12 col-lg-3 form-line-Item"
+                          *ngIf="field.Type && inputTextArr.includes(field.Type.toLowerCase())">
+                          <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium">{{
+                            field.Label | customTranslate : changedetect : root }}<span
+                              *ngIf="field.Required">*</span></label>
+                          <div class="inputWithTooltip">
+                            <input type="text" autocomplete="disabled"
+                              [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                              aria-autocomplete="none" class="form-control" [id]="field.Type + field.FormField"
+                              [formControlName]="field.FormField"
+                              [placeholder]="field.PlaceHolder | customTranslate : changedetect : root"
+                              maxlength="{{ field.MaxLength }}" />
+                            <span class="cursor-pointer d-flex mb-2" container="body" *ngIf="field.LabelTooltip"
+                              [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                              ngbTooltip="{{field.LabelTooltip| customTranslate : changedetect : root}}" [openDelay]="20"><img
+                                class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                          </div>
+                          <ng-container
+                            *ngIf="(control?.get(field.FormField)?.invalid && isSubmitted) || (control?.get(field.FormField)?.invalid && control?.get(field.FormField)?.touched && control?.get(field.FormField)?.dirty) ">
+                            <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{field |
+                                formError:control?.get(field.FormField) | customTranslate : changedetect : root}}</span>
+                            </div>
+
+                          </ng-container>
+                        </div>
+  <div class="col-10 col-lg-10 form-line-Item" *ngIf="field?.Type?.toLowerCase() == 'htmleditor'">
+                <div class="d-flex justify-content-between">
+                  <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium mb-0">{{
+                    field.Label | customTranslate : changedetect : root
+                    }}<span *ngIf="field.Required">*</span></label>
+
+                  <span class="cursor-pointer d-flex ms-1 mb-2" container="body" *ngIf="field.LabelTooltip"
+                    [triggers]="isMobileToolTip?'click:blur':'hover  click'"
+                    ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20"><img
+                      src="assets/images/info-outline.svg" alt=""></span>
+
+                </div>
+                <angular-editor [formControlName]="field.FormField" (keyup)="eventPrevent($event)"
+                  placeholder="{{'Enter text here...'| customTranslate : changedetect : root}}"
+                  [config]="(this.details?.IsLocked || (field.IsNonEditable && isModify)) ? disableEditor : editorConfig"></angular-editor>
+
+                <ng-container *ngIf="(control?.get(field.FormField)?.invalid && isSubmitted) || (control?.get(field.FormField)?.invalid && control?.get(field.FormField)?.touched && control?.get(field.FormField)?.dirty)"
+                >
+                  <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{field |
+                                formError:control?.get(field.FormField) | customTranslate : changedetect : root}}</span></div>
+                </ng-container>
+              </div>
+
+              <div class="col-12 col-lg-4 form-line-Item"  *ngIf="(field && field.Type == 'file') || field.Type == 'image'">
+                <label for="formFile" class="form-label">{{ field.Label | customTranslate : changedetect :
+                  root}}<span *ngIf="field.Required && !isModify">*</span></label>
+                <div class="inputWithTooltip">
+                  <span class="cursor-pointer d-flex" container="body"
+                    *ngIf="field.LabelTooltip| customTranslate : changedetect : root"
+                    [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                    ngbTooltip="{{field.LabelTooltip| customTranslate : changedetect : root}}" [openDelay]="20">
+                    <img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                </div>
+                <div class="input-group imageCombine">
+                  <div class="position-relative w-100">
+                  <input class="form-control custom-border-radius w-100" #fileInput type="file"
+                    [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                    (change)="onArrayFileSelected($event, field,i)" [id]="field?.Type+field.FormField">
+                  <!-- <button class="btn btn-outline-secondary" type="button" id="button-addon2">Upload File</button>   -->
+                  <span *ngIf="fileInput.value" id="clearfile" class="clear-file"  (click)="clearArrayFile(fileInput,field,i)" title="Clear"><span aria-hidden="true" class="ng-clear">×</span></span>
+                </div>
+                  <div class="imageUploadcontainer">
+                    <div class="d-flex gap-3 imageOverflow" *ngIf="arrayFileDetails[field.ArrayListName] && arrayFileDetails[field.ArrayListName][field.FormField] && arrayFileDetails[field.ArrayListName][field.FormField][i]">
+                      <div class="position-relative" *ngIf="field.Type?.toLowerCase() == 'image'">
+                        <!-- <span class="position-absolute closeIcon me-1" (click)="deleteFileorImage(field)">
+                      <img src="assets/images/close-icon-white.svg" alt="">
+                    </span> -->
+                        <img ImageType="{{dummyImg}}" appImageReplace src="{{arrayFileDetails[field.ArrayListName][field.FormField][i]}}"
+                          height="90" alt="" />
+                      </div>
+                      <div class="position-relative" *ngIf="field.Type?.toLowerCase() == 'file'">
+                        <span class="position-absolute closeIcon me-1" (click)="deleteFileorImage(field)">
+                      <img src="assets/images/close-icon-white.svg" alt="">
+                    </span>
+                        <a href="{{arrayFileDetails[field.ArrayListName][field.FormField][i]}}" target="_blank">
+
+                          <img ImageType="{{dummyImg}}" title="{{arrayFileDetails[field.ArrayListName][field.FormField]}}" appImageReplace
+                            src="/assets/images/document-icon.svg" height="90" alt="" />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="alert alert-danger" [id]="field.FormField+'Error'"
+                  *ngIf="field.FormField && arrayfileInvalid[field.ArrayListName] && arrayfileInvalid[field.ArrayListName][field.FormField] && arrayfileInvalid[field.ArrayListName][field.FormField][i]">
+                  <span>{{ arrayfileInvalid[field.ArrayListName][field.FormField][i] | customTranslate : changedetect : root}}</span>
+                </div>
+              </div>
+                        <div class="col-6 col-lg-3 d-flex align-items-center form-line-Item mt-4 ms-2"
+                        *ngIf="field?.Type?.toLowerCase() == 'checkbox'">
+                        <div class="form-check form-switch form-checkbox-tick">
+                          <label class="form-check-label me-3" for="{{ field.Type + field.FormField }}">{{ field.Label |
+                            customTranslate : changedetect : root}}<span *ngIf="field.Required">*</span></label>
+                          <div class="inputWithTooltip">
+                            <input [id]="field.Type + field.FormField" [formControlName]="field.FormField" type="checkbox"
+                              [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                              [checked]="field.FormField === 'true'" />
+                            <span class="cursor-pointer d-flex formcheckspan" container="body" *ngIf="field.LabelTooltip"
+                              [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                              ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20">
+                              <img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                          </div>
+                          <ng-container
+                          *ngIf="  (control?.get(field.FormField)?.invalid && isSubmitted) || (control?.get(field.FormField)?.invalid && control?.get(field.FormField)?.touched && control?.get(field.FormField)?.dirty)">
+                          <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{field |
+                              formError:control?.get(field.FormField) | customTranslate : changedetect : root}}</span>
+                          </div>
+                        </ng-container>
+                        </div>
+                      </div>
+                        <div class="col-12 col-lg-3 form-line-Item "
+                          *ngIf="field.Type && field.Type?.toLowerCase() == 'dropdown'">
+                          <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium">{{
+                            field.Label | customTranslate : changedetect : root }}<span
+                              *ngIf="field.Required">*</span></label>
+                          <div class="inputWithTooltip">
+
+
+                            <ng-select [items]="this.arraylistMastersObject[field.ArrayListName] && this.arraylistMastersObject[field.ArrayListName][field.FormField] && this.arraylistMastersObject[field.ArrayListName][field.FormField][i]? this.arraylistMastersObject[field.ArrayListName][field.FormField][i]:[]"
+                              [readonly]="(this.details?.IsLocked || (field.IsNonEditable && isModify)) ? true : false "
+                              [inputAttrs]="{maxlength : '64', 'data-uid':field.Type + field.FormField}"
+                              [placeholder]="'Select '+ field.Label | customTranslate : changedetect : root"
+                              bindLabel="Name" bindValue="Id" class="leadSelect" [selectOnTab]="true"
+                              [formControlName]="field.FormField" (change)="onDropDownChange(field,undefined,i)"
+                              (keyup.enter)="preventSaving($event)">
+                            </ng-select>
+
+                            <span class="cursor-pointer d-flex mb-2" container="body" *ngIf="field.LabelTooltip"
+                              [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                              ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20"><img
+                                class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                          </div>
+                          <ng-container
+                            *ngIf="  (control?.get(field.FormField)?.invalid && isSubmitted) || (control?.get(field.FormField)?.invalid && control?.get(field.FormField)?.touched && control?.get(field.FormField)?.dirty)">
+                            <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{field |
+                                formError:control?.get(field.FormField) | customTranslate : changedetect : root}}</span>
+                            </div>
+                          </ng-container>
+                        </div>
+
+                        <div class="col-4 form-line-Item"
+                          [ngClass]="{'codewithMobile col-lg-4' : field.Type?.toLowerCase() == 'multimobile', 'col-lg-4': field.Type?.toLowerCase() != 'multimobile'}"
+                          *ngIf="field.Type  && inputNumberArr.includes(field.Type.toLowerCase()) || field.Type == 'multimobile' ">
+                          <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium">{{
+                            field.Label | customTranslate : changedetect : root }}<span
+                              *ngIf="field.Required">*</span></label>
+                          <div class="inputWithTooltip">
+                            <input type="number" [id]="field.Type + field.FormField" autocomplete="disabled"
+                              aria-autocomplete="none" class="form-control" [formControlName]="field.FormField"
+                              [placeholder]="field.PlaceHolder | customTranslate : changedetect : root" numbersOnly
+                              oninput="maxLengthCheck(this)" onkeydown="fnckeydown(event)" maxlength="{{field.MaxLength}}"
+                               [attr.disabled]="(this.details?.IsLocked || (field.IsNonEditable && isModify)) ? true : null "
+                              oninput="maxLengthCheck(this)" onkeydown="fnckeydown(event)" maxlength="{{field.MaxLength}}"
+                               [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                               max="{{ field.MaxRange }}" min="{{ field.MinRange }}" />
+                            <span class="cursor-pointer d-flex mb-2" container="body" *ngIf="field.LabelTooltip"
+                              [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                              ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20"><img
+                                class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                          </div>
+                          <ng-container
+                            *ngIf="(control?.get(field.FormField)?.invalid && isSubmitted) || (control?.get(field.FormField)?.invalid && control?.get(field.FormField)?.touched && control?.get(field.FormField)?.dirty) ">
+                            <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{field |
+                                formError:control?.get(field.FormField) | customTranslate : changedetect : root}}</span>
+                            </div>
+
+                          </ng-container>
+                        </div>
+
+                        <div class="col-12 col-lg-3 form-line-Item"
+                          *ngIf="field?.Type?.toLowerCase()  == 'number+decimals'">
+                          <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium">{{
+                            field.Label | customTranslate : changedetect : root }}<span
+                              *ngIf="field.Required">*</span></label>
+                          <div class="inputWithTooltip">
+                            <input type="number" [id]="field.Type + field.FormField" autocomplete="disabled"
+                              aria-autocomplete="none" class="form-control" [formControlName]="field.FormField"
+                              [placeholder]="field.PlaceHolder | customTranslate : changedetect : root"
+                               [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false "
+                              oninput="maxLengthCheck(this)" numbersOnly singleZeroOnly
+                              onkeydown="fnckeydownFloat(event)" maxlength="{{ field.MaxLength }}"
+                              max="{{ field.MaxRange }}" min="{{ field.MinRange }}" />
+                            <span class="cursor-pointer d-flex mb-2" container="body"
+                              [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                              ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20"><img
+                                class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                          </div>
+                          <ng-container
+                            *ngIf="(control?.get(field.FormField)?.invalid && isSubmitted) || (control?.get(field.FormField)?.invalid && control?.get(field.FormField)?.touched && control?.get(field.FormField)?.dirty) ">
+                            <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{field |
+                                formError:control?.get(field.FormField) | customTranslate : changedetect : root}}</span>
+                            </div>
+
+                          </ng-container>
+                        </div>
+
+
+
+                        <div class="col-3 col-lg-3  form-line-Item pb-4 position-relative commonDate"
+                          *ngIf="field?.Type?.toLowerCase() == 'datetime'">
+
+                          <label for="{{ field.FormField  + '-'+i}}" class="form-label fs-6 font-medium">{{ field.Label
+                            | customTranslate : changedetect : root}}<span *ngIf="field.Required">*</span></label>
+                          <div class="inputWithTooltip">
+                            <div class="input-group">
+                              <!-- DateTime fields now use app-editable-datetime-input component -->
+                              <app-editable-datetime-input
+                                [id]="field.FormField + '-'+i"
+                                [formControlName]="field.FormField"
+                                [format]="field.DateFormat"
+                                [fieldName]="field.FormField"
+                                [ControlTypeConfigurationId]="field?.DSControlTypeConfigurationId"
+                                [placeholder]="field.PlaceHolder | customTranslate : changedetect : root"
+                                [disabled]="(this.details?.IsLocked || (field.IsNonEditable && isModify)) ? true : false"
+                              ></app-editable-datetime-input>
+                              <span class="cursor-pointer d-flex mb-2" container="body"
+                                [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                                ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20"><img
+                                  class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                            </div>
+                          </div>
+                          <ng-container
+                            *ngIf="(control?.get(field.FormField)?.invalid && isSubmitted) || (control?.get(field.FormField)?.invalid && control?.get(field.FormField)?.touched && control?.get(field.FormField)?.dirty) ">
+                            <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{field |
+                                formError:control?.get(field.FormField) | customTranslate : changedetect : root}}</span>
+                            </div>
+
+                          </ng-container>
+
+                        </div>
+
+                        <!--start type date-->
+
+                        <div class="col-12 col-lg-2 form-line-Item position-relative commonDate"
+                          *ngIf="field?.Type?.toLowerCase() == 'date'">
+                          <label for="{{ field.FormField  + '-'+i}}" class="form-label fs-6 font-medium">{{ field.Label
+                            | customTranslate : changedetect : root }}<span *ngIf="field.Required">*</span></label>
+                          <div class="inputWithTooltip">
+                            <div class="input-group">
+                              <app-editable-date-input
+                                [id]="field.FormField + '-'+i"
+                                [formControlName]="field.FormField"
+                                [placeholder]="(field.PlaceHolder | customTranslate : changedetect : root) || 'DD/MM/YYYY'"
+                                [format]="field.DateFormat || 'dd/MM/yyyy'"
+                                [fieldName]="field.FormField"
+                                [ControlTypeConfigurationId]="field?.DSControlTypeConfigurationId"
+                                [disabled]="((this.details?.IsLocked || (field.IsNonEditable && isModify )) || isView || isViewPopup) ? true : false"
+                              ></app-editable-date-input>
+                            </div>
+                            <span class="cursor-pointer d-flex mb-2" container="body"
+                              [triggers]="isMobileToolTip?'click:blur':'hover click'"
+                              ngbTooltip="{{field.LabelTooltip | customTranslate : changedetect : root}}" [openDelay]="20"><img
+                                class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                          </div>
+                          <ng-container
+                            *ngIf="(control?.get(field.FormField)?.invalid && isSubmitted) || (control?.get(field.FormField)?.invalid && control?.get(field.FormField)?.touched && control?.get(field.FormField)?.dirty) ">
+                            <div class="alert alert-danger" [id]="field.FormField+'Error'"><span>{{field |
+                                formError:control?.get(field.FormField) | customTranslate : changedetect : root}}</span>
+                            </div>
+
+                          </ng-container>
+
+                        </div>
+
+                      </ng-container>
+
+                      <div class="col-12 col-lg-1 d-flex mob_item_between justify-content-lg-start justify-content-center">
+                        <div class="mobile-img-icon" *ngIf="this.isLastLength[field.ArrayListName] > 1">
+                          <img src="assets\images\delete-black-icon.svg"
+                            (click)="removeFormArrayItem(field.ArrayListName,i, field.FormField )" alt="Del Icon" />
+                        </div>
+                        <div class="mobile-img-icon ms-2" *ngIf="i ==this.lastIndex[field.ArrayListName]">
+
+                          <img src="assets\images\plus-black-circle.svg" (click)="addMoreFormGroup(field.ArrayListName)"
+                            alt="Add Icon" />
+                        </div>
+                      </div>
+
+                    </div>
+                  </ng-container>
+                </ng-container>
+
+              </div>
+            </ng-container>
+
+          </ng-container>
+        </div>
+      </form>
+    </div>
+    <!-- Show buttons only when not in viewPopup, view mode, or locked -->
+<ng-container *ngIf="!isViewPopup && !isPartialTabsCase && !details?.IsLocked && ((details && isModify) || !isModify)">
+  <div class="col-lg-5 d-flex ms-lg-auto gap-2 my-3 modal-Buttons" *ngIf="!(url.includes('/view'))">
+
+    <!-- Cancel Button -->
+    <button
+      type="button"
+      class="btn btn-outline-dark fs-6 font-regular action-btn btn-sm field-height-sm"
+      id="cancel"
+      *ngIf="!isTabsCase || (isTabsCase && schemaData.TemplateName?.toLowerCase() == 'general')"
+      data-bs-dismiss="modal"
+      (click)="cancel()">
+      {{ 'Cancel' | customTranslate : changedetect : commonRoot }}
+    </button>
+
+    <!-- Clear Button -->
+    <button
+      type="button"
+      class="btn btn-outline-dark fs-6 font-regular action-btn btn-sm field-height-sm"
+      id="cancel"
+      *ngIf="isTabsCase && schemaData.TemplateName?.toLowerCase() != 'general'"
+      data-bs-dismiss="modal"
+      (click)="cancel(true)">
+      {{ 'Clear' | customTranslate : changedetect : commonRoot }}
+    </button>
+
+    <!-- Save Button -->
+    <button
+      class="btn btn-primary action-btn fs-6 font-regular btn-sm field-height-sm"
+      id="Save"
+      type="button"
+      [ngClass]="{ loading: isSaveLoading }"
+      (click)="Submit()">
+      {{ 'Save' | customTranslate : changedetect : commonRoot }}
+    </button>
+
+  </div>
+</ng-container>
+
+<!-- Show ONLY the Close button if in view mode, locked, or view popup -->
+<div
+  class="col-12 d-flex justify-content-end my-3 modal-Buttons"
+  *ngIf="isViewPopup || url.includes('/view') || details?.IsLocked">
+  <button
+    id="cancel"
+    class="btn btn-outline-dark fs-6 action-btn font-medium clearButton"
+    (click)="closeView()">
+    {{ 'Close' | customTranslate : changedetect : commonRoot }}
+  </button>
+</div>
+
+</div>

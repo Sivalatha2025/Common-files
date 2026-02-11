@@ -1,0 +1,48 @@
+<div class="input-group editable-datetime-input-wrapper">
+  <!-- Editable input (no datepicker directive) -->
+  <input
+    type="text"
+    #dateInput
+    [id]="id"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [class.is-invalid]="showError"
+    class="form-control field-height-sm border-end-0 rounded-start editable-datetime-input"
+    autocomplete="off"
+    (input)="onInput($event)"
+    (keydown)="onKeyDown($event)"
+    (paste)="onPaste($event)"
+    (blur)="onBlur()"
+    [attr.maxlength]="19"
+  />
+  <!-- Hidden input for datepicker (with directive) - positioned over visible input for proper calendar positioning -->
+  <!-- Always use appBsDateFormatOpt for datetime -->
+  <input
+    type="text"
+    #hiddenDatePicker
+    [id]="id + '-picker'"
+    class="hidden-datepicker-input"
+    appBsDateFormatOpt
+    #datePickerDirective="appBsDateFormatOpt"
+    [format]="format"
+    [fieldName]="fieldName"
+    [ControlTypeConfigurationId]="ControlTypeConfigurationId"
+    [isFromList]="isFromList"
+    [isPastDate]="isPastDate"
+    [isTime]="true"
+    (dateChange)="onDatePickerChange($event)"
+  />
+  <button 
+    class="btn btn-outline-dark border-start-0 action-btn search" 
+    [id]="id + 'date'"
+    (click)="openDatePicker(datePickerDirective)" 
+    type="button" 
+    [disabled]="disabled">
+    <img src="assets/images/calendar-new-2.svg">
+  </button>
+</div>
+<!-- Error message -->
+<div *ngIf="showError" class="alert alert-danger mt-1" [id]="id + 'Error'" role="alert">
+  <span>{{ errorMessage }}</span>
+</div>
+

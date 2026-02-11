@@ -1,0 +1,511 @@
+.dropdown.dropstart {
+  position: inherit;
+}
+
+.subHeadingDynamic {
+  font-size: 13px;
+}
+
+.inactiveBtn {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.viewMore {
+  color: blue;
+}
+
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.more-text {
+  color: #007bff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Tooltip hidden by default */
+.custom-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 2px;
+  background-color: #333;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  max-height: 300px;
+  max-width: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 1000;
+  white-space: normal;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Show tooltip when hovering anywhere on the wrapper */
+.tooltip-wrapper:hover .custom-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.viewMoreTable th,
+.viewMoreTable td {
+
+  font-size: 14px !important;
+}
+
+/* RDLC CSS Starts Here  */
+
+.crm_table_scroll .table-responsive-rdlc {
+  overflow-y: auto;
+  height: 420px;
+  border: 1px solid #DEE2E6 !important;
+  font-size: 12px;
+}
+
+.crm_table_scroll .table-responsive-rdlc table th,
+td {
+  font-size: 18px;
+  height: 70px;
+  vertical-align: middle;
+  padding: 0 10px;
+}
+
+.crm_table_scroll .table-responsive-rdlc::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+.crm_table_scroll .table-responsive-rdlc::-webkit-scrollbar-track {
+  background: #f1f1f1 !important;
+}
+
+/* Handle */
+.crm_table_scroll .table-responsive-rdlc::-webkit-scrollbar-thumb {
+  background: #888 !important;
+}
+
+/* Handle on hover */
+.crm_table_scroll .table-responsive-rdlc::-webkit-scrollbar-thumb:hover {
+  background: #555 !important;
+}
+
+.list-table-row {
+  background-color: #9b85e0 !important;
+  color: #fff !important;
+  /* font-weight: 500; */
+  border-radius: 8px !important;
+  height: 50px;
+  /* border-bottom: none; */
+}
+
+.list-table-row th {
+  padding: 0 10px !important;
+}
+
+.list-table-row th:first-child {
+  border-top-left-radius: 8px !important;
+  border-bottom-left-radius: 8px !important;
+}
+
+.list-table-row th:last-child {
+  border-top-right-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+}
+
+.list-table-cell-row {
+  border-bottom: #b7b7b7 !important;
+  margin-top: 3px;
+  border-radius: 8px;
+  /* background-color: #b7b7b7; */
+}
+
+.list-table-cell-row td {
+  background-color: #fff !important;
+}
+
+.list-table-row td {
+  background-color: unset !important;
+  color: unset !important;
+  font-size: 14px;
+  /* border-radius: 8px; */
+}
+
+.list-table-row-blue td {
+  background-color: #DCF1F8 !important;
+}
+
+.list-table-row-green td {
+  background-color: #ecffe7 !important;
+}
+
+/* Target the first td in each row */
+.list-table td:first-child {
+  border-top-left-radius: 8px;
+  /* Radius for top-left corner */
+  border-bottom-left-radius: 8px;
+  /* Radius for bottom-left corner */
+}
+
+/* Target the last td in each row */
+.list-table td:last-child {
+  border-top-right-radius: 8px;
+  /* Radius for top-right corner */
+  border-bottom-right-radius: 8px;
+  /* Radius for bottom-right corner */
+}
+
+.list-table-checkbox[type=checkbox] {
+  width: 20px;
+  height: 20px;
+}
+
+.list-table td {
+  font-size: 14px;
+  vertical-align: middle;
+  padding: 10px;
+}
+
+.primary-list-table {
+  border-collapse: separate;
+  border-spacing: 0 5px;
+}
+
+.primary-list-table .list-data-row td {
+  border-top: 1px solid #b7b7b7 !important;
+  border-bottom: 1px solid #b7b7b7 !important;
+}
+
+.primary-list-table .list-data-row td:first-child {
+  border-left: 1px solid #b7b7b7 !important;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.primary-list-table .list-data-row td:last-child {
+  border-right: 1px solid #b7b7b7 !important;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.hover-icon-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.info-icon {
+  height: 20px !important;
+  width: 20px !important;
+  position: relative;
+  font-style: normal; /* prevents italic */
+  cursor: pointer;
+}
+::ng-deep .tooltip-inner {
+  white-space: pre-line;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.tooltip-content {
+  display: none;
+  position: absolute;
+  top: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 12px;
+  z-index: 100;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  font-weight: 300;
+}
+
+/* Show only when hovering the icon itself */
+.info-icon:hover .tooltip-content {
+  display: block;
+}
+.dyanamic-table .list-table-row {
+  background-color: #9b85e0 !important;
+  --bs-table-bg: #9b85e0 !important;
+  --bs-table-color: #fff;
+  padding: .5rem .5rem;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 8px;
+  height: 50px;
+}
+
+.dyanamic-table .list-table-row td {
+  background-color: unset;
+  color: unset;
+  font-size: 14px;
+  padding: 10px;
+}
+
+.dyanamic-table .list-table-checkbox[type=checkbox] {
+  width: 20px;
+  height: 20px;
+}
+
+.dyanamic-table .list-table td {
+  font-size: 14px;
+  vertical-align: middle;
+  padding: 10px;
+  /* padding:2px !important; */
+}
+
+.table-rdlc-heading-cell {
+  min-height: 40px;
+  max-height: max-content;
+  background-color: #4DA4CF !important;
+  font-size: 14px;
+  color: #fff !important;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.table-rdlc-heading-cell td:first-child {
+  padding-left: 30px;
+}
+
+.table-rdlc-heading-cell td {
+  background-color: #4DA4CF !important;
+  color: #fff !important;
+  border-bottom: none !important;
+}
+
+.table-rdlc-value-cell {
+  min-height: 40px;
+  max-height: max-content;
+  background-color: #fff !important;
+  font-size: 14px;
+  color: #000 !important;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.table-rdlc-value-cell td:first-child {
+  padding-left: 30px;
+}
+
+.table-rdlc-value-cell td {
+  background-color: #fff !important;
+  color: #000 !important;
+  border-top: 1px solid #B7B7B7 !important;
+  /* Top border for each row */
+  border-bottom: 1px solid #B7B7B7 !important;
+  vertical-align: middle;
+}
+
+.table-rdlc-heading-cell td:first-child {
+  border-top-left-radius: 8px;
+  /* Radius for top-left corner */
+  border-bottom-left-radius: 8px;
+  /* Radius for bottom-left corner */
+}
+
+/* Target the last td in each row */
+.table-rdlc-heading-cell td:last-child {
+  border-top-right-radius: 8px;
+  /* Radius for top-right corner */
+  border-bottom-right-radius: 8px;
+  /* Radius for bottom-right corner */
+}
+
+.table-rdlc-value-cell td:first-child {
+  border-top-left-radius: 8px;
+  /* Radius for top-left corner */
+  border-bottom-left-radius: 8px;
+  /* Radius for bottom-left corner */
+  border-left: 1px solid #B7B7B7 !important;
+}
+
+/* Target the last td in each row */
+.table-rdlc-value-cell td:last-child {
+  border-top-right-radius: 8px;
+  /* Radius for top-right corner */
+  border-bottom-right-radius: 8px;
+  /* Radius for bottom-right corner */
+  border-right: 1px solid #B7B7B7 !important;
+}
+
+.reval_table_rdlc table span {
+  border-radius: 4px;
+  /* color: #334651; */
+  padding-left: 0 !important;
+}
+
+.reval_table_rdlc table .bg-outline-success,
+.reval_table_rdlc table .bg-outline-danger,
+.reval_table_rdlc table .bg-outline-pending {
+  padding: 0.2rem 0.5rem !important;
+  display: inline-flex;
+  align-items: center;
+}
+
+.reval_table_rdlc table .bg-white {
+  border-radius: 50%;
+  text-decoration: none;
+  color: #555555;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  height: 30px;
+  width: 30px;
+  box-shadow: 0px 1px 5px 0px rgb(0, 0, 0, 0.15);
+}
+
+.reval_table_rdlc table .dropdown button span {
+  text-align: center;
+  color: #555555 !important;
+  font-size: 30px;
+}
+
+.reval_table_rdlc table td .dropdown-item {
+  --bs-dropdown-link-active-bg: none;
+  font-size: 14px;
+  font-family: var(--tt-norms-medium);
+  color: #000;
+}
+
+.reval_table_rdlc table .dropdown .dropdown-menu a {
+  padding: 0.5rem 0.8rem;
+  display: flex;
+  align-items: center;
+}
+
+.reval_table_rdlc table .dropdown .dropdown-menu img {
+  margin: 0 6px;
+}
+
+.pending-table-value-block {
+  border: 1px solid #4da4cf;
+  border-radius: 6px;
+}
+
+.pending-table-heading-cell {
+  /* display: grid; */
+  /* grid-template-columns: 150px 150px 120px 100px 1fr 100px; */
+  min-height: 50px;
+  max-height: max-content;
+  /* background-color: #9B85E0 !important; */
+  font-size: 14px;
+  /* color: #fff !important; */
+  border-radius: 8px;
+  /* font-weight: 500; */
+  /* --bs-table-bg: #9B85E0 !important;
+  --bs-table-color: #fff !important; */
+}
+
+.bg-light-green {
+  background-color: #ECFFE7 !important;
+}
+
+.bg-light-blue {
+  background-color: #DCF1F8 !important;
+}
+
+.dynamic-reports-table {
+  border-collapse: separate;
+  border-spacing: 0 7px;
+}
+
+.dynamic-reports-table .list-data-row td {
+  border-top: 1px solid #4DA4CF;
+  border-bottom: 1px solid #4DA4CF;
+  /* border-bottom: 1px solid #4DA4CF; */
+}
+
+.dynamic-reports-table .list-data-row td:first-child {
+  border-left: 1px solid #4DA4CF;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.dynamic-reports-table .list-data-row td:last-child {
+  border-right: 1px solid #4DA4CF;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.list-data-col {
+  min-height: 50px;
+
+  font-size: 14px;
+  color: #000 !important;
+  /* border-radius: 8px; */
+  font-weight: 500;
+}
+
+.pending-table-border .list-data-col {
+  border-bottom: 1px solid #4DA4CF;
+}
+
+.reval_table_rdlc {
+  padding: 0 1rem !important;
+}
+
+.reval_table_rdlc table th,
+.reval_table_rdlc table td {
+  font-size: 14px !important;
+  font-weight: unset;
+}
+
+
+.bg-outline-warning {
+  border: 1px solid #ffc107;
+  /* Bootstrap's warning color */
+  background-color: #fff;
+  /* Transparent background */
+  color: #ffc107;
+  text-align: center;
+  /* Warning color text */
+  padding: 0.3rem 0.5rem !important;
+  /* Optional: spacing */
+  padding-left: 0.5rem !important;
+  border-radius: 0.25rem;
+  /* Optional: rounded edges */
+}
+
+.common-status-width {
+  min-width: 75px !important;
+  font-size: 13px !important;
+  justify-content: center !important;
+  border-radius: 0.375rem !important;
+  min-height: 30px !important;
+  line-height: 0 !important;
+}
+
+@media (max-width: 1400px) {
+
+  .reval_table_rdlc table th,
+  .reval_table_rdlc table td {
+    font-size: 13px !important;
+  }
+}
+
+.status-card {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.status-card h4 {
+  font-size: 10px;
+}
+
+.status-card p {
+  font-size: 15px;
+  font-weight: bold;
+}

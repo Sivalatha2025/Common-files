@@ -1,0 +1,590 @@
+/* FA Wizard CSS starts */
+@font-face {
+    font-family: 'Inter 28pt';
+    src: url('/fonts/Inter28pt-Bold.woff2') format('woff2'),
+        url('/fonts/Inter28pt-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Inter 28pt';
+    src: url('/fonts/Inter28pt-Medium.woff2') format('woff2'),
+        url('/fonts/Inter28pt-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Inter 28pt';
+    src: url('/fonts/Inter28pt-Regular.woff2') format('woff2'),
+        url('/fonts/Inter28pt-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Inter 28pt';
+    src: url('/fonts/Inter28pt-SemiBold.woff2') format('woff2'),
+        url('/fonts/Inter28pt-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Inter 28pt;
+    background-color: #F8F9FB;
+  }
+  
+  .fa-body-section {
+    padding: 30px;
+  }
+  
+  .fa-content-section {
+    background-color: #fff;
+    width: 1000px;
+    min-height: 435px;
+    max-height: auto;
+    border-radius: 16px;
+    box-shadow: 0px 1px 10px #00000014;
+  }
+  
+  .start-journey-info {
+    margin-bottom: 35px;
+  }
+  
+  .start-head {
+    font-size: 26px;
+    color: #FF7F00;
+    margin-bottom: 5px !important;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .success-head {
+    font-size: 32px;
+    color: #FF7F00;
+    margin-bottom: 40px;
+    font-weight: 500;
+    text-align: center;
+  }
+  
+  .start-journey-note {
+    color: #454645;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .question-note {
+    color: #4E4E4E;
+    font-size: 26px;
+    margin-bottom: 35px !important;
+    text-align: center;
+    font-weight: 600;
+  }
+  
+  .start-action-btn {
+    border-radius: 8px;
+    background-color: #FF7F00;
+    font-size: 16px;
+    font-weight: 500;
+    width: 278px;
+    height: 60px;
+    color: #fff;
+    border: none;
+    outline: none;
+  }
+  
+  .question-head {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px !important;
+  }
+  
+  .answer-options {
+    border: 2px solid #AACAE6;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 675px;
+    min-height: 65px;
+    padding: 15px;
+    color: #3C3C3C;
+    font-size: 16px;
+    border-radius: 8px;
+    background: transparent;
+    margin-bottom: 15px;
+  }
+  
+  .answer-options-input {
+    width: 675px;
+  }
+  .fa-answerGrid{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 20px;
+  }
+  .fa-answerGrid .answer-options{
+    width: 100% !important;
+  }
+  
+  .circle-arrow-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    background-color: #DEE0F7;
+    border-radius: 100%;
+    margin-right: 10px;
+    flex-shrink: 0;
+  }
+  
+  .circle-arrow-icon img {
+    height: 9px;
+  }
+  
+  .fa-question-section {
+    padding: 35px 0;
+    height: 100%;
+  }
+  
+  
+  /* Progress bar container */
+  .fa-bottom-bar {
+    width: 1000px;
+  }
+  
+  .fa-progress-container {
+    width: 100%;
+    max-width: 400px;
+    /* Adjust the width as needed */
+    margin: 20px auto;
+  }
+  
+  /* Text above the progress bar */
+  .fa-progress-text {
+    text-align: left;
+    font-weight: 500;
+    color: #898989;
+    font-size: 16px;
+  }
+  
+  /* Progress bar background */
+  .fa-progress-bar {
+    width: 325px;
+    height: 14px;
+    background-color: #E7E7E7;
+    /* Light gray */
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  
+  /* Progress bar filled part */
+  .fa-progress-filled {
+    height: 100%;
+    background-color: #003DB8;
+    /* Blue */
+    border-radius: 20px 0 0 20px;
+  }
+  
+  .back-btn,
+  .next-btn {
+    width: 135px;
+    height: 40px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: #003DB8;
+    background-color: transparent;
+    border: 1px solid #707070;
+    font-weight: 500;
+  }
+  
+  .back-btn img {
+    height: 9px;
+    margin-right: 5px;
+  }
+  
+  .next-btn img {
+    height: 9px;
+    margin-left: 5px;
+  }
+  
+  .fa-input-box {
+    width: 100%;
+    border: 2px solid #AACAE6;
+    min-height: 65px;
+    padding: 15px 30px;
+    color: #3C3C3C;
+    font-size: 16px;
+    border-radius: 8px;
+    background: transparent;
+    margin-bottom: 15px;
+    outline: none;
+  }
+  
+  .fa-input-box::placeholder {
+    color: #3C3C3C;
+  }
+  
+  .fa-submit-btn {
+    min-height: 65px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: normal;
+    width: 135px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background-color: #003DB8;
+    margin-bottom: 15px;
+    margin-left: 15px;
+  }
+  
+  .search-dropdown-input {
+    width: 100%;
+    height: 65px;
+    border: 0;
+    outline: 0;
+    font-size: 16px;
+    color: #3C3C3C;
+    border-radius: 8px;
+  }
+  
+  .search-dropdown-input::placeholder {
+    color: #3C3C3C;
+  }
+  
+  .input-arrow-black {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    height: 35px;
+  }
+  
+  .fa-dropdown-options {
+    position: absolute;
+    border-radius: 8px;
+    width: 100%;
+    background-color: #fff;
+    top: 67px;
+    left: 0;
+    padding: 0;
+    display: flex;
+    /* justify-content: center; */
+    align-items: flex-start;
+    flex-direction: column;
+    max-height: 150px !important;
+    height: auto;
+    border: 2px solid #AACAE6;
+    overflow-y: auto;
+  }
+  
+  .dd-option-btn {
+    border: 0;
+    outline: none;
+    padding: 7px 30px;
+    font-size: 16px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: #3C3C3C;
+    background: transparent;
+  }
+  
+  .dd-option-btn img {
+    height: 25px;
+    margin-right: 10px;
+  }
+  
+  .patient-info-popup {
+    border-radius: 16px;
+    padding: 10px;
+  }
+  
+  .patient-info-popup h5 {
+    color: #303030;
+    font-size: 24px;
+    padding: 0 8px;
+  }
+  
+  .registration-form-label {
+    color: var(--primary-text-black);
+    font-size: 18px;
+    font-weight: 500;
+  }
+  
+  .registration-form-input {
+    border: 1px solid #B7B7B7;
+    height: 50px;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .registration-form-input label,
+  .registration-form-input input,
+  .registration-form-input textarea {
+    font-size: 18px;
+    color: #576E7C;
+  }
+  
+  .registration-form-input .country-code::-webkit-input-placeholder {
+    text-align: center;
+  }
+  
+  .input-field-icon {
+    height: 20px;
+  }
+  
+  .registration-form-btns button {
+    width: 135px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  
+  .registration-form-btns .cancel-btn {
+    border: 1px solid #ADADAD;
+    background-color: #fff;
+    color: #A3A3A3;
+    margin-right: 10px;
+  }
+  
+  .registration-form-btns .submit-btn {
+    border: 1px solid #0099FF;
+    background-color: #0099FF;
+    color: #fff;
+  }
+  
+  .input-group-text {
+    background-color: transparent !important;
+  }
+  
+  .popup-checkbox input {
+    width: 18px;
+    height: 18px;
+    border: 1px solid #000;
+  }
+  
+  .popup-checkbox label {
+    font-size: 16px;
+    color: #000;
+    font-weight: 500;
+  }
+  
+  .amount-input {
+    width: 225px;
+  }
+  
+  .radio-container label {
+    display: flex;
+    align-items: center;
+    border: 1px solid #303030;
+    border-radius: 20px;
+    padding: 4px 24px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: fit-content;
+    /* Adjust the width to fit the content */
+  }
+  
+  .radio-container label:hover {
+    border-color: #888;
+    /* Hover effect for better UX */
+  }
+  
+  .radio-container input[type="radio"] {
+    appearance: none;
+    /* Remove default radio button style */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #303030;
+    border-radius: 50%;
+    outline: none;
+    margin-right: 8px;
+    /* Space between the radio button and the text */
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.3s;
+  }
+  
+  .radio-container input[type="radio"]:checked {
+    border-color: #0099ff;
+    background-color: transparent;
+    /* Clear background to show the effect */
+  }
+  
+  .radio-container input[type="radio"]:checked::before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #0099ff;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.3s;
+  }
+  
+  .radio-container .label-text {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .transaction-table thead tr {
+    background: #003DB8;
+    color: #fff;
+  }
+  
+  .transaction-table th,
+  .transaction-table td {
+    text-align: left;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .transaction-table td {
+    border-bottom: 2px solid #fff;
+  }
+  
+  .transaction-table tbody tr:nth-child(even) {
+    background: #EDF2FC;
+  }
+  
+  .transaction-table tbody tr:nth-child(odd) {
+    background: #EDF2FC;
+  }
+  
+  .transaction-table .total-row {
+    background: #B8D0FF !important;
+    font-weight: bold;
+  }
+  
+  .transaction-table .total-row td {
+    font-weight: bold;
+  }
+  
+  .transaction-table td:first-child,
+  .transaction-table th:first-child {
+    text-align: left;
+  }
+
+  .vendor-popup{
+    max-height: 500px !important;
+    overflow-y: auto;
+  }
+  .vendor-popup::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and newer versions of Edge */
+  }
+  
+  
+  
+  @media (max-width : 999px) {
+    .fa-content-section {
+        width: 100%;
+    }
+  
+    .fa-body-section {
+        padding: 10px;
+    }
+  
+    .fa-content-section {
+        padding: 10px;
+    }
+    .fa-answerGrid{
+        grid-template-columns: 100%;
+        width: 100%;
+    }
+  
+    .answer-options {
+        width: 100%;
+    }
+  
+    .fa-question-section {
+        padding: 15px 0;
+        width: 100%;
+    }
+  
+    .fa-bottom-bar {
+        width: 100%;
+        justify-content: center !important;
+        align-items: center !important;
+        flex-direction: column;
+        padding: 20px 0;
+    }
+  
+    .fa-progress-container {
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+  
+    .answer-options-input {
+        width: 100%;
+    }
+  
+    .amount-input {
+        width: 150px;
+    }
+  }
+  
+  @media (max-width : 768px) {
+    .patient-info-popup h5 {
+        color: #5E6C74;
+        font-size: 18px;
+        padding: 0;
+    }
+  
+    .registration-form-label {
+        font-size: 16px;
+    }
+  
+    .registration-form-input {
+        height: 40px;
+    }
+  
+    .registration-form-input label,
+    .registration-form-input input,
+    .registration-form-input textarea {
+        font-size: 14px;
+    }
+  
+    .input-field-icon {
+        height: 16px;
+    }
+  }
+  /* FA Wizard CSS Ends */

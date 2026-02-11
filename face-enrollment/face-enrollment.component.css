@@ -1,0 +1,76 @@
+.wrapping-box-container {
+    /* position: fixed; */
+    margin: 0 auto;
+    /* width: calc(100% - 20px);
+    height: calc(100% - 54px);; */
+    color: #fff;
+    padding: 50px;
+    z-index: 1;
+  }
+
+  #main-interface {
+    width: 640px;
+    height: 350px;
+    margin: 0 auto;
+    border: 2px solid rgb(65, 127, 178);
+    border-radius: 20px;
+    overflow: hidden;
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    background-color: white;
+  }
+
+  #controls {
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 0;
+    background-color: white;
+  }
+
+  #vocal-icon-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .big-button {
+    width: 50%;
+    max-width: 320px;
+    height: 50px;
+    margin: 5px auto 0;
+    color: white;
+    background: rgb(65, 127, 178);
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .big-button:disabled, .big-button[disabled],
+  .medium-button:disabled, .medium-button[disabled] {
+    cursor: not-allowed;
+    background: rgba(65, 127, 178, 0.4) !important;
+    color: white !important;
+  }
+  .custom-msg{
+    background-color: transparent;
+    border: none;
+  }
+
+  @media (hover: hover) {
+    .big-button:hover:enabled,
+    .medium-button:hover:enabled {
+      background-color: rgb(57, 110, 153);
+      color: white !important;
+    }
+  }
+
+  @media (max-width: 990px) {
+    .big-button {
+      width: 70% !important;
+    }
+    #main-interface {
+      width: 80%;
+    }
+  }

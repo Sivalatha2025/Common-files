@@ -1,0 +1,58 @@
+<div *ngIf="TotalRecords && startIndex >= 0" class="pagination justify-content-end my-4">
+    <div class="d-flex gap-4 font-medium">
+        <p class="m-0">{{"Items per page:" | customTranslate : changedetect : root}} {{pageLimit}}</p>
+        <p class="m-0">{{startIndex}} - {{endIndex}} of {{TotalRecords}}</p>
+    </div>
+    <div class="prev_next_icon d-flex justify-content-center align-items-center ms-4">
+        <a href="javascript:void(0);" title="First Page" [ngClass]="{'disabled':CurrentPage==1 , 'page-active' :CurrentPage!=1 }" class="prev" (click)="firstPage()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+                <g id="Group_1585" data-name="Group 1585" transform="translate(-1035 -2428)">
+                    <g id="Rectangle_832" data-name="Rectangle 832" transform="translate(1035 2428)" stroke="#707070" stroke-width="1" opacity="0">
+                    <rect width="26" height="26" stroke="none"/>
+                    <rect x="0.5" y="0.5" width="25" height="25" fill="none"/>
+                    </g>
+                    <g id="Group_1570" data-name="Group 1570" transform="translate(1041 2434)">
+                    <path id="Icon_ionic-ios-arrow-back" data-name="Icon ionic-ios-arrow-back" d="M13.711,13.329l5.4-5.4a1.02,1.02,0,0,0-1.445-1.441l-6.119,6.115a1.018,1.018,0,0,0-.03,1.407l6.145,6.158a1.02,1.02,0,1,0,1.445-1.441Z" transform="translate(-4.911 -6.194)" fill="#909090"/>
+                    <path id="Icon_ionic-ios-arrow-back-2" data-name="Icon ionic-ios-arrow-back" d="M13.711,13.329l5.4-5.4a1.02,1.02,0,0,0-1.445-1.441l-6.119,6.115a1.018,1.018,0,0,0-.03,1.407l6.145,6.158a1.02,1.02,0,1,0,1.445-1.441Z" transform="translate(-11.251 -6.194)" fill="#909090"/>
+                    </g>
+                </g>
+            </svg>    
+        </a>
+        <a href="javascript:void(0);" title="Previous" [ngClass]="{'disabled':CurrentPage==1 , 'page-active' :CurrentPage!=1 }" class="prev" (click)="previousPage()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+                <g id="Group_1587" data-name="Group 1587" transform="translate(-1035 -2428)">
+                  <g id="Rectangle_832" data-name="Rectangle 832" transform="translate(1035 2428)" stroke="#707070" stroke-width="1" opacity="0">
+                    <rect width="26" height="26" stroke="none"/>
+                    <rect x="0.5" y="0.5" width="25" height="25" fill="none"/>
+                  </g>
+                  <g id="Group_1570" data-name="Group 1570" transform="translate(1041 2434)">
+                    <path id="Icon_ionic-ios-arrow-back" data-name="Icon ionic-ios-arrow-back" d="M13.711,13.329l5.4-5.4a1.02,1.02,0,0,0-1.445-1.441l-6.119,6.115a1.018,1.018,0,0,0-.03,1.407l6.145,6.158a1.02,1.02,0,1,0,1.445-1.441Z" transform="translate(-8.251 -6.194)" fill="#909090"/>
+                  </g>
+                </g>
+            </svg>
+        </a>
+        <a href="javascript:void(0);" title="Next" class="next" [ngClass]="{'disabled':pageCount==CurrentPage , 'page-active' : pageCount!=CurrentPage}"  (click)="nextPage()">
+            <svg id="Group_1588" data-name="Group 1588" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+                <g id="Rectangle_832" data-name="Rectangle 832" stroke="#707070" stroke-width="1" opacity="0">
+                  <rect width="26" height="26" stroke="none"/>
+                  <rect x="0.5" y="0.5" width="25" height="25" fill="none"/>
+                </g>
+                <g id="Group_1570" data-name="Group 1570" transform="translate(5.499 6)">
+                  <path id="Icon_ionic-ios-arrow-back" data-name="Icon ionic-ios-arrow-back" d="M16.951,13.329l-5.4-5.4A1.02,1.02,0,1,1,13,6.492l6.119,6.115a1.018,1.018,0,0,1,.03,1.407L13,20.171a1.02,1.02,0,1,1-1.445-1.441Z" transform="translate(-7.75 -6.194)" fill="#909090"/>
+                </g>
+            </svg>
+        </a>
+        <a href="javascript:void(0);" title="Last Page" class="next" [ngClass]="{'disabled':pageCount==CurrentPage , 'page-active' : pageCount!=CurrentPage}"  (click)="lastPage()">
+            <svg id="Group_1586" data-name="Group 1586" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+                <g id="Rectangle_832" data-name="Rectangle 832" stroke="#707070" stroke-width="1" opacity="0">
+                  <rect width="26" height="26" stroke="none"/>
+                  <rect x="0.5" y="0.5" width="25" height="25" fill="none"/>
+                </g>
+                <g id="Group_1570" data-name="Group 1570" transform="translate(5.499 6)">
+                  <path id="Icon_ionic-ios-arrow-back" data-name="Icon ionic-ios-arrow-back" d="M16.951,13.329l-5.4-5.4A1.02,1.02,0,1,1,13,6.492l6.119,6.115a1.018,1.018,0,0,1,.03,1.407L13,20.171a1.02,1.02,0,1,1-1.445-1.441Z" transform="translate(-11.251 -6.194)" fill="#909090"/>
+                  <path id="Icon_ionic-ios-arrow-back-2" data-name="Icon ionic-ios-arrow-back" d="M16.951,13.329l-5.4-5.4A1.02,1.02,0,1,1,13,6.492l6.119,6.115a1.018,1.018,0,0,1,.03,1.407L13,20.171a1.02,1.02,0,1,1-1.445-1.441Z" transform="translate(-4.911 -6.194)" fill="#909090"/>
+                </g>
+            </svg>
+        </a>
+    </div>
+</div>

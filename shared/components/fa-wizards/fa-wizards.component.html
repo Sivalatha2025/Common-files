@@ -1,0 +1,148 @@
+<div class="fa-body-section d-flex justify-content-center align-items-center w-100" *ngIf="activeIndex ==1">
+    <div class="fa-content-section d-flex justify-content-center align-items-center flex-column">
+        <div class="start-journey-info">
+            <h1 class="start-head">{{'Start your Finance Journey' | customTranslate:changedetect:root}}</h1>
+            <div class="start-journey-note">{{'Create Journal, Purchase order, Create Vendor Etc.' | customTranslate:changedetect:root}}</div>
+        </div>
+        <div class="fa-answer-section fa-answerGrid">
+            <button class="answer-options " *ngFor="let item of firstScreenOption" (click)="routeToPage(item)">
+                <div class="circle-arrow-icon"><img src="assets/images/blue-arrow-icon.svg" alt=""></div>
+                {{item.Name  | customTranslate:changedetect:root}}
+            </button>
+        </div>
+        <!-- <h2 class="question-note">Would you like to create another entry ?</h2>
+      <button class="start-action-btn d-flex justify-content-center align-items-center">Start Journey</button> -->
+    </div>
+</div>
+
+<div class="fa-body-section d-flex justify-content-center align-items-center w-100 flex-column"
+    *ngIf="activeIndex == 2">
+    <div class="fa-content-section d-flex justify-content-start align-items-center flex-column">
+        <div class="fa-question-section">
+            <h1 class="question-head">{{'What you want to do ' | customTranslate:changedetect:root}}?</h1>
+            <div class="fa-answer-section d-flex justify-content-center align-items-center flex-column">
+                <button class="answer-options" *ngFor="let item of secondScreenOption" (click)="routeToPage(item)">
+                    <div class="circle-arrow-icon"><img src="assets/images/blue-arrow-icon.svg" alt=""></div>
+                    {{item.Name  | customTranslate:changedetect:root}}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center fa-bottom-bar">
+        <div class="fa-progress-container">
+            <div class="fa-progress-text">1 of 5 {{'Answered'  | customTranslate:changedetect:root}}</div>
+            <div class="fa-progress-bar">
+                <div class="fa-progress-filled" style="width: 20%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="fa-body-section d-flex justify-content-center align-items-center w-100 flex-column"
+    *ngIf="activeIndex == 3">
+    <div class="fa-content-section d-flex justify-content-start align-items-center flex-column">
+        <div class="fa-question-section">
+            <h1 class="question-head">{{'Select Category'  | customTranslate:changedetect:root}}</h1>
+            <div class="fa-answer-section d-flex justify-content-center align-items-center flex-column">
+                <button class="answer-options" *ngFor="let item of thirdScreenOption" (click)="routeToPage(item)">
+                    <div class="circle-arrow-icon"><img src="assets/images/blue-arrow-icon.svg" alt=""></div>
+                    {{item.Name  | customTranslate:changedetect:root}}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center fa-bottom-bar">
+        <button class="back-btn" (click)="back()"><img src="assets/images/blue-arrow-icon-left.svg" alt="">{{'Back' | customTranslate:changedetect:root}}</button>
+        <div class="fa-progress-container">
+            <div class="fa-progress-text">2 of 5 {{'Answered' | customTranslate:changedetect:root}}</div>
+            <div class="fa-progress-bar">
+                <div class="fa-progress-filled" style="width: 40%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="fa-body-section d-flex justify-content-center align-items-center w-100 flex-column"
+    *ngIf="activeIndex == 4">
+    <div class="fa-content-section d-flex justify-content-start align-items-center flex-column">
+        <div class="fa-question-section">
+            <h1 class="question-head">{{'What are you looking to Purchase'  | customTranslate:changedetect:root}}?</h1>
+            <div class="fa-answer-section d-flex justify-content-center align-items-center flex-column">
+                <button class="answer-options" *ngFor="let item of fouthScreenOption" (click)="mapTransctionType(item)">
+                    <div class="circle-arrow-icon"><img src="assets/images/blue-arrow-icon.svg" alt=""></div>
+                    {{item.Name  | customTranslate:changedetect:root}}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center fa-bottom-bar">
+        <button class="back-btn" (click)="back()"><img src="assets/images/blue-arrow-icon-left.svg" alt="">{{'Back' | customTranslate:changedetect:root}}</button>
+        <div class="fa-progress-container">
+            <div class="fa-progress-text">3 of 5 {{'Answered'  | customTranslate:changedetect:root}}</div>
+            <div class="fa-progress-bar">
+                <div class="fa-progress-filled" style="width: 60%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="fa-body-section d-flex justify-content-center align-items-center w-100 flex-column"
+    *ngIf="activeIndex == 5">
+    <div class="fa-content-section d-flex justify-content-start align-items-center flex-column">
+        <div class="fa-question-section">
+            <h1 class="question-head">{{'Select or Add Vendor'  | customTranslate:changedetect:root}}</h1>
+            <div class="fa-answer-section d-flex justify-content-center align-items-center flex-column">
+                <div class="answer-options py-0 pe-0 position-relative">
+                    <div class="circle-arrow-icon"><img src="assets/images/blue-arrow-icon.svg" alt=""></div>
+                    <!-- <div class="position-relative"> -->
+                    <input name="" class="search-dropdown-input shadow-none ps-0" id="search-input"
+                        placeholder="{{'Select from existing Vendor(s)'  | customTranslate:changedetect:root}}" (focus)="showDropdownValue($event)"
+                        [(ngModel)]="searchword" appClickOutside (clickOutside)="onClickOutside($event)">
+                    <img class="input-arrow-black" src="assets/images/down-arrow-black.svg" alt="">
+
+                    <div class="fa-dropdown-options" id="search-input-options" *ngIf="isDisplayVendorData">
+                        <button class="dd-option-btn" *ngFor="let vendor of vendorData | vendorfilter:searchword"
+                            (click)="selectVendor(vendor.Id)"><img src="assets/images/magnify-blue-icon.svg"
+                                alt="">{{vendor.Name }}</button>
+                    </div>
+                    <!-- </div> -->
+                </div>
+                <button class="answer-options" (click)="openVendor()">
+                    <div class="circle-arrow-icon"><img src="assets/images/blue-arrow-icon.svg" alt=""></div>
+                    {{'Add new Vendor'  | customTranslate:changedetect:root}}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center fa-bottom-bar">
+        <button class="back-btn" (click)="back()"><img src="assets/images/blue-arrow-icon-left.svg" alt="">{{'Back' | customTranslate:changedetect:root}}</button>
+        <div class="fa-progress-container">
+            <div class="fa-progress-text">4 of 5 {{'Answered' | customTranslate:changedetect:root}}</div>
+            <div class="fa-progress-bar">
+                <div class="fa-progress-filled" style="width: 80%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #showvendorPopUp let-modal>
+    <div class="discard-modal">
+        <div class="modal-header border-0 p-0 pt-3">
+            <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Close"
+                (click)="closePopup()">
+                <img src="/assets/images/close-icon.svg" class="w-100" alt="">
+            </button>
+        </div>
+        <div class="modal-body pt-0 vendor-popup">
+            <div class="modal-body-container modal-deleteContent infoIconFrmBg mx-md-4 mx-1">
+                <app-vendor-add #dynamicChild
+                    [moduleCode]="moduleCode" [templateName]="templateName"
+                    [templeteCodeJson]="templeteCodeJson" [moduleUrl]="moduleUrl"
+                    [isTabsCase]="false" [isDisplayTitle]="true"
+                    [templateCode]="templeteCode" [moduleName]="moduleName"
+                    (vendorDetails)="getVendorDetails($event)" [isWizard]="true" (popupClose)="closePopup($event)"
+                    ></app-vendor-add>
+            </div>
+        </div>
+    </div>
+</ng-template>

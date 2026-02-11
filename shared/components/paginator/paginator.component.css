@@ -1,0 +1,15 @@
+.disabled{
+    pointer-events: none;
+}
+@media (max-width: 999px) {
+ 
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+        line-height: 2.5;
+        justify-content: flex-center!important;
+    }
+    .justify-content-end {
+        justify-content:center !important;
+    }
+}

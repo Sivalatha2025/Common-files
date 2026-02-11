@@ -1,0 +1,87 @@
+<ng-container *ngIf="isPermissionsLoaded">
+<div class="addProductCard mb-3">
+  <div class="card product-card rounded-0">
+      <ng-container  *ngIf="moduleUrlEnum.MODEOFACTIVITY != this.moduleUrl?.toLowerCase() +'/list'" >
+        <div class="d-flex justify-content-start align-items-center"><i class="backBtnERP"><img src="assets/images/back-icon-erp2024.svg" alt="Back" title="Back" appBackbutton [IsDynamic]="true" [url]="moduleUrl"></i>
+      <h4 class="font-medium" *ngIf="!(url.includes('/view'))" id="AddModifyElement">{{ url.includes('modify') ? (("Modify " + moduleName  ) | customTranslate : changedetect : root) : (("Add " + moduleName) | customTranslate : changedetect : root) }} <span *ngIf="isEmployeeDataDisplay && employeeData" class="emp-name">{{'  -  '+ (employeeData['EmployeeName'] ? (employeeData['EmployeeName'] | titlecase) : '') +"  -  "+ (employeeData['EmployeeId'] ||'')}}</span></h4> 
+      <h4  class="font-medium" *ngIf="(url.includes('/view'))">{{ "View " + moduleName | customTranslate : changedetect : root}}</h4>
+</div>
+    </ng-container>
+      <div  *ngIf="moduleUrlEnum.MODEOFACTIVITY == this.moduleUrl?.toLowerCase() +'/list'" >
+        <div class="d-flex justify-content-start align-items-center"><i class="backBtnERP"><img src="assets/images/back-icon-erp2024.svg" alt="Back" title="Back" appBackbutton [IsDynamic]="true" [url]="moduleUrl"></i>
+        <h4 class="font-medium" *ngIf="!(url.includes('/view'))" id="AddModifyElement">{{ url.includes('modify') ? (("Modify " + moduleName) | customTranslate : changedetect : root) : (("Add " + moduleName) | customTranslate : changedetect : root)}}</h4>
+      <h4 class="font-medium" *ngIf="(url.includes('/view'))">{{ "View " + moduleName | customTranslate : changedetect : root}}</h4>
+    </div>
+      <h6 class="subHeadingDynamic">{{'Methods of communicating with customers (e.g- call, face-to-face)'| customTranslate : changedetect : root}}</h6>
+    </div>
+      <div class="btn-group-withicon d-flex gap-2" *ngIf="tabs && tabs.length !=0 && modulePermissionObj && modulePermissionObj['Create/Update']">
+        <button (click)="close()"  id="cancel" class="btn btn-outline-dark fs-lg-6 font-medium d-flex">
+        <i><img src="assets/images/cancel-close.svg" alt=""></i>
+        <span class="hideInMob">
+        {{'Close'| customTranslate : changedetect : root}}
+      </span>
+      </button>
+      <!-- <button class="btn btn-secondary fs-6 font-medium action-btn d-flex" id="save" [ngClass]="{'loading' : loading}" (click)="save()">
+          <i [ngStyle]="{visibility : loading ? 'hidden':'visible   '}" class="d-flex align-items-center"><img src="assets/images/save-icon.svg" alt=""></i>
+          Save
+        </button> -->
+    </div>
+  </div>
+</div>
+
+<section class="tabs-container" *ngIf="tabs && tabs.length !=0">
+    <span class="change-btn prev" (click)="scrollTab(-1)"><img src="/assets/images/arrow-left.svg" alt=""></span>
+
+  <ul class="tabs" id="tabScroll">
+
+    <ng-container *ngFor="let tab of tabs; let i=index">
+        <li class="tab" [class.active]="currentTabName == tab?.TemplateName" (click)="changeTab(tab,i)">{{tab.TemplateName | customTranslate : changedetect : root }}</li>
+    </ng-container>
+  </ul>
+    <span class="change-btn next" (click)="scrollTab(1)"><img src="/assets/images/arrow-right.svg" alt=""></span>
+</section>
+
+<ng-container *ngIf="formData && templeteCodeJson">
+
+
+ 
+
+  <ng-container *ngIf="templeteCode == 'SLA-10439' ">
+  <app-sladetails-child #dynamicChild *ngIf=" !isEmployeeAddUrl && currentTabName?.toLowerCase() == 'general' && modulePermissionObj && modulePermissionObj['Create/Update']" (saveEvent)="savedParent()" [moduleCode]="moduleCode" [templateName]="templateName" [templeteCodeJson]="templeteCodeJson"
+  [moduleUrl]="moduleUrl" (errorEvent)="errorEvent()" [isTabsCase]="tabs && tabs.length !=0" [isDisplayTitle]="tabs && tabs.length !=0" (closeEvent)="close()" [templateCode]="templeteCode" [moduleName]="moduleName" ></app-sladetails-child>
+   </ng-container>
+
+  <ng-container *ngIf="templeteCode == 'STRET-10348' || templeteCode == 'SMST-10349' || templeteCode == 'WHAT-10450' || templeteCode == 'NotificationTemplate-31056'">
+    <app-notification-templates #dynamicChild *ngIf=" !isEmployeeAddUrl && currentTabName?.toLowerCase() == 'general' && modulePermissionObj && modulePermissionObj['Create/Update']" (saveEvent)="savedParent()" [moduleCode]="moduleCode" [templateName]="templateName" [templeteCodeJson]="templeteCodeJson"
+  [moduleUrl]="moduleUrl" (errorEvent)="errorEvent()" [isTabsCase]="tabs && tabs.length !=0" [isDisplayTitle]="tabs && tabs.length !=0" (closeEvent)="close()" [templateCode]="templeteCode" [moduleName]="moduleName" ></app-notification-templates>
+  </ng-container>
+
+   <ng-container *ngIf="templeteCode != 'SLA-10439' && formData && templeteCode != 'STRET-10348' && templeteCode != 'SMST-10349' && templeteCode != 'WHAT-10450' && templeteCode != 'NotificationTemplate-31056'">
+  <app-dynamic-form-child #dynamicChild *ngIf=" !isEmployeeAddUrl && currentTabName?.toLowerCase() == 'general' && modulePermissionObj && modulePermissionObj['Create/Update']" (saveEvent)="savedParent()" [moduleCode]="moduleCode" [templateName]="templateName" [templeteCodeJson]="templeteCodeJson"
+  [moduleUrl]="moduleUrl" (errorEvent)="errorEvent()" [isTabsCase]="tabs && tabs.length !=0" [isDisplayTitle]="tabs && tabs.length !=0" (closeEvent)="close()" [templateCode]="templeteCode" [moduleName]="moduleName" ></app-dynamic-form-child>
+</ng-container>
+  
+
+  <app-custom-dynamic-form-child #dynamicChild
+  *ngIf="isEmployeeAddUrl && currentTabName?.toLowerCase() == 'general' && modulePermissionObj && modulePermissionObj['Create/Update']"
+  (saveEvent)="savedParent()" [moduleCode]="moduleCode" [templateName]="templateName"
+  [templeteCodeJson]="templeteCodeJson" [moduleUrl]="moduleUrl" (errorEvent)="errorEvent()"
+  [isTabsCase]="tabs && tabs.length !=0" [isDisplayTitle]="tabs && tabs.length !=0" (closeEvent)="close()"
+  [templateCode]="templeteCode" [moduleName]="moduleName" (proxyIdAndNameEmit)="proxyIdAndNameEmit($event)"></app-custom-dynamic-form-child>
+
+
+
+  <ng-container *ngIf="currentTabName?.toLowerCase() != 'general'">
+        <app-multi-dynamic-page (saveEvent)="setLoadingFalse()"  [moduleCode]="moduleCode" [modulePermissionObj]="modulePermissionObj" [templateCode]="templeteCode" [templateName]="selectedTab?.TemplateName" [moduleUrl]="moduleUrl" [placeholder]="''" [templeteCodeJson]="templeteCodeJson"
+        [title]="selectedTab?.TemplateName"></app-multi-dynamic-page>
+  </ng-container>
+  <div class="d-flex flex-column text-center" *ngIf="!modulePermissionObj['Create/Update'] && isBrowser && isModuleRes">
+    <img src="/assets/images/authorization-failed.svg" class="notAuthorized" alt="">
+    <h3 class="my-5 text-center-title">{{'YOU ARE NOT AUTHORIZED USER FOR THIS PAGE' | customTranslate : changedetect : root   }}</h3>
+  </div>
+</ng-container>
+</ng-container>
+
+<ng-container>
+<div *ngIf="!isPermissionsLoaded" class="loader-06"></div>
+</ng-container>

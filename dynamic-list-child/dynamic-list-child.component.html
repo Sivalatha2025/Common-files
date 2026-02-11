@@ -1,0 +1,359 @@
+<div class="container-fluid p-0"  *ngIf="!(this.schemaData?.APIUrls?.[0]?.isSingleView || this.isSingleView)">
+  <div class="addProductCard mb-3" *ngIf="isSearchandTitleDisplay">
+    <div class="card product-card rounded-0">
+      <div *ngIf="moduleurls.MODEOFACTIVITY != url?.toLowerCase()" >
+        <div class="d-flex justify-content-start align-items-center"><i class="backBtnERP"><img src="assets/images/back-icon-erp2024.svg" alt="Back" title="Back" appBackbutton [root]="root"></i>
+        <h4 id="DynamicListTitle" class="font-medium">{{ title | customTranslate : changedetect : root  }}</h4>
+        </div>
+      <h6 *ngIf="tableData && tableData[0] && tableData[0].WorkingEmployeeCount" class="subHeadingDynamic">{{ 'Working Employee Count - '+tableData[0].WorkingEmployeeCount  }}</h6>
+      </div>
+      <div *ngIf="moduleurls.MODEOFACTIVITY == url?.toLowerCase()">
+        <h4  id="DynamicListTitle" class="font-medium">{{ title | customTranslate : changedetect : root }}</h4>
+        <h6 class="subHeadingDynamic">{{'Methods of communicating with customers (e.g- call, face-to-face)' | customTranslate : changedetect : root }}</h6>
+      </div>
+      <div class="btn-group-withicon btn-group-onlyiconmbl d-flex gap-2" *ngIf="isFaModule ? 
+      (modulePermisionObj['Post'] || modulePermisionObj['Draft']) 
+        : modulePermisionObj['Create/Update'] && !isView && !isNewsLetterSignup && isShowAddBtn   && isShowAddBtnForRequisition()">
+
+        <a
+          href="javascript:void(0);"
+          (click)="openAddOrEditPage('add')"
+          class="btn btn-secondary btn-rounded-circle fs-lg-6 fs-0 font-medium"
+          [ngClass]="{'inactiveBtn':loadingData ||onPageLoadLoader}"
+          [id]="'Add '+title">
+
+          <i><img src="assets/images/plus-circle.svg" alt="" /></i>
+          {{ ('Add ' + title) | customTranslate : changedetect : root }}
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="addProductCard mb-3" *ngIf="isSearchandTitleDisplay || isOnlySearchShow" >
+   
+
+    <app-dynamic-search-card 
+      *ngIf="schemaData" [schemaData]="schemaData" #searchCard
+      (searchEvent)="onDateChange($event)" 
+      [isDisplaySearch]="modulePermisionObj['View']"
+      [isLoading]="isSearchIconLoading" 
+      [placeholder]="placeholder | customTranslate : changedetect : root" 
+      [pageLimit]="pageLimit" 
+      [TotalRecords]="rowCount" 
+      [templateCode]="templateCode"
+      [isNoRecords]="(tableData && tableData.length==0)||!tableData" 
+      (limitChangeEvent)="onLimitChange($event)">
+  </app-dynamic-search-card>
+
+   <div *ngIf="url === 'HRMS/ScheduleInterview/list' && tableData.length>0" class="containerks">
+        <div class="row">
+            <!-- Pending Scheduling -->
+            <div class="col-md-3">
+                <div class="status-card bg-light">
+                    <h4>Pending Scheduling</h4>
+                    <p>0</p>
+                </div>
+            </div>
+            <!-- Scheduled -->
+            <div class="col-md-3">
+                <div class="status-card bg-light">
+                    <h4>Scheduled</h4>
+                    <p>0</p>
+                </div>
+            </div>
+            <!-- Completed -->
+            <div class="col-md-3">
+                <div class="status-card bg-light">
+                    <h4>Completed</h4>
+                    <p>0</p>
+                </div>
+            </div>
+            <!-- Cancelled/No-Show -->
+            <div class="col-md-3">
+                <div class="status-card bg-light">
+                    <h4>Cancelled/No-Show</h4>
+                    <p>0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="card py-2 px-0 rounded-0" [ngClass]="{'loaderCardheight' : onPageLoadLoader}">
+    <div class="reval_table" *ngIf="tableData.length>0 && headerArr && headerArr.length !=0 && modulePermisionObj && modulePermisionObj['View'] ">
+      <div class="loader-06" *ngIf="loadingData"></div>
+      <div class="table-responsive">
+        <table class="table table-striped" width="100%" cellpadding="0" cellspacing="0">
+          <thead>
+            <tr>
+        <th
+  scope="col"
+  *ngFor="let header of tableDataArr"
+  [id]="header?.HeaderDisplayName"
+  [ngClass]="{ 'text-end': header.HeaderIncludes === 'Amount' }"
+>
+  <!-- For CreatedBy or UpdatedBy — show only icon with dynamic tooltip -->
+  <ng-container *ngIf="(header.HeaderName === 'CreatedBy' || header.HeaderName === 'UpdatedBy') && isAllowedRoute(); else normalHeader">
+    <div class="hover-icon-wrapper ms-0">
+      <span class="cursor-pointer d-flex" container="body" 
+            [triggers]="isMobileToolTip ? 'click:blur' : 'hover click'"
+            ngbTooltip="{{ header.HeaderName === 'CreatedBy' ? 'Created By / Updated By ' : 'Created By / Updated By' }}"
+            [openDelay]="20">
+        <img class="info-icon" src="assets/images/created-updated-icon.svg" alt="" />
+      </span>
+    </div>
+  </ng-container>
+
+  <!-- All other headers -->
+  <ng-template #normalHeader>
+    <span class="ps-1" *ngIf="header.HeaderIncludes !== 'Amount'">
+      {{ header?.HeaderDisplayName | customTranslate : changedetect : root }}
+    </span>
+    <span class="ps-1 text-end" *ngIf="header.HeaderIncludes === 'Amount'">
+      {{ header?.HeaderDisplayName | customTranslate : changedetect : root | displayCurrency: 'string' }}
+    </span>
+  </ng-template>
+</th>
+
+
+
+              <th scope="col" id="Action"
+                *ngIf=" (isFaModule ? (this.modulePermisionObj['Post'] || this.modulePermisionObj['Draft']) : modulePermisionObj['Create/Update']) && isBrowser">
+                <span class="ps-1">{{"Action" | customTranslate : changedetect : root}}</span></th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of tableData; let i = index">
+  <td
+    [ngClass]="{
+      'cursor-pointer': (this.isFaModule ? (this.modulePermisionObj['Post'] || this.modulePermisionObj['Draft']) : modulePermisionObj['Create/Update']) && isRouteToModify
+    }"
+    (click)="openAddOrEditPage('edit', item)"
+    *ngFor="let data of tableDataArr">
+
+    <ng-container *ngIf="data?.HeaderName !== 'IsPublished' && data.HeaderIncludes != 'Amount'">
+      <div *ngIf="data?.HeaderName !== 'CreatedBy'">
+
+
+        <ng-container *ngIf="data?.HeaderName === 'StatusName' && templateCode =='JSP-10788'; else defaultCell">
+          <button  class="common-status-width"
+
+            [ngClass]="{
+              'btn bg-outline-warning': item[data?.HeaderName]?.toLowerCase() === 'new' || item[data?.HeaderName]?.toLowerCase() == null,
+              'btn bg-outline-success': item[data?.HeaderName]?.toLowerCase() === 'proceed',
+              'btn bg-outline-danger': item[data?.HeaderName]?.toLowerCase() === 'reject'
+            }">
+            {{ item[data?.HeaderName]  ?? 'New' }}
+          </button>
+        </ng-container>
+
+        <!-- ✅ Default content for other columns -->
+        <ng-template #defaultCell>
+          <div [ngClass]="{ 'nameEllipsis cursor-pointer font-medium': data?.SubHeader }">
+            <div class="tooltip-wrapper" *ngIf="data?.HeaderName === 'AssignedEmployees'; else cellContent">
+              <span>{{ getAssignedEmployeesPreview(item[data?.HeaderName]) }}</span>
+              <span class="more-text" *ngIf="getRemainingEmployeeCount(item[data?.HeaderName]) > 0">
+                +{{ getRemainingEmployeeCount(item[data?.HeaderName]) }} more
+              </span>
+              <div class="custom-tooltip" *ngIf="getRemainingEmployeeCount(item[data?.HeaderName]) > 0">
+              {{ getRemainingEmployeesAsString(item[data?.HeaderName]) }}
+              </div>
+            </div>
+            <ng-template #cellContent>
+ <span  
+    [title]="
+      (item[data?.HeaderName]?.length > (tableDataEllipsisObj?.[data?.HeaderName] || 40)) 
+      ? item[data?.HeaderName] 
+      : ''">
+    <ng-container *ngIf="data?.HeaderName === 'DateEffective'">
+      {{ item[data?.HeaderName] ? (item[data?.HeaderName] | date:'dd/MM/yyyy') : '' }}
+    </ng-container>
+    <ng-container *ngIf="data?.HeaderName !== 'DateEffective'">
+      {{ getEllipsedData(item[data?.HeaderName], data?.HeaderName) }}
+    </ng-container>
+  </span>
+</ng-template>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- ✅ Subheader section -->
+      <div class="d-flex align-items-center">
+        <ng-container *ngIf="data && data.Icon && item[data?.SubHeader]">
+          <img class="mail-icon" [src]="data?.Icon">
+        </ng-container>
+        <span *ngIf="data && data.SubHeader"
+              [title]="item[data?.SubHeader]"
+              class="nameEllipsis subClass-small cursor-pointer">
+          {{ item[data?.SubHeader] }}
+        </span>
+      </div>
+
+      <!-- ✅ View More -->
+      <br *ngIf="data?.HeaderName !== 'CreatedBy' && tableDataEllipsisObj[data?.HeaderName] && item[data?.HeaderName]?.length > tableDataEllipsisObj[data?.HeaderName]">
+      <span class="viewMore"
+            *ngIf="data?.HeaderName !== 'CreatedBy' && tableDataEllipsisObj[data?.HeaderName] && item[data?.HeaderName]?.length > tableDataEllipsisObj[data?.HeaderName]"
+            (click)="onViewMore($event, item[data?.HeaderName], data?.HeaderName)">
+        View More
+      </span>
+
+      <!-- ✅ CreatedBy column -->
+      <ng-container *ngIf="(data?.HeaderName === 'CreatedBy') && !isAllowedRoute()">
+  <div class="nameEllipsis font-medium" [title]="item[data.HeaderName]">
+    {{ item[data.HeaderName] | tableData : data.HeaderName }}
+  </div>
+  <span class="subClass-small">
+    {{ item.DateCreated | tableData : 'DateCreated' }}
+  </span>
+</ng-container>
+
+<ng-container *ngIf="data?.HeaderName === 'CreatedBy' && isAllowedRoute()">
+
+
+ <span class="cursor-pointer d-flex"
+      container="body"
+      [ngbTooltip]="getCreatedTooltip(item, data)"
+      [triggers]="isMobileToolTip ? 'click:blur' : 'hover click'"
+      [openDelay]="20">
+  <img class="info-icon" src="assets/images/created-updated-icon.svg" alt="Created/Updated Icon" />
+</span>
+</ng-container>
+    </ng-container>
+
+    <!-- ✅ If the value is amount, then the value should display comma separated and right align -->
+    <ng-container *ngIf="data?.HeaderName !== 'IsPublished' && data.HeaderIncludes == 'Amount'">
+      <div class="text-end" >
+        {{item[data?.HeaderName] | commasforcurrency}}
+      </div>
+    </ng-container>
+
+    <!-- ✅ IsPublished -->
+    <ng-container *ngIf="data.HeaderName === 'IsPublished'">
+      <span [ngClass]="{
+        'bg-outline-success': item?.Active ? item?.Active === true : item?.IsPublished === true,
+        'bg-outline-danger': item?.Active ? item?.Active !== true : item?.IsPublished !== true
+      }">
+        {{ (item?.Active === true || item?.IsPublished === true) ? 'Active' : 'Inactive' }}
+      </span>
+    </ng-container>
+  </td>
+
+  <!-- ✅ Dropdown Menu -->
+  <td
+    *ngIf="(isFaModule ? (this.modulePermisionObj['Post'] || this.modulePermisionObj['Draft']) : modulePermisionObj['Create/Update']) && isBrowser">
+     <div *ngIf="url !== 'HRMS/FeedbackQuestionResult/list'" class="dropdown dropstart" [ngClass]="{ 'disabled-div': isDisabled }">
+        <button class="bg-white border-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          <span>...</span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li *ngIf="!(item.IsLocked || isView) && templateCode != 'HLTEMP-10741' && modulePermisionObj['Create/Update'] && !isFaModule">
+            <a class="dropdown-item" [ngClass]="{ 'disabled-div': isView }" (click)="openAddOrEditPage('edit', item)" href="javascript:void(0);">
+              <img src="assets/images/edit-icon.svg" />{{ url === 'HRMS/ScheduleInterview/list' ? 'Schedule Interview': 'Edit' | customTranslate : changedetect : root }}
+            </a>
+          </li>
+          <li *ngIf="!(item.IsLocked || isView) && isFaModule">
+            <a class="dropdown-item" [ngClass]="{ 'disabled-div': isView }" (click)="openAddOrEditPage('edit', item)" href="javascript:void(0);">
+              <img src="assets/images/edit-icon.svg" />{{ url === 'HRMS/ScheduleInterview/list' ? 'Schedule Interview': 'Edit' | customTranslate : changedetect : root }}
+            </a>
+          </li>
+          <li (click)="downloadPDF(item)" *ngIf="isDisplayPrintOption && modulePermisionObj['Extract']">
+            <a class="dropdown-item" href="javascript:void(0);">
+              <img src="assets/images/Download.svg" />{{ 'Download Prescription' | customTranslate : changedetect : root }}
+            </a>
+          </li>
+          <li [ngClass]="{ 'disabled-div': item.IsPrimaryStore }"
+              *ngIf="item.IsPublished != undefined && item.IsPublished != null && !item.IsLocked && isPublishExist && !isFaModule">
+            <a class="dropdown-item" href="javascript:void(0);" (click)="publishOrUnpublish(item)">
+              <img [src]="[item.IsPublished !== true ? 'assets/images/publish-icon.svg' : 'assets/images/unpublish-icon.svg']" alt="" />
+              {{ item.IsPublished !== true ? ('Active' | customTranslate : changedetect : root) : ('Inactive' | customTranslate : changedetect : root) }}
+            </a>
+          </li>
+          <li [ngClass]="{ 'disabled-div': item.IsPrimaryStore }" *ngIf="templateCode == 'HLTEMP-10741'">
+            <a class="dropdown-item" href="javascript:void(0);" (click)="publishOrUnpublish(item)">
+              <img [src]="[item.IsPublished !== true ? 'assets/images/publish-icon.svg' : 'assets/images/unpublish-icon.svg']" alt="" />
+              {{ 'Delete' | customTranslate : changedetect : root }}
+            </a>
+          </li>
+          <li [ngClass]="{ 'disabled-div': !(isView || item.IsLocked) }" (click)="openAddOrEditPage('view', item)"
+              *ngIf="isView || item.IsLocked">
+            <a class="dropdown-item" style="cursor: pointer;">
+              <i class="far fa-eye eye-show mx-2" id="view"></i>{{ 'View' | customTranslate : changedetect : root }}
+            </a>
+          </li>
+          <li class="disabled-div" *ngIf="EnableNonDevelopedSection">
+            <a class="dropdown-item">
+              <img src="assets/images/duplicate-icon.svg">{{ 'Duplicate' | customTranslate : changedetect : root }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    <div *ngIf="url === 'HRMS/FeedbackQuestionResult/list'" class="d-flex gap-2 align-items-center">
+      <ng-container>
+        <a (click)="downloadResume(item)" class="action-btn-loading cursor-pointer download-icon-new" style="cursor:pointer" title="Download Resume"
+          [class.disabled]="item.loadingAction">
+          <img src="/assets/images/download-icon-new.svg" width="25" height="25" alt="Download">
+        </a>
+      </ng-container>
+  
+      <ng-container>
+        <a class="action-btn-loading cursor-pointer" title="Processed for Interview"
+          [class.disabled]="item.loadingAction">
+          <img src="/assets/images/shortlist-icon-new.svg" width="25" height="25" alt="Shortlist">
+        </a>
+      </ng-container>
+    </div>
+  </td>
+  </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <app-paginator
+        [pageLimit]="pageLimit"
+        [CurrentPage]="currentPage"
+        [TotalRecords]="rowCount"
+        (pageChange)="onPaginateChange($event)"
+      ></app-paginator>
+    </div>
+    <div class="d-flex flex-column text-center" *ngIf="isNoRecords && !isAllowPermission && modulePermisionObj['View'] ">
+      <img src="/assets/images/no-data-found.svg" class="noRecordimg" alt="">
+      <h3 class="my-5 text-center-title" id="noRecords">{{'No Records' | customTranslate : changedetect : root }}</h3>
+    </div>
+    <div class="d-flex flex-column text-center" *ngIf="(modulePermisionObj && !modulePermisionObj['View']) && isBrowser && !onPageLoadLoader">
+      <img src="/assets/images/authorization-failed.svg" class="notAuthorized" alt="">
+      <h3 class="my-5 text-center-title">{{'YOU ARE NOT AUTHORIZED USER FOR THIS PAGE' | customTranslate : changedetect : root }}</h3>
+    </div>
+    <div class="loader-06" *ngIf="onPageLoadLoader"></div>
+  </div>
+
+</div>
+
+<ng-template #viewMorepopup let-modal >
+  <div class="modal-header border-0" *ngIf="viewMoreData && viewMoreData.length!=0">
+    <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()">
+      <img src="assets/images/close-icon.svg" class="w-100" alt="" />
+    </button>
+  </div>
+  <div class="modal-body pt-0 modal-form-container">
+    <div class="table-responsive">
+      <table class="table table-striped viewMoreTable" width="100%" cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th scope="col"  id="sno">
+              <span class="ps-1">{{ 'S.No.' | customTranslate : changedetect : root }}</span>
+            </th>
+            <th scope="col"  [id]="viewMoreHeader">
+              <span class="ps-1">{{ viewMoreHeader | customTranslate : changedetect : root }}</span>
+            </th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of viewMoreData; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{item}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>

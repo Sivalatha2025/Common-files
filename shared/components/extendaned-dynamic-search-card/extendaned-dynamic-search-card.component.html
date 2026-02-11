@@ -1,0 +1,141 @@
+<div class="dateWithsearch" *ngIf="isDisplaySearch">
+    <div class="card pt-2 pb-3 mb-3 rounded-0">
+        <form [formGroup]="searchForm">
+            <div class="row gx-lg-0 align-items-start">
+                <ng-container *ngFor="let field of formFields">
+                    <!-- [ngStyle]="!isMobileView ? { 'width': field?.ElementWidth } : {}" -->
+                    <div class="col-12 col-lg-4 me-lg-3 mb-lg-0 mb-3" *ngIf="field?.Type == 'text'">
+
+                        <div class="input-group">
+                            <!-- <p class="mb-0 w-100">{{field.Label}}</p> -->
+                            <p class="mb-0 w-100">{{field.Label| customTranslate : changedetect : root }} <span *ngIf="field.Required">*</span></p>
+                            <input type="text" class="form-control field-height-sm border-end-0"
+                                id="{{ field.Type + field.FormField }}" [formControlName]="field.FormField"
+                                maxlength="{{field?.MaxLength}}" (keyup.enter)="onSearch()" placeholder="{{'Enter keywords' | customTranslate : changedetect : root}}"
+                                aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <button class="btn btn-outline-dark border-start-0 search" (click)="onSearch()"
+                                type="button"><img src="assets/images/search-icon.svg"></button>
+                        </div>
+                        <small class="d-block">{{placeholder | customTranslate : changedetect : root}}</small>
+                        <ng-container
+                            *ngIf=" (isSubmitted && searchForm.get(field.FormField)?.invalid) || searchForm.get(field.FormField)?.invalid &&   searchForm.get(field.FormField)?.touched && searchForm.get(field.FormField)?.dirty">
+                            <div class="alert alert-danger" [id]="field.FormField+'Error'" role="alert"><span>{{
+                                    getErrorMessage(field.FormField) | customTranslate : changedetect : root}}</span></div>
+                        </ng-container>
+                    </div>
+
+                    <div class="col-12 col-lg-3 me-lg-3 mb-3 dateWidthresponsive" *ngIf="field?.Type == 'date' && field.FormField=='FromDate'">
+                        <div class="input-group">
+                            <p class="mb-0 w-100">{{'Date' | customTranslate : changedetect : root}} <span *ngIf="field.Required">*</span></p>
+                            <input type="text" class="form-control field-height-sm border-end-0 rounded-start selectDate" id="dashboardCalender"
+                                  #dashboardClndrIcon name="selectDate" placeholder="Select Date" readonly />
+                                <button class="btn btn-outline-dark border-start-0 search calender_btn" type="button"
+                                  (click)="dashboardClndrIcon.focus()">
+                                  <img src="assets/images/calendar-new-2.svg">
+                                </button>
+                        </div>
+                        <div class="">
+                            <div class="alert alert-danger mt-1"  [id]="field.FormField+'Error'" role="alert" *ngIf="isGraterFromDate && field.FormField?.toLowerCase() =='fromdate'">
+                                <span> {{dateInvalidError | customTranslate : changedetect : root}}</span>
+                            </div>
+                            <div class="alert alert-danger mt-1"  [id]="field.FormField+'Error'" role="alert" *ngIf="searchForm.get(field.FormField)?.invalid && !isGraterFromDate" >
+                                <span> {{"The selected date can't be greater than the current date." | customTranslate : changedetect : root}}</span>
+                            </div>
+                        </div>
+                    </div>
+                  
+                    <!-- <div class="col-12 col-lg-3 me-lg-3 form-line-Item mb-lg-0 mb-3" *ngIf="field?.Type == 'date' && field.FormField=='FromDate'">
+                        <div class="make_mob_column">
+                            <div class="me-lg-2 ms-2 dateWidth mob_calender_input">
+                                <div class="input-group input_fix_width">
+                                <p class="mb-0 w-100">{{'Select Date' | customTranslate : changedetect : root}} <span *ngIf="field.Required">*</span></p>
+                                <input type="text" class="form-control field-height-sm border-end-0 rounded-start selectDate" id="dashboardCalender"
+                                  #dashboardClndrIcon name="selectDate" placeholder="Select Date" readonly />
+                                <button class="btn btn-outline-dark border-start-0 search calender_btn" type="button"
+                                  (click)="dashboardClndrIcon.focus()">
+                                  <img src="assets/images/calendar-new-2.svg">
+                                </button>
+                            </div>
+                              </div>
+                        </div>
+                        <div class="">
+                            <div class="alert alert-danger mt-1"  [id]="field.FormField+'Error'" role="alert" *ngIf="isGraterFromDate && field.FormField?.toLowerCase() =='fromdate'">
+                                <span> {{dateInvalidError | customTranslate : changedetect : root}}</span>
+                            </div>
+                            <div class="alert alert-danger mt-1"  [id]="field.FormField+'Error'" role="alert" *ngIf="searchForm.get(field.FormField)?.invalid && !isGraterFromDate" >
+                                <span> {{"The selected date can't be greater than the current date." | customTranslate : changedetect : root}}</span>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="col-12 col-lg-3 form-line-Item  mb-3  me-lg-3" *ngIf="field?.Type == 'dropdown' || field?.Type == 'searchdropdown'">
+                        <div class="input-group">
+                            <p class="mb-0 w-100">{{field.Label || ''| customTranslate : changedetect : root}} <span *ngIf="field.Required">*</span></p>
+                           
+                            <ng-select [items]="mastersObject[field.FormField]" [inputAttrs]="{maxlength : '64'}" placeholder="{{field.Label?.toLowerCase() != 'store' ? ('Select ' + field.Label | customTranslate : changedetect : root)  :  ('All ' + field.Label+ 's' | customTranslate : changedetect : root) }}"
+                                bindLabel="Name" bindValue="Id" class="taskSelect" [selectOnTab]="true" [formControlName]="field.FormField" (change)="onDropDownChange(field)" [id]="field.FormField" >
+                            </ng-select>
+                            
+                        </div>
+                        <ng-container
+                        *ngIf=" (isSubmitted && searchForm.get(field.FormField)?.invalid) || searchForm.get(field.FormField)?.invalid &&   searchForm.get(field.FormField)?.touched && searchForm.get(field.FormField)?.dirty">
+                        <div class="alert alert-danger" [id]="field.FormField+'Error'" role="alert"><span>{{
+                                getErrorMessage(field.FormField) | customTranslate : changedetect : root}}</span></div>
+                    </ng-container>
+                    </div>
+
+                    <div class="col-12 col-lg-3 form-line-Item  mb-3  me-lg-3" *ngIf="field?.Type == 'multicheckbox'">
+                        <div class="input-group search-card-multiSelect">
+                            <p class="mb-0 w-100">{{field.Label || ''| customTranslate : changedetect : root}} <span *ngIf="field.Required">*</span></p>
+                            <ng-multiselect-dropdown
+                            placeholder="{{ ('Select ' + field.Label | customTranslate : changedetect : root) }}"
+                            [settings]="multiSelectDropdownSettings" id="{{ field.FormField }}"
+                            [data]="mastersObject[field.FormField]" class="w-100" [formControlName]="field.FormField">                     
+                            </ng-multiselect-dropdown>
+                            
+                        </div>
+                        <ng-container
+                            *ngIf=" (isSubmitted && searchForm.get(field.FormField)?.invalid) || searchForm.get(field.FormField)?.invalid &&   searchForm.get(field.FormField)?.touched && searchForm.get(field.FormField)?.dirty">
+                            <div class="alert alert-danger" [id]="field.FormField+'Error'" role="alert"><span>{{
+                                    getErrorMessage(field.FormField) | customTranslate : changedetect : root}}</span></div>
+                        </ng-container>
+                    </div>
+
+
+
+                </ng-container>
+                <!-- here isHideSubmitButton is a input decorator from Generate payroll on getting listData the button is hidden  -->
+                <div class="col d-flex btnWithText">
+                
+
+                    <button *ngIf="!isHideSubmitButton"
+                        class="col btn btn-secondary action-btn btn-rounded-circle fs-lg-6 font-medium sub-btn field-height-sm "
+                        (click)="onSearch()" type="button" [ngClass]="{loading : isLoading}" id="submit" >
+                        {{'Submit' | customTranslate : changedetect : commonRoot}}
+                    </button>
+
+                    <div class="col col-lg gap-3 p-lg-0 d-flex align-items-center justify-content-end"
+                        *ngIf="!isNoRecords && TotalRecords">
+                        <form [formGroup]="pageLimitForm">
+                            <div class="d-flex align-items-center gap-3">
+                                <p class="mb-0">{{'Show' | customTranslate : changedetect : commonRoot}}</p>
+                                <select class="form-select form-width field-height-sm px-2" formControlName="pageLimit"
+                                    (change)="onLimitChange()" aria-label="Default select example">
+                                    <ng-container *ngFor="let item of limitArray">
+                                        <option [value]="item">{{item}}</option>
+                                    </ng-container>
+    
+                                </select>
+                               
+
+                                <p class="mb-0">{{'entries' | customTranslate : changedetect : commonRoot}}</p>
+                            </div>  
+                        </form>
+                    </div>
+                </div>
+
+            
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<ng-container *ngIf="!isLoading">
+    <div class="wrapping-box-container hide-box-container" id="display-box-container" >
+        <div id="main-interface main-button-block">
+          <div id="controls" class="controls">
+              <!-- Button that will begin a Liveness Check -->
+              <button id="enrollment-button" (click)="onEnrollmentPressed()" class="big-button">{{'Face Enrollment'|customTranslate:changedetect:root}}</button>
+              <!-- <button id="verify-button" (click)="onVerifyPreseed()" class="big-button">Authenticate</button> -->
+               <button class="custom-msg" >{{statusMessage|customTranslate:changedetect:root}}</button>
+              <p id="status">Initializing...</p>
+          </div>
+        </div>
+        <div class = "loading-session-token-container">
+          <p id="loading-session-token-text">Network Connection Slow...</p>
+        </div>
+        <div id="theme-transition-overlay">
+          <img id="theme-transition-overlay-img" onerror="this.style.display='none'" onload="this.style.display='block'" src="">
+        </div>
+      </div> 
+
+      <div class="" *ngIf="isDisplayCustomScanner && !IsAlreadyEnrolled && IsFaceEnrollEnabled">
+        <div class="d-flex justify-content-center">
+          <div class="card pos_category_card p-5 position-relative">
+              <div
+                class="mob_border_bottom col-12 col-lg-6 d-flex justify-content-center align-items-center flex-column cursor-pointer col-lg-12">
+                <button class="btn btn-primary" (click)="openEnrollCamera()">Face Enrollment</button>
+				<p *ngIf="statusMessage">{{statusMessage}}</p>
+              </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="container-fluid mt-5 text-center" *ngIf="IsAlreadyEnrolled && IsFaceEnrollEnabled">
+        <div class="alert alert-info" role="alert">
+          {{statusMessage | customTranslate:changedetect:root}}
+        </div>
+      </div>
+    </ng-container>
+    
+      <div class="loader-06" *ngIf="isLoading"></div>
+    
+    
+      

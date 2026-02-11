@@ -1,0 +1,36 @@
+.toast, .toast-box, .toast-header {
+    background-color: var(--toast_BgColorSecondary);
+}
+.toast-box {
+    display: block !important;
+}
+	.toast-body{
+		padding-left:24px;
+	}
+	.tile-Radius{
+		border-radius: 8px !important;
+	}
+
+    .checkbox-container{
+        max-height: 60vh;
+        overflow: auto;
+    }
+
+    .addBtnSearchControl{
+        width: 150px !important;
+        float: right;
+        margin-top: 1rem;
+    }
+
+    .tableSearch{
+      max-height: 300px;
+      overflow: auto;
+    }
+    .tableSearch th{
+        font-size: 13px;
+    }
+    @media(max-width: 990px){
+        .sub-btn{
+            font-size: 14px;
+        }
+    }

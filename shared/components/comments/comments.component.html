@@ -1,0 +1,28 @@
+<form [formGroup]="commentsForm">
+  <div class="col-12 form-line-Item" *ngFor="let field of commentsField; let i = index">
+    <ng-container *ngIf="field.IsView != false">
+      <label for="{{ field.FormField }}" class="form-label fs-6 font-medium">{{ field.Label | customTranslate : changedetect : root}}<span
+          *ngIf="field.Required">*</span></label>
+          <div class="inputWithTooltip">
+      <textarea [id]="field.FormField" autocomplete="disabled" aria-autocomplete="none" style="min-height: 60px"
+        [formControlName]="field.FormField" [placeholder]="field.PlaceHolder  | customTranslate : changedetect : root" class="form-control"
+        maxlength="{{ field.MaxLength }}" (keyup)="getcommentcounts($event, field, i )"></textarea>
+        <span class="cursor-pointer d-flex" container="body" *ngIf="toolTips"  
+        [triggers]="isMobileToolTip?'click:blur':'hover click'" [ngbTooltip]="toolTips  | customTranslate : changedetect : root"><img
+          src="assets/images/info-outline.svg" alt=""></span>
+</div>
+      <div class="notesinfo font-medium">
+        <p class="commentinfo flex-grow-1  m-0" *ngIf="field.CommentsAllow && field.CommentsAllow != '' "> ({{'We are not allowing'  | customTranslate : changedetect : root}} {{ field.CommentsAllow
+          }})</p>
+          <p class="commentinfo flex-grow-1  m-0" *ngIf="field.CommentsAllow == '' || field.CommentsAllow == undefined || field.CommentsAllow == null">
+           </p>
+        <p class="commentinfoallowing m-0"> ({{'Character count'  | customTranslate : changedetect : root}}
+          {{field.Commentscount}}.)</p>
+      </div>
+      <ng-container
+        *ngIf="  (isSubmitted && commentsForm.get(field.FormField)?.invalid) || commentsForm.get(field.FormField)?.invalid &&   commentsForm.get(field.FormField)?.touched && commentsForm.get(field.FormField)?.dirty">
+        <div class="alert alert-danger commentsForm" id="TestArea"><span>{{ getErrorMessage(field.FormField)  | customTranslate : changedetect : root}}</span></div>
+      </ng-container>
+    </ng-container>
+  </div>
+</form>

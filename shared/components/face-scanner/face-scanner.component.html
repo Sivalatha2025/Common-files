@@ -1,0 +1,52 @@
+<div class="container-fluid d-flex justify-content-center">
+	<div class="scanner-container">
+	  <div class="d-flex justify-content-center">
+		<div class="card face-scanner-card p-0">
+			<button
+			type="button"
+			class="modal-close close-btn"
+			data-bs-dismiss="modal"
+			aria-label="Close"
+			(click)="close()"
+		  >
+			<img src="/assets/images/close-gray-circle.svg" class="w-100" alt="" />
+		  </button>
+
+			  <div [ngClass]="{ 'd-none': isDisplayErrorMsg }">
+
+
+				<div class="camera-inner-section">
+				  <video
+					#videoElement
+					autoplay
+					muted
+					class="camera-video-element"
+				  ></video>
+				  <canvas
+					#canvas
+					class="camera-video-canvas"
+				  ></canvas>
+
+				  <!-- Countdown or Processing text -->
+				  <div class="show-countdown-section"
+					*ngIf="showCountdown || showProcessing">
+					{{ countdownText }}
+				  </div>
+				  <!-- <svg viewBox="0 -10 300 220">
+					<ellipse class="path-bg" cx="150" cy="100" rx="75" ry="85" />
+					<ellipse #progressPath class="path-progress" cx="150" cy="100" rx="75" ry="85" />
+				  </svg> -->
+				  <!-- <div class="camera-ring-loader"> </div> -->
+				  <div class="camera-video-overlay"></div>
+				</div>
+			  </div>
+
+			  <!-- Error message block -->
+			  <div class="d-flex flex-column error-msg-block" [ngClass]="{ 'd-none': !isDisplayErrorMsg }">
+				<label>{{ errorMessage }}</label>
+				<button class="btn btn-primary sub-btn" (click)="reCapture()">Try Again</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>

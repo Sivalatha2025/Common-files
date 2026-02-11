@@ -1,0 +1,65 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Image Upload</h5>
+    <div class="d-flex justify-content-between">
+        <button *ngIf="showSavedImage" type="button" class="btn btn-outline-dark ms-2" (click)="uploadNew()">Edit Again</button>
+    <button type="button" class="btn btn-secondary ms-2" (click)="cancel()" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+  <div class="modal-body">
+    <ng-container *ngIf="!showSavedImage">
+
+        <div class="imgDiv">
+            <image-cropper  #imageCropper  [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
+                [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="4/3" [output]="'base64'"
+               [imageQuality]="100"  [onlyScaleDown]="true" [roundCropper]="false"
+                [canvasRotation]="canvasRotation" [transform]="transform" [alignImage]="'left'"
+                [style.display]="showCropper ? null : 'none'" format="png" (imageCropped)="imageCropped($event)"
+                (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady($event)"
+                (loadImageFailed)="loadImageFailed()">
+            </image-cropper>
+        </div>
+
+
+    </ng-container>
+    <!-- <div *ngIf="!showCropper" class="d-flex flex-row overflow-auto pt-3">
+        <div class="col-6 col-lg-3 me-3 position-relative">   
+         <img [src]="croppedImage" class="w-100" alt="" srcset="">
+        </div>
+     </div> -->
+  </div>
+  <div class="modal-footer justify-content-between">
+    <div class="d-flex">
+    <ng-container *ngIf="!showSavedImage">
+     <div class="d-flex flex-column me-4">
+        <div class="d-flex justify-content-between">
+            <label id="Zoom" class="example-name-label">Zoom</label>
+            <label class="example-value-label">{{zoomValue}}</label>
+        </div>
+       
+        <input id="zoomRange" type="range" min="1" max="2" [(ngModel)]="zoomValue" (change)="zoomChange()" step="0.1" value="1" class="slider" >
+     </div>
+     <div  class="d-flex flex-column me-4">
+        <div class="d-flex justify-content-between">
+            <label id="Rotate" class="example-name-label">Rotate</label>
+            <label class="example-value-label">{{degrees}}</label>
+        </div>
+       
+        <input id="roatateRange" type="range" min="0" max="360" [(ngModel)]="degrees" (change)="rotateChange()" step="5" value="0" class="slider" >
+
+     </div>
+    </ng-container>
+     </div>
+    <div class="d-flex">
+        <button type="button" class="btn ms-2 btn-outline-dark py-2 font-500" *ngIf="showCropper" (click)="resetImage()"
+        color="primary" >Reset</button>
+    <!-- <button type="button" class="btn ms-2 btn-outline-dark py-2 font-500" *ngIf="showCropper" (click)="crop()" 
+        color="primary" >Crop</button> -->
+    <button type="button" class="btn btn-primary ms-2 py-2 font-500" *ngIf="showCropper" (click)="crop()" 
+        color="primary" >Save</button>
+    <button type="button" class="btn ms-2 btn-outline-dark py-2 font-500" *ngIf="showCropper" (click)="OriginalSave()" 
+        color="primary" >Use Original</button>
+    </div>
+    <!-- <button type="button" class="btn ms-2 btn-primary py-2 ms-auto" *ngIf=" isModified && !showCropper" (click)="save()" 
+        color="primary" >Save</button> -->
+    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+  </div>

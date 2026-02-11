@@ -1,0 +1,121 @@
+<form novalidate autocomplete="off" [formGroup]="searchForm" (keyup.enter)="onSearch($event)">
+  <label for="{{ field.Type + field.FormField }}" class="form-label fs-6 font-medium">{{ field.Label  | customTranslate : changedetect : root}}<span
+      *ngIf="field.Required">*</span></label>
+  <div class="col-12 col-lg-6 d-flex align-items-center">
+    <!-- <p class="mb-0">Search</p> -->
+    
+
+
+    <div class="input-group">
+
+      <!-- <input  type="text" (keyup.enter)="onSearch()" [(ngModel)]="search" (ngModelChange)="onSearchInput()"  type="text" class="form-control field-height-sm border-end-0" [placeholder]="placeholder" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button class="btn btn-outline-dark border-start-0 action-btn search" [ngClass]="{loading : isLoading}" (click)="onSearch()"   type="button"><img *ngIf="!isLoading" src="assets/images/search-icon.svg"></button> -->
+      <input type="text" formControlName="search"  type="text"
+        class="form-control field-height-sm" [placeholder]="(field.PlaceHolder || '')  | customTranslate : changedetect : root">
+      <!-- <button class="btn btn-outline-dark border-start-0  search" (click)="onSearch()" type="button"><img
+          src="assets/images/search-icon.svg"></button> -->
+     
+    </div>
+  
+    <button class="btn btn-secondary action-btn btn-rounded-circle fs-lg-6 ms-3 d-flex align-items-center sub-btn field-height-sm"
+      (click)="onSearch($event)" type="button" [ngClass]="{loading : isLoading}">
+      {{'Submit'  | customTranslate : changedetect : root}}
+    </button>
+
+  </div>
+  <ng-container
+  *ngIf="(submitted && formValidations['search'].errors) || (formValidations['search'].errors && formValidations['search'].touched && formValidations['search'].dirty )">
+
+  <span class="alert alert-danger"
+    *ngIf="formValidations['search'].errors['pattern'] && !formValidations['search'].errors['required']">{{invalidSearch  | customTranslate : changedetect : root}}</span>
+</ng-container>
+</form>
+
+<ng-template #childPagepopup let-modal>
+  <div class="modal-header border-0">
+    <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Close" (click)="close($event)">
+      <img src="assets/images/close-icon.svg" class="w-100" alt="" />
+    </button>
+  </div>
+  <div class="modal-body pt-0">
+    <h4 class="mb-lg-3 font-medium">{{field?.PlaceHolder | customTranslate : changedetect : root }}</h4>
+    
+    <div class="row checkbox-container mb-2" *ngIf="searchData && searchData.length != 0">
+      <ng-container  *ngFor="let option of searchData; let i= index;" >
+      <div class="col-10 col-lg-4 my-2" *ngIf="existingObject[option.Id] != true">
+        <div  class="toast-header p-3  border-0  tile-Radius">
+          <input #checkbox *ngIf="!isSingleSelect" type="checkbox"  [value]="option?.Id" id="searchCheck{{field.FormField + i}}" [checked]="selectedDataObj[option?.Id]"
+          (change)="onCheckboxChange(option)">
+          <input #checkbox *ngIf="isSingleSelect"  type="checkbox" [value]="option?.Id" id="searchCheck{{field.FormField + i}}" [checked]="singleCheckedItem?.Id == option?.Id"
+          (change)="onCheckboxChange(option)">
+          <label class="ms-2 lh-1" for="searchCheck{{field.FormField + i}}">{{ option.Name }}</label>
+        </div> 
+       </div>
+      </ng-container>
+    </div>
+    <div class="d-flex flex-column text-center" *ngIf="isNoRecords ">
+      <img src="/assets/images/no-data-found.svg" class="noRecordimg" alt="">
+      <h3 class="my-5 text-center-title">{{'No Records'  | customTranslate : changedetect : root}}</h3>
+    </div>
+    <div class="button-container" *ngIf="!isNoRecords">
+      <button class="btn btn-primary action-btn fs-6 font-regular addBtnSearchControl btn-sm field-height-sm"
+        [disabled]="searchData.length==0" (click)="Add()">{{'Add'  | customTranslate : changedetect : root}}</button>
+    </div>
+
+
+  </div>
+
+</ng-template>
+<div class="col-12  tableSearch my-3" *ngIf="selectedValues && selectedValues.length !=0 && !isSingleSelect ">
+  <table class="table table-striped" >
+    <thead class="border-bottom">
+      <tr>
+        <th>{{'S.NO'  | customTranslate : changedetect : root}}</th>
+        <th>{{'Name'  | customTranslate : changedetect : root}}</th>
+        <th>{{'Action'  | customTranslate : changedetect : root}}</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let selectedOption of selectedValues; let i = index">
+      <tr *ngIf="selectedOption && !selectedOption.Status">
+        <td>{{ i + 1 }}</td>
+        <td>{{ selectedOption?.Name }}</td>
+        <td>
+          <a style="cursor: pointer;" (click)="delete(selectedOption)" title="delete">
+          <img class="img-icon" src="assets\images\delete-black-icon.svg" width="40" id="removeMobileicon"
+             height="30" alt="Del Icon" />
+          </a>
+        </td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<div class="col-12  tableSearch my-3" *ngIf="singleSelectedItem && isSingleSelect ">
+  <table class="table table-striped" >
+    <thead class="border-bottom">
+      <tr>
+        <th>{{'S.NO'  | customTranslate : changedetect : root}}</th>
+        <th>{{'Name'  | customTranslate : changedetect : root}}</th>
+        <th>{{'Action'  | customTranslate : changedetect : root}}</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container >
+      <tr >
+        <td>1</td>
+        <td>{{ singleSelectedItem?.Name }}</td>
+        <td>
+          <a href="javascript:void(0);" (click)="delete(singleSelectedItem , true)">
+          <img class="img-icon" src="assets\images\delete-black-icon.svg" width="40" id="removeMobileicon"
+             height="30" alt="Del Icon" />
+          </a>
+        </td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+</div>

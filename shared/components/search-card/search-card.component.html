@@ -1,0 +1,712 @@
+<div class="dateWithsearch" *ngIf="(isDisplaySearch || search) || (isSearchApplied) || (isDateApplied)">
+    <div class="card pt-2 pb-3 mb-3 rounded-0">
+        <div class="row gx-lg-0 mob_align_center_desktop_start">
+            <!-- <div class="d-flex w-100 gap-3"> -->
+                <div class="col-12 col-lg-3 me-lg-3 mb-lg-0 mb-lg-3 mb-2" *ngIf="searchNotRequired" >
+                    <!-- <p class="mb-0">Search</p> -->
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{'Search'  | customTranslate : changedetect : root}}</p>
+                        <!-- <input  type="text" (keyup.enter)="onSearch()" [(ngModel)]="search" (ngModelChange)="onSearchInput()"  type="text" class="form-control field-height-sm border-end-0" [placeholder]="placeholder" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-dark border-start-0 action-btn search" [ngClass]="{loading : isLoading}" (click)="onSearch()"   type="button"><img *ngIf="!isLoading" src="assets/images/search-icon.svg"></button> -->
+                        <input  type="text" [(ngModel)]="search" (ngModelChange)="onSearchInput()"  (keyup.enter)="onSearch()"  maxlength="64"  type="text" class="form-control field-height-sm border-end-0" placeholder="{{'Enter keywords' | customTranslate : changedetect : root}}" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-dark border-start-0  search" (click)="onSearch()"   type="button" *ngIf="!isProductBarcode"><img src="assets/images/search-icon.svg"></button>
+                        <span class="input-group-text basic-addon-1" id="basic-addon1" *ngIf="isProductBarcode"><i><img src="/assets/images/barcode-icon.svg" alt=""></i></span>
+                        
+                    </div>
+                    <small class="d-block">{{placeholder  | customTranslate : changedetect : root}}</small>
+                    <div class="alert alert-danger" role="alert"
+                    *ngIf="invalidSearch && search && search.length < searchLimit">
+                    <span> {{searchRequiredError | customTranslate : changedetect : root}}
+                    </span> 
+                    </div>
+                    <div class="alert alert-danger" role="alert"
+                    *ngIf="invalidSearch && this.search.length >= searchLimit">
+                    <span> {{invalidSearchMsg | customTranslate : changedetect : root}}
+                    </span> 
+                    </div>
+                   
+                </div>
+                <div class="col-12 col-lg-2 me-lg-3 mb-3 dateWidthresponsive " *ngIf="isDisplaySelectDate || isFromPendingSheet">
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{'Select Date' | customTranslate : changedetect : root}} <span *ngIf="isSelectedDatemandatory">*</span> </p>
+                        <app-editable-date-input
+                            [id]="'fromDate'"
+                            [(ngModel)]="fromDate"
+                            [placeholder]="'DD/MM/YYYY'"
+                            [format]="'dd/MM/yyyy'"
+                            [fieldName]="'fromDate'"
+                            [ControlTypeConfigurationId]="getControlTypeConfigurationId()"
+                            (searchDateChanges)="changeDate($event)"
+                         (ngModelChange)="onDateInputChange('fromDate', $event)"></app-editable-date-input>
+                    </div>
+                    <div *ngIf="isSelectedDatemandatory && this.datemandatory">
+                        <span class="alert alert-danger" id="selectDateError">{{'Please select a date' | customTranslate : changedetect : root}}</span>
+                    </div> 
+                    
+                </div>
+              
+
+                <div class="col-12 col-lg-4 form-line-Item  me-lg-3"  *ngIf="isDisplayDates">
+                    
+<div class="input-group inputWithTooltip dateSelectGroup justify-content-between d-flex" >
+    <div class="common-InputGroup p-0">
+    <div class="input-group">
+        <div class="d-flex justify-content-between w-100 position-relative">
+        <p class="mb-0">{{'From Date' | customTranslate : changedetect : root}} </p>
+        <span class="cursor-pointer tooltip-float tp-new" container="body" *ngIf="seachCardToolTips && seachCardToolTips['DateRange']"
+            [triggers]="isMobileToolTip?'click:blur':'hover click'" ngbTooltip="{{seachCardToolTips['DateRange'] | customTranslate : changedetect : root}}">
+            <img class="info_icon_size" src="assets/images/info-outline.svg" alt="">
+           </span>
+        </div>
+         
+        <app-editable-date-input
+            [id]="'fromDate'"
+            [(ngModel)]="fromDate"
+            [placeholder]="'DD/MM/YYYY'"
+            [format]="'dd/MM/yyyy'"
+            [fieldName]="'fromDate'"
+            [ControlTypeConfigurationId]="getControlTypeConfigurationId()"
+            (searchDateChanges)="changeDate($event)"
+         (ngModelChange)="onDateInputChange('fromDate', $event)"></app-editable-date-input>
+        </div>
+        <div class="alert alert-danger mt-1" role="alert" *ngIf="isGraterFromDate && !invalidFromDate">
+            <span> {{dateInvalidError | customTranslate : changedetect : root}}</span>
+        </div>
+        
+        <div class="clear-fix"></div>
+        </div>
+        <div class="common-InputGroup p-0">
+        <div class="input-group">
+            <div class="d-flex justify-content-between w-100 position-relative">
+            <p class="mb-0">{{'To Date' | customTranslate : changedetect : root}} </p>
+                <span class="cursor-pointer tooltip-float  tp-new" container="body" *ngIf="seachCardToolTips && seachCardToolTips['DateRange']"
+                [triggers]="isMobileToolTip?'click:blur':'hover click'" ngbTooltip="{{seachCardToolTips['DateRange'] | customTranslate : changedetect : root}}">
+                <img class="info_icon_size" src="assets/images/info-outline.svg" alt="">
+               </span> 
+        </div>
+            <app-editable-date-input
+                [id]="'toDate'"
+                [(ngModel)]="toDate"
+                [placeholder]="'DD/MM/YYYY'"
+                [format]="'dd/MM/yyyy'"
+                [fieldName]="'toDate'"
+                [ControlTypeConfigurationId]="getControlTypeConfigurationId()"
+                (searchDateChanges)="changeDate($event)"
+             (ngModelChange)="onDateInputChange('toDate', $event)"></app-editable-date-input>               
+        </div> 
+       
+        </div>
+
+</div>
+
+                </div>
+
+                 
+                <div class="col-12 col-lg-2 me-lg-3 mb-3 dateWidthresponsive" *ngIf="isDisplayNextStepDate" >
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{'Next Step' | customTranslate : changedetect : root}}</p>
+                        <app-editable-date-input
+                            [id]="'nextStepDate'"
+                            [(ngModel)]="nextStepDate"
+                            [placeholder]="'DD/MM/YYYY'"
+                            [format]="'dd/MM/yyyy'"
+                            [fieldName]="'nextStepDate'"
+                            [ControlTypeConfigurationId]="getControlTypeConfigurationIdForNextStep()"
+                            (searchDateChanges)="changeDate($event)"
+                         (ngModelChange)="onDateInputChange('nextStepDate', $event)"></app-editable-date-input>               
+                    </div>
+                </div>
+                <!-- <div class="col-6 col-lg-3 me-lg-3" *ngIf="ErrorLogMasterData!=undefined && ErrorLogMasterData!=null && ErrorLogMasterData!=''">
+                    <div class="input-group">
+                    <select   (change)="masterDropDownChange($event)" class="form-control field-height-sm border-end-0 rounded-start"
+                      aria-label="Default select example">
+                      <option selected value="">Select </option>
+                      <ng-container *ngFor="let item of ErrorLogMasterData">
+                        <option  value="{{item.Id}}">{{ item.Name }}</option>
+                      </ng-container>
+                    </select>
+                </div>
+                    <ng-container *ngIf="  (RequestTypeID && addForm.get(field.FormField)?.invalid) || addForm.get(field.FormField)?.invalid &&   addForm.get(field.FormField)?.touched && addForm.get(field.FormField)?.dirty">
+                      <span class="alert  position-absolute alert-danger">{{ getErrorMessage(field.FormField)}}</span>
+                    </ng-container>
+                  </div> -->
+                  <div class="col-12 col-lg-3 form-line-Item mb-3 mb-lg-0" *ngIf="ErrorLogMasterData!=undefined && ErrorLogMasterData!=null && ErrorLogMasterData!=''">
+                    <p for="stateCode" class="mb-0 w-100">{{'SolrError Type' | customTranslate : changedetect : root}}*</p>
+                    <select class="form-select field-height-sm" aria-label="Default select example" id="stateCode" (change)="masterDropDownChange($event)" [(ngModel)]="selectedErrorId">
+                        <option value="">{{'Select SolrError Type' | customTranslate : changedetect : root}}*</option>
+                        <ng-container *ngIf="ErrorLogMasterData != undefined && ErrorLogMasterData != null">
+                         <option *ngFor="let item of ErrorLogMasterData  "value="{{item.Id}}">{{item.Name}}</option>
+                        </ng-container>
+                    </select>
+                    <ng-container *ngIf="masterErrorIDCheck">
+                        <span class="alert position-absolute alert-danger">{{SelectSolrErrorType | customTranslate : changedetect : root}}</span>
+                    </ng-container>
+                </div>
+                  <div class="col-12 col-lg-3 form-line-Item mb-3 mb-lg-0" *ngIf="siteNameData!=undefined && siteNameData!=null && siteNameData!=''">
+                    <p for="stateCode" class="mb-0 w-100">{{'Site' | customTranslate : changedetect : root}}</p>
+                    <!-- <select class="form-select field-height-sm" aria-label="Default select example" id="stateCode" (change)="siteNamechange($event)" [(ngModel)]="selectedErrorId">
+                        <option value="null">{{'Select Site' | customTranslate : changedetect : root}}</option>
+                        <ng-container *ngIf="siteNameData != undefined && siteNameData != null">
+                         <option *ngFor="let item of siteNameData  "value="{{item.Id}}">{{item.Name}}</option>
+                        </ng-container>
+                    </select> -->
+                    <ng-select Id="selectSite" [items]="siteNameData" [inputAttrs]="{maxlength : '64'}" placeholder="{{'Select Site'  | customTranslate : changedetect : root}}" bindLabel="Name"
+                    bindValue="Id" class="taskSelect" [selectOnTab]="true" [(ngModel)]="selectedSiteLog" >
+                </ng-select>
+
+                </div>
+                <div class="col-12 col-lg-3 form-line-Item mb-md-4 mb-lg-0 me-lg-3 mb-3" *ngIf="ErrorTypeMasterData!=undefined && ErrorTypeMasterData!=null && ErrorTypeMasterData!=''">
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{'Log Type' | customTranslate : changedetect : root}}*</p>
+                        <!-- <label for="logType" class="mb-0 w-100"></label> -->
+                        <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="logType" (change)="masterDropDownChange($event)" [(ngModel)]="selectedLogId">
+                            <option value="">{{'Select Log Type' | customTranslate : changedetect : root}}</option>
+                            <ng-container *ngIf="ErrorTypeMasterData != undefined && ErrorTypeMasterData != null">
+                                <option *ngFor="let item of ErrorTypeMasterData  "value="{{item.Id}}">{{item.Name}}</option>
+                            </ng-container>
+                        </select> -->
+                        <ng-select Id="logtype" [items]="ErrorTypeMasterData" [inputAttrs]="{maxlength : '64'}" placeholder="{{'Select Log Type'  | customTranslate : changedetect : root}}" bindLabel="Name"
+                        bindValue="Id" class="taskSelect" [selectOnTab]="true" [(ngModel)]="selectedLogId" >
+                    </ng-select>
+                    </div>
+                    <ng-container *ngIf="masterErrorIDCheck">
+                        <span class="alert position-absolute alert-danger">{{SelectLogType | customTranslate : changedetect : root}}</span>
+                    </ng-container>
+                </div>
+                 <!-- Task module Dropdowns Section start-->
+                  <div class="col-12 col-lg-3 form-line-Item mb-md-4 mb-lg-0 me-lg-3 mb-3" *ngIf="allMasterDropDownData['HRMSClientProject']!=undefined && allMasterDropDownData['HRMSClientProject']!!=null && allMasterDropDownData['HRMSClientProject']!!=''">
+                    <div class="input-group">
+                        <div class="d-flex justify-content-between w-100">
+                            <p  class="mb-0 w-100">{{'Project' | customTranslate : changedetect : root}}</p>
+                        </div>
+                        <ng-select [items]="allMasterDropDownData['HRMSClientProject']" [inputAttrs]="{maxlength : '64'}" placeholder="{{'All'  | customTranslate : changedetect : root}}" bindLabel="ProjectName" bindValue="Id"
+                        class="taskSelect" [selectOnTab]="true"  [(ngModel)]="selectedProjectId">
+                      </ng-select>
+                </div>
+                  </div>
+
+                  <div class="col-12 col-lg-3 form-line-Item mb-md-4 mb-lg-0 mb-3 me-lg-3" *ngIf="allMasterDropDownData['HRMSTaskStatus']!=undefined && allMasterDropDownData['HRMSTaskStatus']!=null && allMasterDropDownData['HRMSTaskStatus']!=''">
+                    <div class="input-group d-block">
+                        <div class="input-group">
+                    <p for="stateCode" class="mb-0 w-100">{{"Status" | customTranslate : changedetect : root}}</p>
+                    <!-- <select class="form-select field-height-sm" aria-label="Default select example" id="stateCode" [(ngModel)]="selectedStatusId">
+                        <option value="">All</option>
+                        <ng-container *ngIf="allMasterDropDownData['HRMSTaskStatus'] != undefined && allMasterDropDownData['HRMSTaskStatus'] != null">
+                         <option *ngFor="let item of allMasterDropDownData['HRMSTaskStatus']  "value="{{item.Id}}">{{item.Name}}</option>
+                        </ng-container>
+                    </select> -->
+                    <ng-select [items]="allMasterDropDownData['HRMSTaskStatus']" [inputAttrs]="{maxlength : '64'}" placeholder="{{'Select Status'  | customTranslate : changedetect : root}}" bindLabel="Name"
+                    bindValue="Id" class="taskSelect" [selectOnTab]="true" [(ngModel)]="selectedStatusId" >
+                </ng-select>
+                </div>
+            </div>
+                </div>
+                <div class="col-12 col-lg-2 form-line-Item mb-md-4 mb-lg-0 mb-3 me-lg-3" *ngIf="allMasterDropDownData['EmployeeGrievanceStatusType']!=undefined && allMasterDropDownData['EmployeeGrievanceStatusType']!=null && allMasterDropDownData['EmployeeGrievanceStatusType']!=''">
+                    <div class="input-group">
+                    <p for="stateCode" class="mb-0 w-100">{{'Status' | customTranslate : changedetect : root}}</p>
+                    <!-- <select class="form-select field-height-sm" aria-label="Default select example" id="stateCode" [(ngModel)]="selectedStatusId">
+                        <option value="">All</option>
+                        <ng-container *ngIf="allMasterDropDownData['EmployeeGrievanceStatusType'] != undefined && allMasterDropDownData['EmployeeGrievanceStatusType'] != null">
+                         <option *ngFor="let item of allMasterDropDownData['EmployeeGrievanceStatusType']  "value="{{item.Id}}">{{item.Name}}</option>
+                        </ng-container>
+                    </select> -->
+                    <ng-select [items]="allMasterDropDownData['EmployeeGrievanceStatusType']" [inputAttrs]="{maxlength : '64'}" placeholder="{{'All'  | customTranslate : changedetect : root}}" bindLabel="Name"
+                    bindValue="Id" class="taskSelect" [selectOnTab]="true" [(ngModel)]="selectedStatusId" >
+                </ng-select>
+                </div>
+                </div>
+                <!-- Task module Dropdowns Section end-->
+
+                 <!-- Upload page dropdows start-->
+                <div class="col-12 col-lg-3 form-line-Item mb-3 mb-lg-0 me-lg-3" *ngIf="fileTypeData && fileTypeData.length > 0">
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{'File Upload Type' | customTranslate : changedetect : root}}</p>
+                        <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="uploadtype" (change)="uploadFile($event,'fileType' )" [(ngModel)]="selectedFileType">
+                            <option selected value="">{{'Select File Upload Type' | customTranslate : changedetect : root}}</option>
+                            <ng-container *ngIf="fileTypeData != undefined && fileTypeData != null">
+                             <option *ngFor="let item of fileTypeData" [id]="item.Name" [value]="item.Id">{{item.Name}}</option>
+                            </ng-container>
+                        </select> 
+                    </div>
+                                    
+                </div>
+
+                <div class="col-12 col-lg-3 form-line-Item mb-3 mb-lg-0 me-lg-3 " *ngIf="fileStatusData && fileStatusData.length > 0">
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{'Status' | customTranslate : changedetect : root}}</p>
+                        <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="uploadstatus" (change)="uploadFile($event, 'fileStatus')" [(ngModel)]="selectedStatus">
+                            <option selected value="">Select Status</option>
+                            <ng-container *ngIf="fileStatusData != undefined && fileStatusData != null">
+                             <option *ngFor="let item of fileStatusData" [id]="item.Name" [value]="item.Id">{{item.Name}}</option>
+                            </ng-container>
+                        </select>  -->
+                        <ng-select [items]="fileStatusData" bindLabel="Name" bindValue="Id" placeholder="{{'Select Status'  | customTranslate : changedetect : root}}"
+                            [(ngModel)]="selectedStatus" [selectOnTab]="true" (keyup.enter)="preventEnter($event)" (change)="uploadFile($event, 'fileStatus')" class="field-height-sm rounded-start taskSelect">
+                         </ng-select>
+                    </div>                                    
+                </div>
+
+                <div class="col-12 col-lg-3 form-line-Item mb-4 mb-lg-0 me-lg-3 " *ngIf="orderStatusData && orderStatusData.length > 0">
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{"Status" | customTranslate : changedetect : root}}</p>
+                        <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="uploadstatus" (change)="onChangeOrderStatus(selectedOrderStatus)" [(ngModel)]="selectedOrderStatus">
+                            <option selected value="">Select Status</option>
+                            <ng-container *ngFor="let item of orderStatusData">
+                             <option *ngIf="item.Name?.toLowerCase() != 'hold'"  [id]="item.Name" [value]="item.Id">{{item.Name}}</option>
+                            </ng-container>
+                        </select>  -->
+
+                        <ng-select class="taskSelect" aria-label="Default select example" id="uploadstatus" [items]="orderStatusData"
+                            bindLabel="Name" bindValue="Id" [(ngModel)]="selectedOrderStatus"
+                            (change)="onChangeOrderStatus(selectedOrderStatus)" placeholder="{{'Select Status' | customTranslate : changedetect : root}}">
+                        </ng-select>
+             
+                    </div>                                    
+                </div>
+                <div class="col-12 col-lg-3 form-line-Item mb-4 mb-lg-0 me-lg-3 " *ngIf="activityMaster && activityMaster.length > 0">
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{"Activity Type" | customTranslate : changedetect : root}}</p>
+                        <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="uploadstatus" (change)="onChangeOrderStatus(selectedOrderStatus)" [(ngModel)]="selectedOrderStatus">
+                            <option selected value="">Select Status</option>
+                            <ng-container *ngFor="let item of orderStatusData">
+                             <option *ngIf="item.Name?.toLowerCase() != 'hold'"  [id]="item.Name" [value]="item.Id">{{item.Name}}</option>
+                            </ng-container>
+                        </select>  -->
+
+                        <ng-select class="taskSelect" aria-label="Default select example" id="uploadstatus" [items]="activityMaster"
+                            bindLabel="Name" bindValue="Id" [(ngModel)]="selectedLead"
+                            placeholder="{{'Select Activity Type' | customTranslate : changedetect : root}}">
+                        </ng-select>
+             
+                    </div>                                    
+                </div>
+                <div class="col-12 col-lg-3 form-line-Item mb-4 mb-lg-0 me-lg-3 " *ngIf="(dueDateAndNormalDates && dueDateAndNormalDates.length > 0)">
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{"Filter Type" | customTranslate : changedetect : root}}</p>
+                        <ng-select class="taskSelect" aria-label="Default select example" id="uploadstatus" [items]="dueDateAndNormalDates"
+                            bindLabel="Name" bindValue="Id" [(ngModel)]="selectDueDateAndNormalDates" [clearOnBackspace]="false" [clearable]="false"
+                            placeholder="{{'Select Activity Type' | customTranslate : changedetect : root}}">
+                        </ng-select>
+             
+                    </div>                                    
+                </div>
+                <div class="col-12 col-lg-3 form-line-Item mb-4 mb-lg-0 me-lg-3 " *ngIf="leadNameMaster && leadNameMaster.length > 0">
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{'Account' | customTranslate : changedetect : root}}</p>
+                        <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="uploadstatus" (change)="onChangeLeadName(selectedOrderStatus)" [(ngModel)]="selectedOrderStatus">
+                            <option selected value="">{{'Select account' | customTranslate : changedetect : root}}</option>
+                            <ng-container *ngIf="leadNameMaster != undefined && leadNameMaster != null">
+                                <ng-container  *ngFor="let item of leadNameMaster" >
+                                    <option [id]="item.AccountName" [value]="item.Id" *ngIf="item.AccountName!=undefined && item.AccountName!=null && item.AccountName!=''">{{item.AccountName}}</option>
+                                </ng-container>
+                            </ng-container>
+                        </select> 
+                    </div>                                    
+                </div>
+                <!-- Upload page dropdows end-->
+
+                <!-- status and transpoter dropdows for purchase order start-->
+                <div class="col-12 col-lg-3 form-line-Item mb-4 mb-lg-0 " *ngIf="transportArray && transportArray.length > 0">
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{"Transporter" | customTranslate : changedetect : root}}</p>
+                        <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="potransport" (change)="statusOrTranspChange($event, 'transporter')" [(ngModel)]="transporterId">
+                            <option value="">Select Transporter</option>
+                            <ng-container *ngIf="transportArray != undefined && transportArray != null">
+                             <option *ngFor="let item of transportArray"  [id]="item.Name" [value]="item.Id">{{item.Name}}</option>
+                            </ng-container>
+                        </select>  -->
+                        <ng-select [items]="transportArray" [inputAttrs]="{maxlength : '64'}" placeholder="{{'Select Transporter' | customTranslate : changedetect : root}}" (change)="statusOrTranspChange($event, 'transporter')"
+                            bindLabel="Name" bindValue="Id" id="potransport" class="taskSelect" [selectOnTab]="true" [(ngModel)]="transporterId">
+                        </ng-select>
+                    </div>                                    
+                </div>
+                <div class="col-12 col-lg-3 form-line-Item mb-4 mb-lg-0 me-lg-3 " *ngIf="satusArray && satusArray.length > 0">
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{"Status" | customTranslate : changedetect : root}}</p>
+                        <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="postatus" (change)="statusOrTranspChange($event, 'status')" [(ngModel)]="statusId">
+                            <option value="">Select Status</option>
+                            <ng-container *ngIf="satusArray != undefined && satusArray != null">
+                             <option *ngFor="let item of satusArray" [id]="item.Name" [value]="item.Id">{{item.Name}}</option>
+                            </ng-container>
+                        </select>  -->
+
+                        <ng-select [items]="satusArray" [inputAttrs]="{maxlength : '64'}" placeholder="{{'Select Status' | customTranslate : changedetect : root}}" (change)="statusOrTranspChange($event, 'status')"
+                            bindLabel="Name" bindValue="Id" id="postatus" class="taskSelect" [selectOnTab]="true" [(ngModel)]="statusId">
+                        </ng-select>
+                    </div>                                    
+                </div>
+                 <!-- status and transpoter dropdows for purchase order end-->
+
+                 <div class="col-12 col-lg-3 form-line-Item mb-4 mb-lg-0 me-lg-3 " *ngIf="alertArray && alertArray.length > 0">
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{"Alert Type"}}</p>
+                        <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="alerType"  [(ngModel)]="alertType">
+                            <option value="">{{'Select Alert Type' | customTranslate : changedetect : root}}</option>
+                            <ng-container *ngIf="alertArray != undefined && alertArray != null">
+                             <option *ngFor="let item of alertArray" [id]="item.Name" [value]="item.Id">{{item.Name}}</option>
+                            </ng-container>
+                        </select> 
+                    </div>                                    
+                </div>
+
+               <!-- department dropdown for Employee shift starts -->
+               <div class="col-12 col-lg-2 form-line-Item mb-md-4 mb-lg-0 mb-3 me-lg-3" *ngIf="departmentData && departmentData.length > 0">
+                <div class="input-group">
+                    <p class="mb-0 w-100">{{'Department' | customTranslate : changedetect : root}}</p>
+                    <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="alerType"  [(ngModel)]="selectedDepartment">
+                        <option value="">Select Department</option>
+                        <ng-container *ngIf="departmentData != undefined && departmentData != null">
+                            <option *ngFor="let item of departmentData" [id]="item.Name" [value]="item.Id">{{item.Name}}</option>
+                        </ng-container>
+                    </select> -->
+                    <ng-select [items]="departmentData" [inputAttrs]="{maxlength : '64'}" placeholder="{{'Select Department' | customTranslate : changedetect : root}}" bindLabel="Name"
+                    bindValue="Id" class="taskSelect" [selectOnTab]="true" [(ngModel)]="selectedDepartment" >
+                </ng-select>
+                </div>                                    
+            </div>
+               <!-- department dropdown for Employee shift ends -->
+               <div class="col-12 col-lg-3 form-line-Item mb-md-4 mb-lg-0 me-lg-3 mob_mb_remove mob_margin_top" *ngIf="employeeData && employeeData.length > 0">
+                <div class="input-group">
+                    <!-- <div class="d-flex justify-content-between"> -->
+                        <p class="mb-0 w-100">{{'Employee Name' | customTranslate : changedetect : root}}<span *ngIf="empValidation">*</span></p>
+                    <!-- </div> -->
+                    <div class="inputWithTooltip w-100">
+                    <!-- <div class="inputWithTooltip w-100">
+                        <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="alerType"
+                            [(ngModel)]="selectedEmployee">
+                            <option value="">Select Employee Name</option>
+                            <ng-container *ngIf="employeeData != undefined && employeeData != null">
+                                <option *ngFor="let item of employeeData" [id]="item.Name" [value]="item.Id">{{item.Name}}</option>
+                            </ng-container>
+                        </select> -->
+                        <ng-select [items]="employeeData" [inputAttrs]="{maxlength : '64'}" placeholder="{{'Select Employee Name' | customTranslate : changedetect : root}}" bindLabel="Name"
+                            bindValue="Id" class="leadSelect taskSelect" [selectOnTab]="true" [(ngModel)]="selectedEmployee" (change)="onDropdownChange($event)" >
+                        </ng-select>
+                        <span class="cursor-pointer d-flex " container="body" *ngIf="seachCardToolTips && seachCardToolTips['selectEmployeeToolTips']"
+                        [triggers]="isMobileToolTip?'click:blur':'hover click'" ngbTooltip="{{seachCardToolTips['selectEmployeeToolTips'] | customTranslate : changedetect : root}}"><img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                        
+                    </div>
+                    <div *ngIf="isEmployeeError && empValidation">
+                        <span class="alert alert-danger" id="selectEmployeeError">{{'Please Select Employee' | customTranslate : changedetect : root}}</span>
+                    </div>
+                        <!-- <span class="cursor-pointer d-flex " container="body" *ngIf="seachCardToolTips && seachCardToolTips['selectEmployeeToolTips']"
+                             [triggers]="isMobileToolTip?'click:blur':'hover click'" ngbTooltip="{{seachCardToolTips['selectEmployeeToolTips']}}"><img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span> -->
+                    <!-- </div> -->
+                    
+                </div>                                    
+        	</div>
+
+            <div class="col-12 col-lg-3 form-line-Item mb-md-4 mb-lg-0 me-lg-3 mb-1" *ngIf="isEmployeeWithSearch">
+                <div class="input-group d-block">
+                    <!-- <div class="d-flex justify-content-between"> -->
+                        <p class="mb-0 w-100">{{"Employee Name" | customTranslate : changedetect : root}}<span *ngIf="empValidation">*</span></p>
+                        
+                    <!-- </div> -->
+                    <div class="inputWithTooltip w-100">
+
+                    <ng-select 
+  [items]="employeeSearchData" 
+  [loading]="searching"
+  [inputAttrs]="{maxlength : '64'}"
+  placeholder="{{'Select Employee Name' | customTranslate : changedetect : root}}"
+  bindLabel="Name"
+  bindValue="Id"
+  [notFoundText]="searching ? ('Loading...' | customTranslate : changedetect : root) : (noRecordsFound | customTranslate : changedetect : root)"
+  class="taskSelect"
+  [(ngModel)]="selectedEmployee"
+  [minTermLength]="3"
+  [selectOnTab]="true"
+  (clear)="clearEmployeeDetails()"
+  (search)="onEmployeeSearchChange($event)"
+  (blur)="onEmployeeNotSelect($event)">
+</ng-select>     
+                        <span class="cursor-pointer d-flex " container="body" *ngIf="seachCardToolTips && seachCardToolTips['selectEmployeeToolTips']"
+                         [triggers]="isMobileToolTip?'click:blur':'hover click'" ngbTooltip="{{seachCardToolTips['selectEmployeeToolTips'] | customTranslate : changedetect : root}}"><img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span> 
+                        </div>                     
+                </div> 
+                <small class="d-block">{{'Enter minimum 3 characters .'| customTranslate : changedetect : root}}</small>   
+                <div *ngIf="isEmployeeError && empValidation">
+                    <span class="alert alert-danger" id="selectEmployeeError">{{'Please Select Employee' | customTranslate : changedetect : root}}</span>
+                </div>                                
+            </div>
+
+               <div class="col-12 col-lg-3 form-line-Item mb-md-4 mb-lg-0 me-lg-3 mb-1" *ngIf="reviewEmployeeStatus && reviewEmployeeStatus.length > 0">
+                <div class="input-group d-block">
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-0 w-100">{{'Employee Review Status' | customTranslate : changedetect : root}}<span *ngIf="empValidation">*</span></p>
+                        <span class="cursor-pointer d-flex " container="body" *ngIf="seachCardToolTips && seachCardToolTips['selectEmployeeToolTips']"
+                         triggers="hover click" ngbTooltip="{{seachCardToolTips['selectEmployeeStatusToolTips'] | customTranslate : changedetect : root}}"><img src="assets/images/info-outline.svg" alt=""></span>
+                    </div>
+                    <div class="inputWithTooltip w-100">
+                        <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="alerType"
+                            [(ngModel)]="selectedreviewEmployeeStatus">
+                            <option value="">Select Employee Review Status</option>
+                            <ng-container *ngIf="reviewEmployeeStatus != undefined && reviewEmployeeStatus != null">
+                                <option *ngFor="let item of reviewEmployeeStatus" [id]="item.Name" [value]="item.Id">{{item.Name}}</option>
+                            </ng-container>
+                        </select> -->
+                        <ng-select [items]="reviewEmployeeStatus" [inputAttrs]="{maxlength : '64'}" placeholder="{{'Select Employee Review Status' | customTranslate : changedetect : root}}" bindLabel="Name"
+                            bindValue="Id" class="taskSelect" [(ngModel)]="selectedreviewEmployeeStatus" >
+                        </ng-select>
+                        <!-- <span class="cursor-pointer d-flex " container="body" *ngIf="seachCardToolTips && seachCardToolTips['selectEmployeeToolTips']"
+                             triggers="hover click" ngbTooltip="{{seachCardToolTips['selectEmployeeToolTips']}}"><img src="assets/images/info-outline.svg" alt=""></span> -->
+                    <!-- </div> -->
+                    
+                </div>                                    
+        	</div>
+            </div>
+            <div class="col-12 col-lg-3 form-line-Item mb-md-4 mb-lg-0 mb-3 me-lg-3" *ngIf="allMasterDropDownData['EmployeeStatus']!=undefined && allMasterDropDownData['EmployeeStatus']!=null && allMasterDropDownData['EmployeeStatus']!=''">
+               <div class="input-group d-block">
+                <div class="d-flex justify-content-between">
+                <p for="stateCode" class="mb-0 w-100">{{'Status' | customTranslate : changedetect : root}}</p>
+            </div>
+                <!-- <select class="form-select field-height-sm w-100" style="border-radius: 0.375rem;" aria-label="Default select example" id="stateCode" [(ngModel)]="selectedStatusId">
+                    <option value="">Select Status</option>
+                    <ng-container *ngIf="allMasterDropDownData['EmployeeStatus'] != undefined && allMasterDropDownData['EmployeeStatus'] != null">
+                     <option *ngFor="let item of allMasterDropDownData['EmployeeStatus']  "value="{{item.Id}}">{{item.Name}}</option>
+                    </ng-container>
+                </select> -->
+
+                <ng-select [items]="allMasterDropDownData['EmployeeStatus']" [inputAttrs]="{maxlength : '64'}" placeholder="{{'Select Status' | customTranslate : changedetect : root}}" bindLabel="Name"
+                    bindValue="Id" class="taskSelect" [selectOnTab]="true" [(ngModel)]="selectedStatusId" >
+                </ng-select>
+            </div>
+            </div>
+                <!--Manage Attandance for Employee-->
+
+                <!-- year and month dropdowns for daily attendance starts -->
+                <div class="col-12 col-lg-2 form-line-Item mb-4 mb-lg-0 me-lg-3 mob_mb_remove mob_margin_top" *ngIf="monthData && monthData.length > 0">
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{"Month" | customTranslate : changedetect : root}}</p>
+                        <div class="inputWithTooltip w-100">
+                            <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="alerType"
+                                [(ngModel)]="selectedMonth">
+                                <ng-container *ngIf="monthData != undefined && monthData != null">
+                                    <option *ngFor="let item of monthData" [id]="item.Name" [value]="item.Id">{{item.Name}}</option>
+                                </ng-container>
+                            </select> -->
+
+                            <ng-select [items]="monthData" [inputAttrs]="{maxlength : '64'}" placeholder="{{'Select Month' | customTranslate : changedetect : root}}" bindLabel="Name" bindValue="Id"
+                            class="leadSelect taskSelect" [clearable]="isClearableMonth" [selectOnTab]="true" [(ngModel)]="selectedMonth">
+                          </ng-select>
+
+                            <span class="cursor-pointer d-flex " container="body" *ngIf="seachCardToolTips && seachCardToolTips['selectMonthToolTips']"
+                                 [triggers]="isMobileToolTip?'click:blur':'hover click'" ngbTooltip="{{seachCardToolTips['selectMonthToolTips'] | customTranslate : changedetect : root}}"><img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                        </div>
+                    </div>                                    
+                </div>
+                <div class="col-12 col-lg-2 form-line-Item mb-4 mb-lg-0 me-lg-3 mob_margin_top" *ngIf="yearData && yearData.length > 0">
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{"Year" | customTranslate : changedetect : root}}</p>
+                        <div class="inputWithTooltip w-100">
+                            <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="alerType"
+                                [(ngModel)]="selectedYear">
+                                <ng-container *ngIf="yearData != undefined && yearData != null">
+                                    <option *ngFor="let item of yearData" [id]="item.Name" [value]="item.Id">{{item.Name}}</option>
+                                </ng-container>
+                            </select> -->
+                            <ng-select [items]="yearData" [inputAttrs]="{maxlength : '4',type:'number', oninput: 'maxLengthCheck(this)'}" placeholder="{{'Select Month' | customTranslate : changedetect : root}}" bindLabel="Name" bindValue="Id"
+                            class="leadSelect taskSelect" [clearable]="isClearableYear" [selectOnTab]="true" [(ngModel)]="selectedYear">
+                          </ng-select>
+                            <span class="cursor-pointer d-flex " container="body" *ngIf="seachCardToolTips && seachCardToolTips['selectYearToolTips']"
+                                 [triggers]="isMobileToolTip?'click:blur':'hover click'" ngbTooltip="{{seachCardToolTips['selectYearToolTips'] | customTranslate : changedetect : root}}"><img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                        </div>
+                    </div>                                    
+                </div>
+                   <!-- year and month dropdowns for daily attendance ends -->
+                   <!-- account dropdown starts -->
+                   <div class="col-12 col-lg-3 form-line-Item mb-4 mb-lg-0 me-lg-3 " *ngIf="leadData && leadData.length > 0">
+                    <div class="input-group">
+                        <div class="d-flex justify-content-between w-100">
+                            <p class="mb-0 w-100">{{'Account' | customTranslate : changedetect : root}}</p>
+                            <span class="cursor-pointer d-flex" container="body"  [triggers]="isMobileToolTip?'click:blur':'hover click'" ngbTooltip="{{ActivityManagementLeadSearchToolTip | customTranslate : changedetect : root}}"><img class="info_icon_size" src="assets/images/info-outline.svg" alt=""></span>
+                        </div>
+                        <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="alerType"  [(ngModel)]="selectedLead">
+                            <option value="">Select account</option>
+                            <ng-container *ngIf="leadData && leadData.length > 0">
+                                <option *ngFor="let item of leadData" [id]="item.Name" [value]="item.Id">{{item.AccountName}}</option>
+                            </ng-container>
+                        </select>  -->
+                        <ng-select [items]="leadData" [inputAttrs]="{maxlength : '64'}" placeholder="{{'Select account' | customTranslate : changedetect : root}}" bindLabel="AccountName" bindValue="Id"
+                        class="taskSelect" [selectOnTab]="true"  [(ngModel)]="selectedLead">
+                      </ng-select>
+                    </div>                                    
+                </div>
+                   <!-- account dropdown ends -->
+                   <!-- leave type dropdown starts -->
+                   <div class="col-12 col-lg-3 form-line-Item mb-md-4 mb-lg-0 me-lg-3 mb-3" *ngIf="leaveStatusData && leaveStatusData.length > 0">
+                    <div class="input-group">
+                        <p class="mb-0 w-100">{{'Leave Status'| customTranslate : changedetect : root}}</p>
+                        <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="alerType"  [(ngModel)]="selectedLeaveStatus">
+                            <option value="">Select Leave Status</option>
+                            <ng-container>
+                                <option *ngFor="let item of leaveStatusData" [id]="item.Name" [value]="item.Id">{{item.Name}}</option>
+                            </ng-container>
+                        </select>  -->
+                        <ng-select [items]="leaveStatusData" [inputAttrs]="{maxlength : '64'}" placeholder="{{'Select Leave Status'  | customTranslate : changedetect : root}}"
+                            bindLabel="Name" bindValue="Id" class="taskSelect" [selectOnTab]="true" [(ngModel)]="selectedLeaveStatus">
+                        </ng-select>
+                    </div>                                    
+                </div>
+                   <!-- leave type dropdown ends -->
+                    <!-- leave type dropdown starts -->
+                    <div class="col-12 col-lg-3 form-line-Item mb-md-4 mb-lg-0 me-lg-3 mb-3" *ngIf="leaveTypeData && leaveTypeData.length > 0">
+                        <div class="input-group">
+                            <p class="mb-0 w-100">{{'Leave Type' | customTranslate : changedetect : root}}</p>
+                            <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="alerType"  [(ngModel)]="selectedLeaveType">
+                                <option value="">Select Leave Type</option>
+                                <ng-container>
+                                    <option *ngFor="let item of leaveTypeData" [id]="item.Name" [value]="item.Id">{{item.Name}}</option>
+                                </ng-container>
+                            </select> -->
+                            <ng-select [items]="leaveTypeData" [inputAttrs]="{maxlength : '64'}" placeholder="{{'Select Leave Type'  | customTranslate : changedetect : root}}"
+                                bindLabel="Name" bindValue="Id" class="taskSelect" [selectOnTab]="true" [(ngModel)]="selectedLeaveType">
+                            </ng-select>
+                        </div>                                    
+                    </div>
+                       <!-- leave type dropdown ends -->
+                       <!-- employee status starts --> 
+                    <div class="col-12 col-lg-3 form-line-Item mb-4 mb-lg-0 me-lg-3" *ngIf="employeeStatusData && employeeStatusData.length >0" >
+                        <div class="input-group">
+                            <p class="mb-0 w-100">{{'Employee Status Type'   | customTranslate : changedetect : root}}</p>
+                            <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="alerType"  [(ngModel)]="selectedEmployeeStatus"  >
+                                <option value="">Select Employee Status Type</option>
+                                <ng-container>
+                                    <option *ngFor="let item of employeeStatusData" [id]="item.Name" [value]="item.HRMSEmployeeStatusId">{{item.Name}}</option>
+                                </ng-container>
+                            </select>  -->
+                            <ng-select id="employeeStatusData" [items]="employeeStatusData" [inputAttrs]="{maxlength : '64'}" id="empStatusType" placeholder="{{'Select Employee Status Type'  | customTranslate : changedetect : root}}"
+                                bindLabel="Name" bindValue="Id" class="taskSelect" [selectOnTab]="true" [(ngModel)]="selectedEmployeeStatus">
+                            </ng-select>
+                        </div>                                    
+                    </div>
+                       <!-- employee status ends -->
+                    
+                       <!--Store dopdown starts-->
+                    <div class="col-12 col-lg-3 form-line-Item mb-4 mb-lg-0 me-lg-3 " *ngIf="storeData && storeData.length > 0">
+                        <div class="input-group">
+                            <p class="mb-0 w-100">{{"Branch / Store"  | customTranslate : changedetect : root}}*</p>
+                            <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="alerType"  [(ngModel)]="selectedStore" (ngModelChange)="changeStore()">
+                                <option value="">Select Store</option>
+                                <ng-container *ngIf="storeData != undefined && storeData != null">
+                                    <option *ngFor="let item of storeData" [id]="item.Name" [value]="item.UserStoreId">{{item.Name}}</option>
+                                </ng-container>
+                            </select>  -->
+                            <ng-select [id]="'alerType'" [items]="storeData" [selectOnTab]="true"
+                                [inputAttrs]="{maxlength: '64', type: 'text'}" placeholder="{{'Select Branch / Store'  | customTranslate : changedetect : root}}"
+                                [(ngModel)]="selectedStore" bindLabel="Name" bindValue="UserStoreId" class="taskSelect" (ngModelChange)="changeStore()">
+                            </ng-select>
+                        </div> 
+                        <div class="alert alert-danger mt-1" role="alert" *ngIf="isStoreRequiredError">
+                            <span>{{storeRequiredErrorMsg  | customTranslate : changedetect : root}}</span>
+                        </div>                                   
+                    </div>
+                       <!--Store dopdown ends-->
+                        <!-- employee status starts for additional work --> 
+                    <div class="col-12 col-lg-3 form-line-Item mb-4 mb-lg-0 me-lg-3" *ngIf="employeeStatus && employeeStatus.length >0" >
+                        <div class="input-group">
+                            <p class="mb-0 w-100">{{"Status"}}</p>
+                            <!-- <select class="form-select field-height-sm rounded-start" aria-label="Default select example" id="alerType"  [(ngModel)]="selectedEmployeeStatusForAdditionalWork"  >
+                                <option value="">Select Employee Status</option>
+                                <ng-container>
+                                    <option *ngFor="let item of employeeStatus" [id]="item.Name" [value]="item.EmployeeAdditionalWorkStatusId">{{item.Name}}</option>
+                                </ng-container>
+                            </select> -->
+                            <ng-select [id]="'employeeStatus'" [items]="employeeStatus" [inputAttrs]="{maxlength : '64'}" placeholder="{{'Select Status'  | customTranslate : changedetect : root}}"
+                                bindLabel="Name" bindValue="EmployeeAdditionalWorkStatusId" class="taskSelect" [selectOnTab]="true" [(ngModel)]="selectedEmployeeStatusForAdditionalWork">
+                            </ng-select>
+                        </div>                                    
+                    </div>
+                       <!-- employee status starts for additional work -->
+                       <div class="col-12 col-lg-3 form-line-Item mb-md-4 mb-lg-0 mb-3 me-lg-3" *ngIf="fullFilmentStatus && fullFilmentStatus.length >0">
+                        <div class="input-group d-block">
+                        <p for="stateCode" class="mb-0 w-100">{{'Fulfillment Status'  | customTranslate : changedetect : root}}</p>
+                        <ng-select [items]="fullFilmentStatus" [inputAttrs]="{maxlength : '64'}" placeholder="{{'Select Fulfillment Status' | customTranslate : changedetect : root}}" bindLabel="Name"
+                        bindValue="Id" class="taskSelect" [selectOnTab]="true" [(ngModel)]="selectedFulfilmentStatusId" >
+                    </ng-select>
+                    </div>
+                    </div>
+
+                    <div class="col-12 col-lg-3 form-line-Item mb-4 mb-lg-0 me-lg-3 " *ngIf="siteData && siteData.length >0">
+                        <div class="input-group w-100">
+                            <p class="mb-0 w-100">{{'Site' |customTranslate:changedetect:root}}
+                                <span *ngIf="IsSiteMandatory">*</span>
+                            </p>
+                            <ng-multiselect-dropdown
+                            placeholder="{{'Select Site' | customTranslate : changedetect : root}}"
+                            [settings]="multiSelectDropdownSettings"
+                            [data]="siteData" class="w-100"
+                            [(ngModel)]="selectedSite"
+                            (onSelect)="getSelectedSite($event,'SingleSelect')"
+                            (onDeSelect)="getSelectedSite($event,'SingleDeselect')"
+                            (onSelectAll)="getSelectedAllType($event,'SelectAll')"
+                            (onDeSelectAll)="getSelectedAllType($event,'DeselectAll')">
+                            
+                            >                     
+                            </ng-multiselect-dropdown>
+                        </div>
+                        <div class="alert alert-danger mt-1" role="alert" *ngIf="isSiteError">
+                            <span>{{'Please select a site' |customTranslate:changedetect:root}}</span>
+                        </div>  
+                    </div>
+                    
+
+                <div class="col d-flex btnWithText">
+                <button *ngIf="!isExtract" class="col btn btn-secondary action-btn btn-rounded-circle fs-lg-6 font-medium sub-btn field-height-sm " (click)="onSearch()" type="button" id="Submit" [ngClass]="{loading : isLoading}" >
+                    {{'Submit'  | customTranslate : changedetect : root}}
+                </button>
+                <button *ngIf="isExtract && disableExtract" class="col btn btn-secondary action-btn btn-rounded-circle fs-lg-6 font-medium sub-btn field-height-sm " (click)="onExtract()" id="Submit" type="button" [ngClass]="{loading : isLoading}" >
+                    {{"Extract"  | customTranslate : changedetect : root}}
+                </button>
+             
+
+                
+                <!-- <div class="col-12 col-lg-2 d-flex mt-4">
+                   
+                    <button class="btn btn-secondary action-btn btn-rounded-circle fs-lg-6 ms-lg-3 font-medium sub-btn field-height-sm" (click)="onSearch()" type="button" [ngClass]="{loading : isLoading}" >
+                        Submit
+                    </button>
+                </div> -->
+                <div class="col col-lg gap-3 p-lg-0 d-flex align-items-center justify-content-end" *ngIf="!isNoRecords && TotalRecords">
+                    <p class="mb-0">{{"Show" | customTranslate : changedetect : root}}</p>
+                    <select class="form-select form-width field-height-sm px-2" *ngIf="!searchPipe && !searchPipeforEmployee" [(ngModel)]="pageLimit" (ngModelChange)="onLimitChange()" aria-label="Default select example">
+                       <ng-container *ngFor="let item of limitArray">
+                           <option [value]="item">{{item}}</option>
+                       </ng-container>
+                       
+                    </select>
+                    <select class="form-select form-width field-height-sm px-2" *ngIf="searchPipe && !searchPipeforEmployee" [(ngModel)]="pageLimit" (ngModelChange)="onPageLimitChange()" aria-label="Default select example">
+                       <ng-container *ngFor="let item of limitArray">
+                           <option [value]="item">{{item}}</option>
+                       </ng-container>
+                       
+                    </select>
+                    <select class="form-select form-width field-height-sm px-2" *ngIf="searchPipeforEmployee" [(ngModel)]="pageLimitForEmployee" (ngModelChange)="onEmployeeLimitChange()" aria-label="Default select example">
+                        <ng-container *ngFor="let item of empPageLimit">
+                            <option [value]="item">{{item}}</option>
+                        </ng-container>
+                        
+                     </select>
+                    <p class="mb-0">{{'entries' | customTranslate : changedetect : root}}</p>
+                </div>
+            </div>
+           
+            <!-- </div> -->
+            <div class="">
+                <!-- <div *ngIf="isEmployeeError && empValidation">
+                    <span class="alert alert-danger">Please Select Employee</span>
+                </div> -->
+                
+            </div>
+        </div>
+    </div>
+    <!--<div class="card py-2">
+        <div class="row gx-lg-0 g-3 justify-content-between" >
+           
+        </div>
+    </div>   --> 
+</div>
+
+
+
+

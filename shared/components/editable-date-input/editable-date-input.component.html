@@ -1,0 +1,66 @@
+<div class="input-group editable-date-input-wrapper">
+  <!-- Editable input (no datepicker directive) -->
+  <input
+    type="text"
+    #dateInput
+    [id]="id"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [class.is-invalid]="showError"
+    class="form-control field-height-sm border-end-0 rounded-start editable-date-input"
+    autocomplete="off"
+    (input)="onInput($event)"
+    (keydown)="onKeyDown($event)"
+    (paste)="onPaste($event)"
+    (blur)="onBlur()"
+    [attr.maxlength]="isTime ? 19 : 10"
+  />
+  <!-- Hidden input for datepicker (with directive) - positioned over visible input for proper calendar positioning -->
+  <!-- Use appBsDateFormatOpt for datetime, appBsDateFormat for date-only -->
+  <input
+    *ngIf="isTime"
+    type="text"
+    #hiddenDatePicker
+    [id]="id + '-picker'"
+    class="hidden-datepicker-input" tabindex="-1"
+    appBsDateFormatOpt
+    #datePickerDirective="appBsDateFormatOpt"
+    [format]="format"
+    [fieldName]="fieldName"
+    [ControlTypeConfigurationId]="ControlTypeConfigurationId"
+    [isFromList]="isFromList"
+    [isPastDate]="isPastDate"
+    [isTime]="isTime"
+    (dateChange)="onDatePickerChange($event)"
+  />
+  <input
+    *ngIf="!isTime"
+    type="text"
+    #hiddenDatePicker
+    [id]="id + '-picker'"
+    class="hidden-datepicker-input" tabindex="-1"
+    appBsDateFormat
+    #datePickerDirective="appBsDateFormat"
+    [format]="format"
+    [fieldName]="fieldName"
+    [ControlTypeConfigurationId]="ControlTypeConfigurationId"
+    [isFromList]="isFromList"
+    [isPastDate]="isPastDate"
+    [isPendingSheet]="isPendingSheet"
+    (searchDateChanges)="onDatePickerChange($event)"
+  />
+  <button 
+    class="btn btn-outline-dark border-start-0 action-btn search" 
+    [id]="id + 'date'"
+    (click)="openDatePicker(datePickerDirective)" 
+    type="button" tabindex="-1" 
+    [disabled]="disabled">
+    <img src="assets/images/calendar-new-2.svg">
+  </button>
+</div>
+<!-- Error message -->
+<div *ngIf="showError" class="alert alert-danger mt-1" [id]="id + 'Error'" role="alert">
+  <span>{{ errorMessage }}</span>
+</div>
+
+

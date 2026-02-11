@@ -1,0 +1,364 @@
+/* CSS Document */
+.form-container .form-select {
+  padding-top: 0.375rem !important;
+}
+.eyeIcon {
+  position: absolute;
+  right: 35px;
+  top: 33px;
+}
+
+.btn-info{
+  color: white;
+  background-color: rgb(14, 139, 240);
+}
+.status-paid {
+  color: green;
+  font-weight: bold;
+}
+.view-detail-hyperlink{
+    top: 0;
+    color: #06429B !important;
+    text-decoration: none !important;
+    font-size: 14px !important;
+    font-weight: 600;
+    cursor: pointer;
+}
+.status-unpaid {
+  color: red;
+  font-weight: bold;
+}
+
+/* .phoneNumbergroup .countryCode{
+  padding: 6px !important;
+} */
+.mobile-img-icon {
+  cursor: pointer;
+  /* margin-top: 12px; */
+  margin: 30px 0 10px;
+  text-align: center;
+}
+
+.forms-container {
+  display: flex; 
+}
+
+.form1, .form2 {
+  flex: 1; 
+  padding: 10px; 
+}
+/* .btn-sm{
+  width: 30% !important;
+} */
+.d-flex{
+  align-items: center;
+  column-gap: 5px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.codewithMobile label{
+  position: relative;
+  /* left: -23%; */
+  left: -26%;
+}
+.form-invisible label{
+  white-space: nowrap;
+  visibility: hidden;
+}
+.colorPicker .form-control{
+  padding: 0.5rem !important;
+}
+.form-line-Item textarea{
+  resize: none;
+}
+input[autocomplete="off"]::-webkit-contacts-auto-fill-button,
+input[autocomplete="off"]::-webkit-credentials-auto-fill-button {
+visibility: hidden;
+display: none !important;
+pointer-events: none;
+height: 0;
+width: 0;
+margin: 0;
+}
+.form-container .form-control.w-colorPicker{
+  background-image: url(/assets/images/color-picker.svg);
+  background-size: 50px;
+  background-repeat: no-repeat;
+  padding-left: 70px !important;
+  height: 50px !important;
+  width: 250px;
+  border: 0;
+}
+
+.clearButton{
+  width: 150px;
+}
+
+.NoImageDiv
+{
+  height: 90px;
+}
+.departmentBlock{
+  display: flex;
+  flex-wrap: wrap;
+}
+.form-line-Item .form-switch{
+  align-items: start !important;
+}
+.departmentBlock .radioItem,
+.form-switch .radioItem{
+  border: 1px solid var(--light_grey_border);
+  padding: 8px 10px;
+  border-radius: 0.375rem;
+  margin-right: 10px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.htmlDiv{
+  background-color: var(--background_light_grey);
+}
+.input-password {
+  padding-right: 2rem;
+}
+.radioBtnTooltips{
+  display: flex;
+  gap:4px;
+}
+.radioBtnTooltips{
+  display: flex;
+  gap:4px;
+  /* padding-bottom: 5px; */
+}
+.departmentBlock{
+  display: flex;
+  flex-wrap: wrap;
+}
+.departmentBlock .radioItem,
+.form-switch .radioItem{
+  border: 1px solid var(--light_grey_border);
+  padding: 8px 16px;
+  border-radius: 30px;
+  margin-right: 10px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+.radioItem label{
+  line-height: 16px !important;
+}
+
+
+.phoneNumbergroup.d-flex{
+  display: flex;
+}
+.mob_more_me{
+  margin-right: 20px !important;
+}
+.form-line-Item .form-check-input {
+  margin-right: 6px !important;
+}
+.table-px{
+  padding: 0 12px;
+}
+.searchProductTable{
+  border: 1px solid #ccc;
+}
+.searchProductTable table{
+  font-size: 13px;
+}
+.searchProductTable th{
+  padding: 8px;
+  vertical-align: middle;
+}
+.searchProductTable td{
+  vertical-align: middle;
+}
+.modal-dialog{
+  max-width: 960px !important;
+}
+.table-error-msg{
+  font-size: 14px;
+}
+.card-sub-title{
+  font-size: 15px !important;
+}
+.table-btn{
+  font-size: 10px !important;
+  padding: 5px 15px;
+}
+.no-records-img{
+  height: 170px;
+}
+.selected-invoice-table{
+  border: 1px solid #ccc;
+}
+.selected-invoice-table th{
+  font-size: 12px;
+  padding: 8px;
+}
+.selected-invoice-table td{
+  font-size: 12px;
+  padding: 8px;
+}
+.selected-invoice-table .no-spinner{
+  text-align: right !important;
+}
+.remove-center .form-switch{
+align-items: start !important;
+}
+/* .mb_multi_caret_pos{
+  position: relative;
+} */
+/* desktop css */
+/* mobile css */
+.vendor-checkbox{
+      display: flex !important;
+      justify-content: center;
+      align-items: baseline;
+      min-height: 58px;
+      align-items: inherit !important;
+      padding-left: 0;
+}
+.custom-border-radius {
+  border-top-right-radius: 0.375rem !important;
+  border-bottom-right-radius: 0.375rem !important;
+}
+@media(max-width: 1440px) {
+  .form-control[type=file] {
+    line-height: inherit !important;
+  }
+.mobile-img-icon {
+  margin: 27px 0 10px;
+}
+}
+
+@media (max-width: 1600px) {
+  .form-line-Item .form-control {
+    border-color: var(--border_color_primary); 
+  }
+}
+
+@media (min-width: 768px) and (max-width: 999px){
+  .codewithMobile label{
+    position: relative;
+    left: -30%;
+  }
+}
+@media (max-width: 999px) {
+  .card-sub-title{
+    margin-bottom: 10px !important;
+  }
+  /* .mob_flex_start,.mob_flex_end{
+    display: flex;
+  }
+  .mob_flex_start{
+    justify-content: flex-start;
+  }
+  .mob_flex_end{
+    justify-content: flex-end;
+  } */
+  .mob_item_between{
+    display: flex;
+    justify-content: space-between;
+  }
+  .mob_multiMobileMain{
+    /* flex-direction: column; */
+    border: 1px dashed var(--border_black);
+    padding: 10px;
+    background-color: var(--mob_multiMobileMain_BG);
+    border-radius: 7px;
+  }
+  .mob_flex_wrap{
+    flex-wrap: wrap !important;
+  }
+  /* .mobile-img-icon{
+    margin: 0 !important;
+  } */
+  /* .mobile-img-icon {
+    cursor: pointer;
+    margin: 27px 0 10px;
+    text-align: center;
+  }  */
+  .mob_more_me{
+    margin-right: 20px !important;
+  }
+  .form-line-Item:nth-child(2){
+    margin-top: 0;
+  }
+  /* .mobile-img-icon{
+    margin-top: 14px;
+  } */
+  .phoneNumbergroup .form-line-Item,
+  .form-invisible,.codewithMobile{
+    margin-top: 0;
+  }
+  .multiMobileMain{
+    margin-bottom: 15px;
+  }
+  .searchProductTable table{
+    width: 700px;
+  }
+}
+
+@media (max-width:767px){
+  .codewithMobile label{
+    position: relative;
+    left: -31%;
+  }
+}
+.notesinfo{
+  display: flex;
+}
+.notesinfo p{
+  font-size: 12px;
+  color: var(--small_tag_text_color);
+}
+.dashedBorder{
+  border: 1px dashed #00000070 !important;
+  padding: 6px 15px 6px 15px;
+  height: 100%;
+}
+.dashedBorder.photo img{
+   max-height: 100px;
+}
+.inactive-btn{
+  background-color: #e9ecefad !important;
+  border-color: var(--btn-dark) !important;
+  }
+  .infoIconFrmBg{
+		position: relative;
+	}
+	.infoIconFrmBg::before{
+		content: '';
+		position: absolute;
+		top: -105px;
+		right: 0;
+		width: 100%; /* Adjust based on your needs */
+		height: 100%; /* Adjust based on your needs */
+		background-image: url('/assets/images/info-icon.svg');
+		background-size: 72px 72px;
+		background-position: center; /* Center the image */
+		background-repeat: no-repeat; /* Prevent repeating the image */
+	}
+	.mh_Cust_py{
+		padding: 3rem 1rem !important;
+	}
+    .border-red {
+      border: 1px solid red !important;
+      border-color: red !important;
+    }
+    .w-150{
+      width: 150px;
+    }
+
+    @media (max-width:991px) {
+      .selected-invoice-table{
+        min-width: 900px;
+      }
+    }
