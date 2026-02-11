@@ -1,0 +1,51 @@
+<ul class="obj collapsible" [id]="id">
+    <li *ngFor="let item of data | preserveOrder; let last = last; let i = index">
+        <div class="hoverable collapsed">
+
+            <ng-container *ngIf="isArray(item.value) || isObject(item.value)">
+                <div class="result_rel property token string">
+                    <!-- Use parent key + current item key as a unique identifier for toggle -->
+                    <span id="t_plus_{{parentKey}}_{{item.key+i}}"
+                        (click)="toggleSection(parentKey + '_' + item.key + i)" class="plus_icon">+</span>
+                    <span id="t_minus_{{parentKey}}_{{item.key+i}}"
+                        (click)="toggleSection(parentKey + '_' + item.key + i)" class="minus_icon">-</span>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="!isArrayIndex(item.key)">
+                <span class="property token string">"{{ item.key }}"</span>
+                <span style="color:#fff">:</span>
+            </ng-container>
+
+            <!-- Non-object or non-array value -->
+            <ng-container *ngIf="!isArray(item.value) && !isObject(item.value)">
+                <span [id]="parentKey + '_' + item.key + i" class="token string">"{{ item.value }}"</span>
+                <span class="token punctuation" *ngIf="!last">,</span>
+            </ng-container>
+
+            <!-- Array -->
+            <ng-container *ngIf="isArray(item.value)">
+                <span class="token punctuation">&#91;</span>
+                <div class="firstShowBlock" id="t_block_{{parentKey}}_{{item.key+i}}">
+                    <!-- Pass the parent key down to the child component -->
+                    <app-json-viewer-with-toggle [data]="item.value" [parentKey]="parentKey + '_' + item.key + i">
+                    </app-json-viewer-with-toggle>
+                </div>
+                <span class="token punctuation">&#93;</span>
+                <span class="token punctuation" *ngIf="!last">,</span>
+            </ng-container>
+
+            <!-- Object -->
+            <ng-container *ngIf="isObject(item.value)">
+                <span class="token punctuation">&#123;</span>
+                <div class="firstShowBlock" id="t_block_{{parentKey}}_{{item.key+i}}">
+                    <!-- Pass the parent key down to the child component -->
+                    <app-json-viewer-with-toggle [data]="item.value" [parentKey]="parentKey + '_' + item.key + i">
+                    </app-json-viewer-with-toggle>
+                </div>
+                <span class="token punctuation">&#125;</span>
+                <span class="token punctuation" *ngIf="!last">,</span>
+            </ng-container>
+        </div>
+    </li>
+</ul>

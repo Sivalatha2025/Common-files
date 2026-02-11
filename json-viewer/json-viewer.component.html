@@ -1,0 +1,31 @@
+<ng-container>
+    <li *ngFor="let item of data | preserveOrder; let last = last">
+        <div class="hoverable">
+            <ng-container *ngIf="!isArrayIndex(item.key)">
+                <span class="property token string">"{{ item.key }}"</span>:
+
+            </ng-container>
+
+            <ng-container *ngIf="!isArray(item.value) && !isObject(item.value)">
+                <span class="token string">"{{ item.value }}"</span>
+                <span class="token punctuation" *ngIf="!last">,</span>
+            </ng-container>
+
+            <ng-container *ngIf="isArray(item.value)">
+                <span class="token punctuation">&#91;</span>
+                <div class="collapser"></div>
+                <app-json-viewer [data]="item.value"></app-json-viewer>
+                <span class="token punctuation">&#93;</span>
+                <span class="token punctuation" *ngIf="!last">,</span>
+            </ng-container>
+
+            <ng-container *ngIf="isObject(item.value)">
+                <span class="token punctuation">&#123;</span>
+                <div class="collapser"></div>
+                <app-json-viewer [data]="item.value"></app-json-viewer>
+                <span class="token punctuation">&#125;</span>
+                <span class="token punctuation" *ngIf="!last">,</span>
+            </ng-container>
+        </div>
+    </li>
+</ng-container>

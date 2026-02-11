@@ -1,0 +1,439 @@
+<div class="ptb_main_body">
+    <div class="ptb_main_block ptb_bottom_border">
+        <div class="d-flex flex-column">
+            <div class="pmb_text_block pb-0">
+                <h2><a class="pmb_head_link" href="#"></a>Check Bulk Group Policy Enquiry Status</h2>
+                <p class="mb-2">This API is utilized to check the status of multiple policy inquiries in bulk, allowing users to 
+                    effectively monitor the progress of their requests and obtain detailed information about each 
+                    policy's status.</p>
+            </div>
+            <div class="pmp_parameter_block">
+                <h5>QUERY PARAMETERS</h5>
+                <table class="parameter_table">
+                    <tbody>
+                        <tr class="last undefined">
+                            <td class="td_main" kind="field" title="PolicyNumber">
+                                <span class="span_main"></span>ReferenceNumber
+                                <div class="its_required"> required </div>
+                            </td>
+                            <td class="td_secondary">
+                                <div>
+                                    <div>
+                                        <span class="span_secondary"></span>
+                                        <span class="span-tridary">string</span>
+                                    </div>
+                                    <div>
+                                        <div class="td_div_primary">
+                                            <ul class="ps-3">
+                                                <li>Mandatory and validation Don't allow( &#60;&#62;) only.</li>
+                                                <li>Reference should be as per the response generated in SaveBulkPolicyEnquiry API.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pmp_parameter_block">
+                <h5>HEADER PARAMETERS</h5>
+                <table class="parameter_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_main" kind="field" title="Content-Type">
+                                <span class="span_main"></span>Authorization
+                                <div class="its_required"> required </div>
+                            </td>
+                            <td class="td_secondary">
+                                <div>
+                                    <div>
+                                        <span class="span_secondary"></span>
+                                        <span class="span-tridary">string</span>
+                                    </div>
+                                    <div>
+                                        <div class="td_div_primary">
+                                            <ul class="ps-3">
+                                                <li>Authorization type is <b>Bearer Token</b></li>
+                                                <li>Token need to match with system generated else returns error message as <b>"Security Token Verification Failed."</b></li>
+                                                <li>In Case of Token expired return error message as <b>"Security Token Expired".</b></li>
+                                                <li>If the requested token doesn't have  permission to access API's returns error message as <b>"Do not have permission to access this method".</b></li>
+                                                <li>If Api Limit count exceeds then return error message as <b>"Api Limit exceed."</b></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="last undefined">
+                            <td class="td_main" kind="field" title="Content-Type">
+                                <span class="span_main"></span>Content-Type
+                            </td>
+                            <td class="td_secondary">
+                                <div>
+                                    <div>
+                                        <span class="span_secondary"></span>
+                                        <span class="span-tridary">string</span>
+                                    </div>
+                                    <div>
+                                        <div class="td_div_primary">
+                                            <p>Default: <span class="span_json">"application/json"</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pmb_text_block">
+                <h3>Responses</h3>
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed green_card" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true"
+                                aria-controls="collapseOne">
+                                <strong>200</strong>
+                                OK
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="pmp_parameter_block">
+                                    <h5>RESPONSE SCHEMA : <span
+                                            class="parameter_json">application/json</span></h5>
+                                    <table class="parameter_table">
+                                        <tbody>
+                                            <tr>
+                                                <td class="td_main" kind="field" title="ReturnCode">
+                                                    <span class="span_main">
+
+                                                    </span>ReturnCode
+
+                                                </td>
+                                                <td class="td_secondary">
+                                                    <div>
+                                                        <div>
+                                                            <span class="span_secondary"></span>
+                                                            <span class="span-tridary">
+                                                                integer </span>
+                                                        </div>
+                                                        <div>
+                                                            <div class="td_div_primary">
+                                                                <p>API Return Code</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td_main" kind="field"
+                                                    title="ReturnMessage">
+                                                    <span class="span_main"></span>ReturnMessage
+
+                                                </td>
+                                                <td class="td_secondary">
+                                                    <div>
+                                                        <div>
+                                                            <span class="span_secondary"></span>
+                                                            <span class="span-tridary">string</span>
+                                                        </div>
+                                                        <div class="td_div_primary">
+                                                            <p>API Return Message</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td_main" kind="field" title="ResponseTime">
+                                                    <span class="span_main"></span>ResponseTime
+                                                </td>
+                                                <td class="td_secondary">
+                                                    <div>
+                                                        <div>
+                                                            <span class="span_secondary"></span>
+                                                            <span class="span-tridary">string</span>
+                                                        </div>
+                                                        <div>
+                                                            <div class="td_div_primary">
+                                                                <p>Response generate time taken by the API.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="last undefined">
+                                                <td class="td_main" kind="field" title="Data">
+                                                    <span class="span_main"></span>Data
+                                                </td>
+                                                <td class="td_secondary">
+                                                    <div>
+                                                        <div>
+                                                            <div class="td_div_primary">
+                                                                <p>Array of object</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion" id="accordionExample2">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed red_cards" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true"
+                                aria-controls="collapseTwo">
+                                <strong>400</strong>
+                                 Bad Request
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse"
+                            data-bs-parent="#accordionExample2">
+                            <div class="accordion-body">
+                                <div class="pmp_parameter_block">
+                                    <h5>RESPONSE SCHEMA : <span
+                                            class="parameter_json">application/json</span></h5>
+                                    <table class="parameter_table">
+                                        <tbody>
+                                            <tr>
+                                                <td class="td_main" kind="field" title="ReturnCode">
+                                                    <span class="span_main">
+                                                    </span>ReturnCode
+                                                </td>
+                                                <td class="td_secondary">
+                                                    <div>
+                                                        <div>
+                                                            <span class="span_secondary"></span>
+                                                            <span class="span-tridary">
+                                                                integer </span>
+                                                        </div>
+                                                        <div>
+                                                            <div class="td_div_primary">
+                                                                <ul class="ps-3">
+                                                                    <li>API Return Code</li>
+                                                                    <li>Return Codes will vary for different erors</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td_main" kind="field"
+                                                    title="ReturnMessage">
+                                                    <span class="span_main"></span>ReturnMessage
+
+                                                </td>
+                                                <td class="td_secondary">
+                                                    <div>
+                                                        <div>
+                                                            <span class="span_secondary"></span>
+                                                            <span class="span-tridary">string</span>
+                                                        </div>
+                                                        <div class="td_div_primary">
+                                                            <ul class="ps-3">
+                                                                <li>API Return Message</li>
+                                                                <li>Return Message will vary for different erors</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td_main" kind="field" title="ResponseTime">
+                                                    <span class="span_main"></span>ResponseTime
+                                                </td>
+                                                <td class="td_secondary">
+                                                    <div>
+                                                        <div>
+                                                            <span class="span_secondary"></span>
+                                                            <span class="span-tridary">string</span>
+                                                        </div>
+                                                        <div>
+                                                            <div class="td_div_primary">
+                                                                <p>Response generate time taken by the API.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="last undefined">
+                                                <td class="td_main" kind="field" title="Data">
+                                                    <span class="span_main"></span>Data
+                                                </td>
+                                                <td class="td_secondary">
+                                                    <div>
+                                                        <div>
+                                                            <div class="td_div_primary">
+                                                                <p>Array of object</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="red_card">
+                    <img src="assets/apireferencePage/images/line-minus-red.svg" alt="">
+                    <strong>401</strong>
+                    Unauthorized
+                </div>
+                <div class="red_card">
+                    <img src="assets/apireferencePage/images/line-minus-red.svg" alt="">
+                    <strong>403</strong>
+                    Forbidden
+                </div>
+                <div class="red_card">
+                    <img src="assets/apireferencePage/images/line-minus-red.svg" alt="">
+                    <strong>404</strong>
+                    Not Found
+                </div>
+            </div>
+        </div>
+        <div class="pmb_sec_2 pt_40">
+            <div class="request_samples_block">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button rs_collapse_btn" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#rs_collapse" aria-expanded="true"
+                                aria-controls="rs_collapse">
+                                <span class="rcb_span">Post</span>
+                                <span class="rcb_text">/api/CheckBulkGroupPolicyEnquiryStatus</span>
+                            </button>
+                        </h2>
+                        <div id="rs_collapse" class="accordion-collapse collapse"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body rsb_body p-3">
+                                <div>Live Server</div>
+                                <div class="rs_input_block">
+                                    <span>https://xxxxxxxxxxxxxx.in</span>/api/CheckBulkGroupPolicyEnquiryStatus 
+                                </div>
+                                <div class="pt-3">Test Server</div>
+                                <div class="rs_input_block">
+                                    <span>https://hiportabilityinsurerapiuat.iib.gov.in</span>/api/CheckBulkGroupPolicyEnquiryStatus
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="sticky-top">
+                <div class="rs_response_blocks">
+                    <h3 class="rs_h3">Request samples</h3>
+                    <div class="rsr_btn">
+                        cURL
+                    </div>
+                    <div class="rsr_pannel_block curl_div">
+                        <div class="rsr_pannel">
+                            <div class="rsr_copy">
+                                <span appCopyToClipboard>Copy</span>
+                            </div>
+                            <pre class="rsr_pre_tag ps-0">
+                                <div class="redoc-json"><div class="collapser"></div><ul class="obj collapsible lh-1 pt-4"><div class="hoverable"><span class="property token string">curl --location '{{curlRequest.locationURL}}' \</span></div><div class="hoverable"><span class="property token string">--header 'Content-Type: application/json' \</span></div><div class="hoverable"><span class="property token string">--header '{{curlRequest.Authorization}}' \</span></div><div class="hoverable"><span class="property token string">--data ' </span><span class="token punctuation">&#123;</span><span class="ellipsis"></span></div><li *ngFor="let item of curlRequest.RawData | preserveOrder; let last2 = last"><div class="hoverable"><span class="property token string">"{{item.key}}"</span>:<span class="token string">"{{item.value}}"</span><span class="token punctuation" *ngIf="!last2">,</span></div></li><span class="token punctuation">&#125;'</span></ul></div>
+                        </pre>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="rs_response_blocks">
+                    <h3 class="rs_h3">Response samples</h3>
+                    <div class="rsr_btn_green">
+                        200
+                    </div>
+                    <div class="rsr_pannel_block">
+                        <div class="rsr_pannel_section">
+                            <div class="rsr_head">
+                                application/json
+                            </div>
+                        <div class="rsr_pannel">
+                            <div class="rsr_copy">
+                                <span appCopyToClipboard>Copy</span>
+                                <span appExpandCollapseAll="Success" action="expand">Expand all</span>
+                                <span appExpandCollapseAll="Success" action="collapse">Collapse all</span>
+                            </div>
+                            <pre class="rsr_pre_tag_response">
+                                <div class="redoc-json"><div class="collapser"></div><span class="token punctuation">&#123;</span><span class="ellipsis"></span><app-json-viewer-with-toggle [data]="successResponse" [parentKey]="'root'" [id]="'Success'"></app-json-viewer-with-toggle><span class="token punctuation">&#125;</span></div>
+                            </pre>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="rsr_pannel_block mt-3">
+                        <div class="rsr_pannel_section">
+                            <div class="rsr_head">
+                                application/json - Mandatory Errors
+                            </div>
+                        <div class="rsr_pannel">
+                            <div class="rsr_copy">
+                                <span appCopyToClipboard>Copy</span>
+                                <span appExpandCollapseAll="mandatoryErrors" action="expand">Expand all</span>
+                                <span appExpandCollapseAll="mandatoryErrors" action="collapse">Collapse all</span>
+                            </div>
+                            <pre class="rsr_pre_tag_response">
+                                <div class="redoc-json"><div class="collapser"></div><span class="token punctuation">&#123;</span><span class="ellipsis"></span><app-json-viewer-with-toggle [data]="mandatoryErrors" [parentKey]="'root1'" [id]="'mandatoryErrors'"></app-json-viewer-with-toggle><span class="token punctuation">&#125;</span></div>
+                            </pre>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="rsr_pannel_block mt-3">
+                        <div class="rsr_pannel_section">
+                            <div class="rsr_head">
+                                application/json - Invalid Error Fields
+                            </div>
+                        <div class="rsr_pannel">
+                            <div class="rsr_copy">
+                                <span appCopyToClipboard>Copy</span>
+                                <span appExpandCollapseAll="invalidErrorFields" action="expand">Expand all</span>
+                                <span appExpandCollapseAll="invalidErrorFields" action="collapse">Collapse all</span>
+                            </div>
+                            <pre class="rsr_pre_tag_response">
+                                <div class="redoc-json"><div class="collapser"></div><span class="token punctuation">&#123;</span><span class="ellipsis"></span><app-json-viewer-with-toggle [data]="invalidErrorFields" [parentKey]="'root2'" [id]="'invalidErrorFields'"></app-json-viewer-with-toggle><span class="token punctuation">&#125;</span></div>
+                            </pre>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <!-- new -->
+                <div class="rs_response_blocks">
+                    <h3 class="rs_h3">Response samples</h3>
+                    <div class="rsr_btn_red">
+                        400
+                    </div>
+                    <div class="rsr_pannel_block" [ngClass]="{'mt-3': !first}"
+                    *ngFor="let data of errorResponse; let i = index; let first = first; let last = last">
+                    <div class="rsr_pannel_section">
+                        <div class="rsr_head">
+                            application/json
+                        </div>
+                        <div class="rsr_pannel">
+                            <div class="rsr_copy">
+                                <span appCopyToClipboard>Copy</span>
+                            </div>
+                            <pre class="rsr_pre_tag_response">
+                                <div class="redoc-json"><div class="collapser"></div><span class="token punctuation">&#123;</span><span class="ellipsis"></span><ul class="obj collapsible"><li *ngFor="let item of data | preserveOrder; let last2 = last"><div class="hoverable "><span class="property token string">"{{item.key}}"</span>: <span class="token string">"{{item.value}}"</span><span class="token punctuation" *ngIf="!last2">,</span></div></li></ul><span class="token punctuation">&#125;</span></div>
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
